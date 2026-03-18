@@ -1,1225 +1,845 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MR GAMES | MR02 | Unblocked Online Games</title>
-  <link rel="canonical" href="https://ihackforfree02.github.io/Ihackforfree.github.io/" />
-  <link rel="icon" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MR GAMES | MR02 | Unblocked Online Games</title>
+<link rel="canonical" href="https://ihackforfree02.github.io/Ihackforfree.github.io/"/>
+<link rel="icon" href="favicon.ico"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0f2027; --sb:#0a1a20; --card:#112028; --card2:#162e38;
+  --cyan:#00ffff; --teal:#0077aa; --yel:#f0db4f; --txt:#e2f4f8;
+  --mut:#5a8a99; --bdr:rgba(0,255,255,0.1); --red:#f87171;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%);background-attachment:fixed;color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-  <style>
-    :root {
-      --bg:        #0f2027;
-      --sidebar:   #0a1a20;
-      --card:      #112028;
-      --card2:     #162e38;
-      --purple:    #00b8cc;
-      --purple2:   #00ffff;
-      --blue:      #0077aa;
-      --blue2:     #00e5ff;
-      --pink:      #f0db4f;
-      --text:      #e2f4f8;
-      --muted:     #5a8a99;
-      --border:    rgba(0,255,255,0.1);
-      --grad:      linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-    }
+/* ── SCROLLBAR ─────────────────────────── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--sb);}
+::-webkit-scrollbar-thumb{background:rgba(0,255,255,0.3);border-radius:3px;}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── TIMEOUT BANNER ───────────────────── */
+#timeout-banner{display:none;position:fixed;inset:0;z-index:950;background:rgba(5,10,15,0.97);align-items:center;justify-content:center;flex-direction:column;}
+.tob{background:var(--card);border:2px solid var(--red);border-radius:20px;padding:48px 52px;text-align:center;max-width:440px;box-shadow:0 0 60px rgba(248,113,113,0.2);}
+.tob-icon{font-size:3.5rem;margin-bottom:12px;}
+.tob-title{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--red);margin-bottom:8px;}
+.tob-msg{color:var(--mut);font-size:0.92rem;line-height:1.7;}
+.tob-timer{font-family:'Barlow Condensed',sans-serif;font-size:3rem;font-weight:800;color:var(--yel);margin-top:18px;letter-spacing:0.05em;}
 
-    body {
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: var(--text);
-      font-family: 'Barlow', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+/* ── LOGIN ─────────────────────────────── */
+#login-overlay{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;background:rgba(10,25,32,0.96);backdrop-filter:blur(14px);}
+.lc{background:var(--card);border:1px solid var(--bdr);border-radius:22px;padding:48px 44px 40px;width:100%;max-width:430px;box-shadow:0 0 80px rgba(0,255,255,0.15),0 24px 60px rgba(0,0,0,0.6);position:relative;overflow:hidden;animation:slideUp 0.4s cubic-bezier(.22,1,.36,1);}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.lc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00ffff,#0077aa,#f0db4f);}
+.ll{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;text-align:center;margin-bottom:4px;background:linear-gradient(90deg,#f0db4f,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:0.06em;}
+.ls{text-align:center;color:var(--mut);font-size:0.85rem;margin-bottom:32px;}
+.lbl{display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mut);margin-bottom:7px;}
+.di{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--bdr);border-radius:10px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:1rem;padding:12px 14px;margin-bottom:18px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+.di:focus{border-color:#00ffff;box-shadow:0 0 0 3px rgba(0,255,255,0.15);}
+.di::placeholder{color:rgba(255,255,255,0.18);}
+select.di{cursor:pointer;}
+.lbtn{width:100%;background:linear-gradient(90deg,#0077aa,#00b8cc);border:none;border-radius:10px;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:0.1em;padding:14px;cursor:pointer;transition:opacity 0.2s,transform 0.15s,box-shadow 0.2s;box-shadow:0 4px 20px rgba(0,184,204,0.4);margin-top:4px;}
+.lbtn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,184,204,0.5);}
+.lbtn:active{transform:translateY(0);}
+.lerr{color:var(--red);font-size:0.8rem;text-align:center;margin-top:12px;min-height:1.2em;font-weight:500;}
+.lhint{color:var(--mut);font-size:0.78rem;text-align:center;margin-top:14px;line-height:1.5;}
+.sav{margin-top:22px;border-top:1px solid var(--bdr);padding-top:18px;display:none;}
+.savlbl{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mut);margin-bottom:10px;}
+.savchips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{background:rgba(0,255,255,0.08);border:1px solid rgba(0,255,255,0.3);border-radius:20px;color:#00ffff;font-size:0.82rem;font-weight:600;padding:5px 14px;cursor:pointer;transition:background 0.15s;}
+.chip:hover{background:rgba(0,255,255,0.22);}
 
-    /* LOGIN OVERLAY */
-    #login-overlay {
-      position: fixed; inset: 0;
-      z-index: 900;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(10, 25, 32, 0.94);
-      backdrop-filter: blur(12px);
-    }
+/* ── LAYOUT ────────────────────────────── */
+#app{display:flex;min-height:100vh;}
+.sidebar{width:240px;min-width:240px;background:var(--sb);border-right:1px solid var(--bdr);display:flex;flex-direction:column;padding:24px 0;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto;}
+.slogo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:0.1em;padding:0 20px 24px;background:linear-gradient(90deg,#f0db4f,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;border-bottom:1px solid var(--bdr);margin-bottom:16px;}
+.slogo span{display:block;font-size:0.65rem;font-weight:500;letter-spacing:0.22em;color:var(--mut);-webkit-text-fill-color:var(--mut);margin-top:3px;}
+.ssec{font-size:0.62rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--mut);padding:14px 20px 6px;}
+.ni{display:flex;align-items:center;gap:11px;padding:10px 20px;color:rgba(226,232,240,0.6);text-decoration:none;font-size:0.9rem;font-weight:500;transition:all 0.15s;position:relative;cursor:pointer;border:none;background:none;width:100%;text-align:left;}
+.ni:hover,.ni.active{color:var(--txt);background:rgba(0,255,255,0.08);}
+.ni.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:#00ffff;border-radius:0 3px 3px 0;}
+.ni .ico{font-size:1rem;width:22px;text-align:center;flex-shrink:0;}
+.ni .badge-new{background:var(--red);color:#fff;font-size:0.5rem;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:auto;letter-spacing:0.06em;}
+.ni .badge-hot{background:#ff6b00;color:#fff;font-size:0.5rem;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:auto;letter-spacing:0.06em;}
+.splayer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--bdr);display:flex;align-items:center;gap:12px;}
+.pav{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0077aa,#00ffff);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;box-shadow:0 0 0 2px rgba(0,255,255,0.2);}
+.pname{font-size:0.88rem;font-weight:600;}
+.ptag{font-size:0.7rem;color:var(--mut);}
+.logico{margin-left:auto;background:none;border:none;color:var(--mut);cursor:pointer;font-size:1rem;transition:color 0.15s;padding:4px;}
+.logico:hover{color:var(--red);}
+.main{margin-left:240px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
 
-    .login-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 44px 40px 36px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 0 80px rgba(0,255,255,0.15), 0 24px 60px rgba(0,0,0,0.6);
-      position: relative;
-      overflow: hidden;
-    }
-    .login-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #00ffff, #0077aa, #f0db4f);
-    }
+/* ── TOP NAV ───────────────────────────── */
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-bottom:1px solid var(--bdr);background:rgba(10,26,32,0.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50;}
+.tnttl{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:0.04em;}
+.tna{display:flex;gap:10px;align-items:center;}
+.bto{background:none;border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:0.82rem;font-weight:600;padding:7px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:background 0.15s,border-color 0.15s;}
+.bto:hover{background:rgba(255,255,255,0.07);border-color:rgba(0,255,255,0.3);}
+.pb{padding:28px;flex:1;}
 
-    .login-logo {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      text-align: center;
-      letter-spacing: 0.06em;
-      margin-bottom: 4px;
-      background: linear-gradient(90deg, #f0db4f, #00ffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .login-sub {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      margin-bottom: 32px;
-      letter-spacing: 0.04em;
-    }
+/* ── STATS STRIP ───────────────────────── */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;transition:transform 0.2s,border-color 0.2s;}
+.stat-card:hover{transform:translateY(-2px);border-color:rgba(0,255,255,0.25);}
+.stat-icon{font-size:1.8rem;flex-shrink:0;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:800;color:#00ffff;line-height:1;}
+.stat-lbl{font-size:0.72rem;color:var(--mut);font-weight:500;margin-top:2px;}
 
-    .lbl {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .dash-input {
-      width: 100%;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-family: 'Barlow', sans-serif;
-      font-size: 1rem;
-      padding: 11px 14px;
-      margin-bottom: 18px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .dash-input:focus {
-      border-color: #00ffff;
-      box-shadow: 0 0 0 3px rgba(0,255,255,0.15);
-    }
-    .dash-input::placeholder { color: rgba(255,255,255,0.2); }
+/* ── CAROUSEL ──────────────────────────── */
+.cw{position:relative;border-radius:18px;overflow:hidden;margin-bottom:32px;height:340px;box-shadow:0 20px 60px rgba(0,0,0,0.6);}
+.ct{display:flex;height:100%;transition:transform 0.65s cubic-bezier(.4,0,.2,1);}
+.cs{min-width:100%;height:100%;position:relative;display:flex;align-items:flex-end;}
+.s0{background:linear-gradient(to right,rgba(5,20,25,0.98) 0%,rgba(5,20,25,0.75) 42%,rgba(5,20,25,0.1) 100%);}
+.s1{background:linear-gradient(to right,rgba(5,10,5,0.98) 0%,rgba(5,10,5,0.75) 42%,rgba(5,10,5,0.1) 100%);}
+.s2{background:linear-gradient(to right,rgba(10,5,5,0.98) 0%,rgba(10,5,5,0.75) 42%,rgba(10,5,5,0.1) 100%);}
+.slide-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;filter:brightness(0.7);}
+.sc{position:relative;z-index:2;padding:32px 38px;max-width:58%;}
+.sbadge{display:inline-block;color:#fff;font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:14px;}
+.b0{background:#0077aa;}.b1{background:#b87000;}.b2{background:#8b1a1a;}
+.stitle{font-family:'Barlow Condensed',sans-serif;font-size:2.6rem;font-weight:800;line-height:1.1;margin-bottom:10px;text-shadow:0 2px 20px rgba(0,0,0,0.9);}
+.sdesc{font-size:0.9rem;color:rgba(226,232,240,0.85);margin-bottom:22px;line-height:1.6;text-shadow:0 1px 8px rgba(0,0,0,0.9);}
+.spbtn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0a1a20;border:none;border-radius:10px;font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:0.06em;padding:11px 24px;cursor:pointer;text-decoration:none;transition:opacity 0.15s,transform 0.15s;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+.spbtn:hover{opacity:0.92;transform:scale(1.04);}
+.cdots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;transition:background 0.2s,transform 0.2s;}
+.dot.active{background:#fff;transform:scale(1.35);}
+.carr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;font-size:1.2rem;transition:background 0.15s;backdrop-filter:blur(6px);}
+.carr:hover{background:rgba(0,184,204,0.55);}
+.carr.prev{left:14px;}.carr.next{right:14px;}
 
-    .login-btn {
-      width: 100%;
-      background: linear-gradient(90deg, #0077aa, #00b8cc);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      padding: 13px;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(0,184,204,0.4);
-    }
-    .login-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(0,184,204,0.5); }
-    .login-btn:active { transform: translateY(1px); }
+/* ── SECTION HEADERS ───────────────────── */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.st{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:0.04em;}
+.st span{display:inline-block;width:4px;height:20px;background:linear-gradient(180deg,#00ffff,#0077aa);border-radius:2px;margin-right:10px;vertical-align:middle;}
+.see-all{color:#00ffff;font-size:0.8rem;font-weight:600;text-decoration:none;opacity:0.7;transition:opacity 0.15s;}
+.see-all:hover{opacity:1;}
 
-    .login-err {
-      color: #f87171;
-      font-size: 0.8rem;
-      text-align: center;
-      margin-top: 12px;
-      min-height: 1.2em;
-      font-weight: 500;
-    }
-    .login-hint {
-      color: var(--muted);
-      font-size: 0.78rem;
-      text-align: center;
-      margin-top: 14px;
-    }
+/* ── LINK CARDS ────────────────────────── */
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-bottom:32px;}
+.lcard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:18px 16px;text-decoration:none;color:var(--txt);display:flex;align-items:center;gap:14px;transition:all 0.2s;position:relative;overflow:hidden;}
+.lcard::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#0077aa,#00ffff);opacity:0;transition:opacity 0.2s;}
+.lcard:hover{border-color:rgba(0,184,204,0.5);transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(0,184,204,0.3);}
+.lcard:hover::after{opacity:0.08;}
+.lico{width:44px;height:44px;border-radius:11px;background:rgba(0,184,204,0.14);display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0;position:relative;z-index:1;transition:background 0.2s;}
+.lcard:hover .lico{background:rgba(0,184,204,0.28);}
+.lcard.bc .lico{background:rgba(0,119,170,0.14);}.lcard.bc:hover .lico{background:rgba(0,119,170,0.28);}.lcard.bc:hover{border-color:rgba(0,119,170,0.5);box-shadow:0 14px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(0,119,170,0.3);}
+.lcard.yc .lico{background:rgba(240,219,79,0.14);}.lcard.yc:hover .lico{background:rgba(240,219,79,0.28);}.lcard.yc:hover{border-color:rgba(240,219,79,0.5);box-shadow:0 14px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(240,219,79,0.3);}
+.lcard.rc .lico{background:rgba(248,113,113,0.14);}.lcard.rc:hover .lico{background:rgba(248,113,113,0.28);}.lcard.rc:hover{border-color:rgba(248,113,113,0.5);box-shadow:0 14px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(248,113,113,0.3);}
+.linf{position:relative;z-index:1;}.lnm{font-weight:600;font-size:0.93rem;}.lds{font-size:0.75rem;color:var(--mut);margin-top:2px;}
 
-    .saved-accounts { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display: none; }
-    .saved-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-    .saved-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .saved-chip {
-      background: rgba(0,255,255,0.08);
-      border: 1px solid rgba(0,255,255,0.3);
-      border-radius: 20px;
-      color: #00ffff;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .saved-chip:hover { background: rgba(0,255,255,0.2); }
+/* ── ANNOUNCEMENT BANNER ───────────────── */
+.announcement{background:linear-gradient(90deg,rgba(0,119,170,0.25),rgba(0,255,255,0.08));border:1px solid rgba(0,255,255,0.2);border-radius:14px;padding:16px 20px;margin-bottom:28px;display:flex;align-items:center;gap:14px;}
+.announcement .ico{font-size:1.6rem;flex-shrink:0;}
+.announcement-txt strong{display:block;font-size:0.95rem;font-weight:700;margin-bottom:3px;color:#00ffff;}
+.announcement-txt span{font-size:0.82rem;color:var(--mut);}
 
-    /* LAYOUT */
-    #app { display: flex; min-height: 100vh; }
+/* ── WEATHER WIDGET ────────────────────── */
+.weather-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:18px 20px;margin-bottom:28px;display:flex;align-items:center;gap:16px;justify-content:space-between;}
+.weather-left{display:flex;align-items:center;gap:14px;}
+.weather-icon{font-size:2.5rem;}
+.weather-temp{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;color:#00ffff;}
+.weather-desc{font-size:0.82rem;color:var(--mut);margin-top:2px;}
+.weather-right{text-align:right;}
+.weather-city{font-size:0.9rem;font-weight:600;}
+.weather-extra{font-size:0.75rem;color:var(--mut);margin-top:3px;}
 
-    .sidebar {
-      width: 220px; min-width: 220px;
-      background: var(--sidebar);
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      padding: 24px 0;
-      position: fixed; top: 0; left: 0;
-      height: 100vh; z-index: 100;
-      overflow-y: auto;
-    }
+/* ── BOTTOM BAR ────────────────────────── */
+.bb{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-top:1px solid var(--bdr);background:var(--sb);flex-wrap:wrap;gap:10px;}
+.mc{display:flex;align-items:center;gap:12px;}
+.mpb{background:linear-gradient(90deg,#0077aa,#00b8cc);border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;cursor:pointer;transition:opacity 0.15s,transform 0.15s;box-shadow:0 4px 14px rgba(0,184,204,0.4);}
+.mpb:hover{opacity:0.85;transform:scale(1.1);}
+.mlbl{font-size:0.8rem;color:var(--mut);font-weight:500;}.mlbl strong{color:var(--txt);display:block;font-size:0.85rem;}
+.vol-slider{-webkit-appearance:none;appearance:none;width:80px;height:4px;background:rgba(0,255,255,0.2);border-radius:2px;outline:none;cursor:pointer;}
+.vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#00ffff;cursor:pointer;}
+.plink{display:inline-flex;align-items:center;gap:8px;background:rgba(240,219,79,0.1);border:1px solid rgba(240,219,79,0.3);border-radius:20px;color:#f0db4f;text-decoration:none;font-size:0.8rem;font-weight:600;padding:6px 16px;transition:background 0.15s;}
+.plink:hover{background:rgba(240,219,79,0.2);}
 
-    .sidebar-logo {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800; font-size: 1.5rem;
-      letter-spacing: 0.1em;
-      padding: 0 20px 24px;
-      background: linear-gradient(90deg, #f0db4f, #00ffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 16px;
-    }
-    .sidebar-logo span {
-      display: block; font-size: 0.65rem; font-weight: 500;
-      letter-spacing: 0.2em; color: var(--muted);
-      -webkit-text-fill-color: var(--muted); margin-top: 2px;
-    }
+/* ── TOAST ─────────────────────────────── */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--card2);border:1px solid var(--bdr);color:var(--txt);font-size:0.83rem;font-weight:500;padding:10px 22px;border-radius:30px;opacity:0;pointer-events:none;z-index:2000;transition:opacity 0.3s,transform 0.3s;box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.cfab{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#0077aa,#00ffff);border:none;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;cursor:pointer;z-index:500;box-shadow:0 6px 24px rgba(0,184,204,0.5);transition:transform 0.15s,box-shadow 0.15s;}
+.cfab:hover{transform:scale(1.12);box-shadow:0 10px 34px rgba(0,184,204,0.65);}
 
-    .sidebar-section {
-      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--muted); padding: 12px 20px 6px;
-    }
+/* ── RESPONSIVE ────────────────────────── */
+@media(max-width:900px){.stats-strip{grid-template-columns:1fr 1fr;}}
+@media(max-width:720px){.sidebar{display:none;}.main{margin-left:0;}.cw{height:220px;}.sc{max-width:100%;padding:20px;}.stitle{font-size:1.7rem;}.slide-img{filter:brightness(0.5);}.lg{grid-template-columns:1fr 1fr;}.stats-strip{grid-template-columns:1fr 1fr;}.pb{padding:16px;}}
 
-    .nav-item {
-      display: flex; align-items: center; gap: 11px;
-      padding: 10px 20px; color: rgba(226,232,240,0.6);
-      text-decoration: none; font-size: 0.9rem; font-weight: 500;
-      border-radius: 0; transition: all 0.15s;
-      position: relative; cursor: pointer;
-      border: none; background: none;
-      width: 100%; text-align: left;
-    }
-    .nav-item:hover, .nav-item.active { color: var(--text); background: rgba(0,255,255,0.08); }
-    .nav-item.active::before {
-      content: ''; position: absolute;
-      left: 0; top: 4px; bottom: 4px;
-      width: 3px; background: #00ffff;
-      border-radius: 0 3px 3px 0;
-    }
-    .nav-item .ico { font-size: 1rem; width: 20px; text-align: center; }
-
-    .sidebar-player {
-      margin-top: auto; padding: 16px 20px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; gap: 12px;
-    }
-    .player-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: linear-gradient(135deg, #0077aa, #00ffff);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
-    }
-    .player-name { font-size: 0.85rem; font-weight: 600; }
-    .player-tag  { font-size: 0.7rem; color: var(--muted); }
-    .logout-ico  {
-      margin-left: auto; background: none; border: none;
-      color: var(--muted); cursor: pointer; font-size: 1rem;
-      transition: color 0.15s; padding: 4px;
-    }
-    .logout-ico:hover { color: #f87171; }
-
-    .main-content {
-      margin-left: 220px; flex: 1;
-      min-height: 100vh; display: flex; flex-direction: column;
-    }
-
-    .topnav {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      padding: 16px 28px; border-bottom: 1px solid var(--border);
-      background: rgba(10, 26, 32, 0.85); backdrop-filter: blur(8px);
-      position: sticky; top: 0; z-index: 50;
-    }
-    .topnav-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.3rem; font-weight: 700; letter-spacing: 0.04em;
-    }
-    .topnav-actions { display: flex; gap: 10px; align-items: center; }
-    .btn-outline {
-      background: none; border: 1px solid var(--border); border-radius: 8px;
-      color: var(--text); font-family: 'Barlow', sans-serif;
-      font-size: 0.82rem; font-weight: 600; padding: 7px 14px;
-      cursor: pointer; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 6px;
-      transition: background 0.15s, border-color 0.15s;
-    }
-    .btn-outline:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); }
-
-    .page-body { padding: 28px; flex: 1; }
-
-    /* CAROUSEL */
-    .carousel-wrap {
-      position: relative; border-radius: 18px; overflow: hidden;
-      margin-bottom: 36px; height: 320px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    }
-    .carousel-track { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(.4,0,.2,1); }
-    .carousel-slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: flex-end; }
-
-    .slide-0 {
-      background:
-        linear-gradient(to right, rgba(10,26,32,0.95) 0%, rgba(10,26,32,0.5) 55%, transparent 100%),
-        linear-gradient(135deg, #0a1a20 0%, #0f3a45 40%, #00b8cc 80%, #0d2a35 100%);
-    }
-    .slide-1 {
-      background:
-        linear-gradient(to right, rgba(10,26,32,0.95) 0%, rgba(10,26,32,0.5) 55%, transparent 100%),
-        linear-gradient(135deg, #0a1a10 0%, #0f3520 40%, #1a8b50 80%, #0d2018 100%);
-    }
-    .slide-2 {
-      background:
-        linear-gradient(to right, rgba(10,26,32,0.95) 0%, rgba(10,26,32,0.5) 55%, transparent 100%),
-        linear-gradient(135deg, #1a0a10 0%, #3a0f18 40%, #8b1a30 80%, #200d12 100%);
-    }
-
-    .slide-art {
-      position: absolute; right: 0; top: 0; bottom: 0; width: 55%;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
-    }
-    .art-clover { font-size: 9rem; opacity: 0.25; filter: drop-shadow(0 0 40px #00ffff); }
-    .art-anton  { font-size: 9rem; opacity: 0.25; filter: drop-shadow(0 0 40px #00ff88); }
-    .art-freddy { font-size: 9rem; opacity: 0.25; filter: drop-shadow(0 0 40px #f0db4f); }
-
-    .slide-content { position: relative; z-index: 2; padding: 28px 36px; max-width: 55%; }
-    .slide-badge {
-      display: inline-block; background: #0077aa; color: #fff;
-      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
-    }
-    .slide-0 .slide-badge { background: #0077aa; }
-    .slide-1 .slide-badge { background: #16a34a; }
-    .slide-2 .slide-badge { background: #b91c1c; }
-
-    .slide-title {
-      font-family: 'Barlow Condensed', sans-serif; font-size: 2.4rem;
-      font-weight: 800; line-height: 1.1; letter-spacing: 0.02em;
-      margin-bottom: 10px; text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-    }
-    .slide-desc { font-size: 0.88rem; color: rgba(226,232,240,0.7); margin-bottom: 20px; line-height: 1.5; }
-    .slide-play-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; color: #0d0f1a; border: none; border-radius: 10px;
-      font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
-      font-weight: 700; letter-spacing: 0.06em; padding: 10px 22px;
-      cursor: pointer; text-decoration: none; transition: opacity 0.15s, transform 0.15s;
-    }
-    .slide-play-btn:hover { opacity: 0.9; transform: scale(1.03); }
-
-    .carousel-dots {
-      position: absolute; bottom: 16px; left: 50%;
-      transform: translateX(-50%); display: flex; gap: 8px; z-index: 10;
-    }
-    .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: rgba(255,255,255,0.3); cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .dot.active { background: #fff; transform: scale(1.3); }
-
-    .carousel-arrow {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1);
-      color: #fff; border-radius: 50%; width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 10; font-size: 1.1rem; transition: background 0.15s;
-      backdrop-filter: blur(4px);
-    }
-    .carousel-arrow:hover { background: rgba(0,184,204,0.5); }
-    .carousel-arrow.prev { left: 14px; }
-    .carousel-arrow.next { right: 14px; }
-
-    /* SECTION / CARDS */
-    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.04em; }
-    .section-title span {
-      display: inline-block; width: 4px; height: 18px;
-      background: linear-gradient(180deg, #00ffff, #0077aa);
-      border-radius: 2px; margin-right: 10px; vertical-align: middle;
-    }
-
-    .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 36px; }
-
-    .link-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 18px 16px; text-decoration: none; color: var(--text);
-      display: flex; align-items: center; gap: 14px; transition: all 0.2s;
-      position: relative; overflow: hidden;
-    }
-    .link-card::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, #0077aa, #00ffff); opacity: 0; transition: opacity 0.2s;
-    }
-    .link-card:hover { border-color: rgba(0,184,204,0.5); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,184,204,0.3); }
-    .link-card:hover::after { opacity: 0.08; }
-
-    .link-icon {
-      width: 42px; height: 42px; border-radius: 10px; background: rgba(0,184,204,0.15);
-      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-      flex-shrink: 0; position: relative; z-index: 1; transition: background 0.2s;
-    }
-    .link-card:hover .link-icon { background: rgba(0,184,204,0.3); }
-    .link-card.blue-card .link-icon  { background: rgba(0,119,170,0.15); }
-    .link-card.blue-card:hover .link-icon { background: rgba(0,119,170,0.3); }
-    .link-card.blue-card:hover { border-color: rgba(0,119,170,0.5); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,119,170,0.3); }
-    .link-card.pink-card .link-icon  { background: rgba(240,219,79,0.15); }
-    .link-card.pink-card:hover .link-icon { background: rgba(240,219,79,0.3); }
-    .link-card.pink-card:hover { border-color: rgba(240,219,79,0.5); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(240,219,79,0.3); }
-
-    .link-info { position: relative; z-index: 1; }
-    .link-name { font-weight: 600; font-size: 0.92rem; }
-    .link-desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
-
-    /* BOTTOM BAR */
-    .bottom-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 28px; border-top: 1px solid var(--border);
-      background: var(--sidebar); flex-wrap: wrap; gap: 10px;
-    }
-    .music-ctrl { display: flex; align-items: center; gap: 12px; }
-    .music-play-btn {
-      background: linear-gradient(90deg, #0077aa, #00b8cc); border: none;
-      border-radius: 50%; width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 0.9rem; cursor: pointer;
-      transition: opacity 0.15s, transform 0.15s;
-      box-shadow: 0 4px 14px rgba(0,184,204,0.4);
-    }
-    .music-play-btn:hover { opacity: 0.85; transform: scale(1.08); }
-    .music-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
-    .music-label strong { color: var(--text); display: block; font-size: 0.85rem; }
-
-    .partner-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(240,219,79,0.1); border: 1px solid rgba(240,219,79,0.3);
-      border-radius: 20px; color: #f0db4f; text-decoration: none;
-      font-size: 0.8rem; font-weight: 600; padding: 6px 16px; transition: background 0.15s;
-    }
-    .partner-link:hover { background: rgba(240,219,79,0.2); }
-
-    #toast {
-      position: fixed; bottom: 80px; left: 50%;
-      transform: translateX(-50%) translateY(16px);
-      background: var(--card2); border: 1px solid var(--border);
-      color: var(--text); font-size: 0.82rem; font-weight: 500;
-      padding: 10px 20px; border-radius: 30px; opacity: 0;
-      pointer-events: none; z-index: 2000;
-      transition: opacity 0.3s, transform 0.3s;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    }
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    .chat-fab {
-      position: fixed; bottom: 70px; right: 24px;
-      background: linear-gradient(135deg, #0077aa, #00ffff);
-      border: none; border-radius: 50%; width: 52px; height: 52px;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 1.3rem; cursor: pointer; z-index: 500;
-      box-shadow: 0 6px 24px rgba(0,184,204,0.45);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .chat-fab:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(0,184,204,0.6); }
-
-    @media (max-width: 720px) {
-      .sidebar { display: none; }
-      .main-content { margin-left: 0; }
-      .carousel-wrap { height: 220px; }
-      .slide-content { max-width: 100%; padding: 20px; }
-      .slide-title { font-size: 1.6rem; }
-      .slide-art { display: none; }
-      .links-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* ═══════ ADMIN PANEL ═══════ */
-    #admin-panel {
-      display: none; position: fixed; inset: 0;
-      z-index: 9500; background: rgba(5,15,20,0.97);
-      backdrop-filter: blur(16px); overflow-y: auto;
-    }
-    .admin-inner { max-width: 900px; margin: 0 auto; padding: 32px 24px 80px; }
-    .admin-header {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 28px;
-    }
-    .admin-title {
-      font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 800;
-      background: linear-gradient(90deg, #f0db4f, #00ffff);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .admin-subtitle { color: var(--muted); font-size: 0.82rem; margin-top: 3px; }
-
-    .atab-bar { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 14px; flex-wrap: wrap; }
-    .atab {
-      background: none; border: 1px solid rgba(0,255,255,0.15); border-radius: 8px;
-      color: rgba(226,244,248,0.55); font-family: 'Barlow', sans-serif;
-      font-size: 0.85rem; font-weight: 600; padding: 8px 16px;
-      cursor: pointer; transition: all 0.15s;
-    }
-    .atab:hover { background: rgba(0,255,255,0.07); color: var(--text); }
-    .atab.active { background: rgba(0,255,255,0.12); border-color: rgba(0,255,255,0.4); color: #00ffff; }
-    .atab-panel { display: none; }
-    .atab-panel.active { display: block; }
-
-    .apanel-title {
-      font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem;
-      font-weight: 700; color: #00ffff; margin-bottom: 16px; letter-spacing: 0.05em;
-    }
-
-    .arow {
-      display: grid; grid-template-columns: 38px 1fr 160px 100px;
-      align-items: center; gap: 12px;
-      background: var(--card); border: 1px solid rgba(0,255,255,0.08);
-      border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
-      transition: border-color 0.15s;
-    }
-    .arow:hover { border-color: rgba(0,255,255,0.2); }
-    .arow.scores-row { grid-template-columns: 38px 1fr 150px 80px; }
-
-    .a-av {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: linear-gradient(135deg, #0077aa, #00ffff);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
-    }
-    .a-av.gold { background: linear-gradient(135deg, #b8860b, #f0db4f); }
-
-    .a-name { font-weight: 600; font-size: 0.92rem; }
-    .a-meta { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
-    .a-badge {
-      background: #f0db4f; color: #0a1a20;
-      font-size: 0.58rem; font-weight: 800; padding: 1px 7px;
-      border-radius: 5px; letter-spacing: 0.08em; margin-left: 7px; vertical-align: middle;
-    }
-
-    .a-del-btn {
-      background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3);
-      border-radius: 8px; color: #f87171; font-size: 0.78rem; font-weight: 600;
-      padding: 6px 12px; cursor: pointer; transition: background 0.15s; white-space: nowrap;
-    }
-    .a-del-btn:hover { background: rgba(248,113,113,0.25); }
-
-    .a-save-btn {
-      background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);
-      border-radius: 8px; color: #00ffff; font-size: 0.78rem; font-weight: 600;
-      padding: 6px 12px; cursor: pointer; transition: background 0.15s; white-space: nowrap;
-    }
-    .a-save-btn:hover { background: rgba(0,255,255,0.22); }
-
-    .a-score-inp {
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(0,255,255,0.15);
-      border-radius: 8px; color: var(--text); font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem; font-weight: 700; padding: 6px 10px; width: 100%; outline: none;
-      transition: border-color 0.15s;
-    }
-    .a-score-inp:focus { border-color: #00ffff; }
-
-    .email-compose { background: var(--card); border: 1px solid rgba(0,255,255,0.1); border-radius: 14px; padding: 24px; }
-    .email-compose textarea {
-      width: 100%; background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(0,255,255,0.15); border-radius: 10px;
-      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.95rem;
-      padding: 10px 14px; resize: vertical; outline: none; margin-bottom: 14px;
-    }
-    .email-compose textarea:focus { border-color: #00ffff; }
-    .email-send-btn {
-      background: linear-gradient(90deg, #0077aa, #00b8cc); border: none;
-      border-radius: 10px; color: #fff; font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem; font-weight: 700; letter-spacing: 0.08em;
-      padding: 11px 24px; cursor: pointer; transition: opacity 0.15s;
-    }
-    .email-send-btn:hover { opacity: 0.88; }
-    .email-note { color: var(--muted); font-size: 0.77rem; margin-top: 10px; }
-
-    .admin-close-btn {
-      background: rgba(255,255,255,0.07); border: 1px solid rgba(0,255,255,0.2);
-      border-radius: 8px; color: var(--text); font-size: 0.85rem; font-weight: 600;
-      padding: 9px 18px; cursor: pointer; transition: background 0.15s;
-    }
-    .admin-close-btn:hover { background: rgba(255,255,255,0.13); }
-
-    .protected-tag { color: var(--muted); font-size: 0.75rem; }
-  </style>
+/* ── ADMIN PANEL ───────────────────────── */
+#admin-panel{display:none;position:fixed;inset:0;z-index:9500;background:rgba(5,15,20,0.98);backdrop-filter:blur(18px);overflow-y:auto;}
+.ai{max-width:980px;margin:0 auto;padding:36px 28px 100px;}
+.ah{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--bdr);}
+.atitle{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;background:linear-gradient(90deg,#f0db4f,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.asub{color:var(--mut);font-size:0.82rem;margin-top:4px;}
+.aclosebtn{background:rgba(255,255,255,0.07);border:1px solid rgba(0,255,255,0.2);border-radius:8px;color:var(--txt);font-size:0.85rem;font-weight:600;padding:9px 18px;cursor:pointer;transition:background 0.15s;}
+.aclosebtn:hover{background:rgba(255,255,255,0.13);}
+.asearch-wrap{margin-bottom:22px;position:relative;}
+.asearch{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--bdr);border-radius:10px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:0.95rem;padding:11px 14px 11px 40px;outline:none;transition:border-color 0.2s;}
+.asearch:focus{border-color:#00ffff;box-shadow:0 0 0 3px rgba(0,255,255,0.1);}
+.asearch::placeholder{color:rgba(255,255,255,0.22);}
+.asearch-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:1rem;pointer-events:none;}
+.atabbar{display:flex;gap:8px;margin-bottom:26px;border-bottom:1px solid var(--bdr);padding-bottom:14px;flex-wrap:wrap;}
+.atab{background:none;border:1px solid rgba(0,255,255,0.15);border-radius:8px;color:rgba(226,244,248,0.5);font-family:'Barlow',sans-serif;font-size:0.85rem;font-weight:600;padding:9px 18px;cursor:pointer;transition:all 0.15s;}
+.atab:hover{background:rgba(0,255,255,0.07);color:var(--txt);}
+.atab.active{background:rgba(0,255,255,0.12);border-color:rgba(0,255,255,0.42);color:#00ffff;}
+.atab-panel{display:none;}.atab-panel.active{display:block;}
+.apttl{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:#00ffff;margin-bottom:18px;letter-spacing:0.05em;}
+.arow{background:var(--card);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color 0.15s;}
+.arow:hover{border-color:rgba(0,255,255,0.2);}
+.arowtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.aav{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0077aa,#00ffff);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.88rem;flex-shrink:0;}
+.aav.gold{background:linear-gradient(135deg,#b8860b,#f0db4f);}
+.anm{font-weight:600;font-size:0.93rem;}
+.amet{font-size:0.72rem;color:var(--mut);margin-top:3px;}
+.abadge{background:#f0db4f;color:#0a1a20;font-size:0.58rem;font-weight:800;padding:1px 7px;border-radius:5px;letter-spacing:0.08em;margin-left:7px;vertical-align:middle;}
+.tobadge{background:rgba(248,113,113,0.18);border:1px solid rgba(248,113,113,0.4);border-radius:5px;color:var(--red);font-size:0.6rem;font-weight:700;padding:1px 7px;margin-left:6px;vertical-align:middle;}
+.actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-left:auto;}
+.adel{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;color:var(--red);font-size:0.78rem;font-weight:600;padding:6px 11px;cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+.adel:hover{background:rgba(248,113,113,0.25);}
+.atobtn{background:rgba(240,219,79,0.1);border:1px solid rgba(240,219,79,0.3);border-radius:8px;color:#f0db4f;font-size:0.78rem;font-weight:600;padding:6px 11px;cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+.atobtn:hover{background:rgba(240,219,79,0.22);}
+.asave{background:rgba(0,255,255,0.1);border:1px solid rgba(0,255,255,0.3);border-radius:8px;color:#00ffff;font-size:0.78rem;font-weight:600;padding:6px 11px;cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+.asave:hover{background:rgba(0,255,255,0.22);}
+.acanc{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--mut);font-size:0.78rem;font-weight:600;padding:6px 11px;cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+.acanc:hover{background:rgba(255,255,255,0.1);}
+.prot{color:var(--mut);font-size:0.75rem;margin-left:auto;}
+.topanel{display:none;padding:12px 0 4px;border-top:1px solid rgba(0,255,255,0.07);margin-top:12px;}
+.topanel.open{display:block;}
+.torow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.toinp{background:rgba(255,255,255,0.05);border:1px solid rgba(240,219,79,0.25);border-radius:8px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:0.9rem;padding:7px 10px;width:70px;outline:none;}
+.toinp:focus{border-color:#f0db4f;}
+.tosel{background:rgba(255,255,255,0.05);border:1px solid rgba(240,219,79,0.25);border-radius:8px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:0.9rem;padding:7px 10px;width:95px;outline:none;cursor:pointer;}
+.srow{display:grid;grid-template-columns:38px 1fr 140px 80px;align-items:center;gap:12px;background:var(--card);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+.srow:hover{border-color:rgba(0,255,255,0.2);}
+.sinp{background:rgba(255,255,255,0.05);border:1px solid rgba(0,255,255,0.15);border-radius:8px;color:var(--txt);font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;padding:6px 10px;width:100%;outline:none;}
+.sinp:focus{border-color:#00ffff;}
+.ecomp{background:var(--card);border:1px solid rgba(0,255,255,0.1);border-radius:14px;padding:26px;}
+.ecomp textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(0,255,255,0.15);border-radius:10px;color:var(--txt);font-family:'Barlow',sans-serif;font-size:0.95rem;padding:11px 14px;resize:vertical;outline:none;margin-bottom:16px;line-height:1.5;}
+.ecomp textarea:focus{border-color:#00ffff;}
+.esbtn{background:linear-gradient(90deg,#0077aa,#00b8cc);border:none;border-radius:10px;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.08em;padding:12px 26px;cursor:pointer;transition:opacity 0.15s;}
+.esbtn:hover{opacity:0.88;}
+.enote{color:var(--mut);font-size:0.77rem;margin-top:12px;line-height:1.5;}
+.nores{color:var(--mut);font-size:0.88rem;padding:16px 0;text-align:center;}
+</style>
 </head>
 <body>
 
+<!-- TIMEOUT BANNER -->
+<div id="timeout-banner" style="display:none">
+  <div class="tob">
+    <div class="tob-icon">⏱️</div>
+    <div class="tob-title">YOU'VE BEEN TIMED OUT</div>
+    <div class="tob-msg">An admin has placed a temporary timeout on your account.<br>Please wait until the timer expires before playing.</div>
+    <div class="tob-timer" id="tocountdown">--:--</div>
+  </div>
+</div>
+
 <!-- LOGIN OVERLAY -->
 <div id="login-overlay">
-  <div class="login-card">
-    <div class="login-logo">MR GAMES</div>
-    <div class="login-sub">Sign in to your player account</div>
-
+  <div class="lc">
+    <div class="ll">MR GAMES</div>
+    <div class="ls">Sign in to your player account</div>
     <label class="lbl">Player Name</label>
-    <input class="dash-input" id="login-username" type="text" maxlength="20"
-           placeholder="Enter your name" autocomplete="off" spellcheck="false"
-           oninput="checkNewPlayer()" />
-
+    <input class="di" id="l-name" type="text" maxlength="20" placeholder="Enter your name" autocomplete="off" spellcheck="false" oninput="checkNew()"/>
     <label class="lbl">Secret Code</label>
-    <input class="dash-input" id="login-code" type="password" maxlength="20"
-           placeholder="Enter your code" autocomplete="off" />
-
-    <div id="email-field-wrap" style="display:none">
-      <label class="lbl">Email Address <span style="color:#f0db4f;font-size:0.62rem">(new accounts only)</span></label>
-      <input class="dash-input" id="login-email" type="email" maxlength="100"
-             placeholder="your@email.com" autocomplete="off" />
+    <input class="di" id="l-code" type="password" maxlength="20" placeholder="Enter your code" autocomplete="off"/>
+    <div id="l-emailwrap" style="display:none">
+      <label class="lbl">Email <span style="color:#f0db4f;font-size:0.6rem;font-weight:600">(required for new accounts)</span></label>
+      <input class="di" id="l-email" type="email" maxlength="100" placeholder="your@email.com" autocomplete="off"/>
     </div>
-
-    <button class="login-btn" onclick="doLogin()">▶ &nbsp;PLAY NOW</button>
-
-    <div class="login-err" id="login-err"></div>
-    <div class="login-hint">New here? Enter name + code + email to register.</div>
-
-    <div class="saved-accounts" id="saved-accounts">
-      <div class="saved-label">Returning Players</div>
-      <div class="saved-chips" id="saved-chips"></div>
+    <button class="lbtn" onclick="doLogin()">▶ &nbsp;PLAY NOW</button>
+    <div class="lerr" id="l-err"></div>
+    <div class="lhint">New here? Enter name + code + email to register.<br>Returning? Just name + code.</div>
+    <div class="sav" id="sav">
+      <div class="savlbl">Returning Players</div>
+      <div class="savchips" id="savchips"></div>
     </div>
   </div>
 </div>
 
 <!-- APP SHELL -->
 <div id="app" style="display:none">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="sidebar-logo">
-      MR GAMES
-      <span>MR02 · UNBLOCKED</span>
-    </div>
+    <div class="slogo">MR GAMES<span>MR02 · UNBLOCKED</span></div>
 
-    <div class="sidebar-section">Navigation</div>
-    <a href="Games.html"       onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')"
-       class="nav-item active"><span class="ico">🎮</span> Play Games</a>
-    <a href="leaderboard.html" class="nav-item"><span class="ico">🏆</span> Leaderboard</a>
-    <a href="record.html"      class="nav-item"><span class="ico">📋</span> Records</a>
-    <a href="about_us.html"    class="nav-item"><span class="ico">ℹ️</span> About Us</a>
-    <a href="use_full_links.html" class="nav-item"><span class="ico">🔗</span> Useful Links</a>
-    <a href="Clash.html"       class="nav-item"><span class="ico">⚔️</span> Clash Picker</a>
-    <a href="settings.html"    class="nav-item"><span class="ico">⚙️</span> Settings</a>
-    <button id="admin-nav-btn" onclick="openAdmin()"
-      style="display:none;background:rgba(240,219,79,0.08);border:none;border-left:3px solid #f0db4f;color:#f0db4f;width:100%;text-align:left;cursor:pointer;font-size:0.9rem;font-weight:600;"
-      class="nav-item">
-      <span class="ico">🛡️</span> Admin Panel
-      <span style="font-size:0.58rem;background:#f0db4f;color:#0a1a20;border-radius:4px;padding:1px 6px;margin-left:4px;font-weight:800">PRESS 0</span>
+    <div class="ssec">Navigation</div>
+    <a href="Games.html" onclick="event.preventDefault();scoreGo('Games.html',100,'Play Games')" class="ni active"><span class="ico">🎮</span> Play Games <span class="badge-hot">HOT</span></a>
+    <a href="leaderboard.html" class="ni"><span class="ico">🏆</span> Leaderboard</a>
+    <a href="record.html" class="ni"><span class="ico">📋</span> Records</a>
+    <a href="about_us.html" class="ni"><span class="ico">ℹ️</span> About Us</a>
+    <a href="use_full_links.html" class="ni"><span class="ico">🔗</span> Useful Links</a>
+    <a href="Clash.html" class="ni"><span class="ico">⚔️</span> Clash Picker</a>
+    <a href="settings.html" class="ni"><span class="ico">⚙️</span> Settings</a>
+    <button id="admin-btn" onclick="openAdmin()" class="ni" style="display:none;background:rgba(240,219,79,0.08);border:none;border-left:3px solid #f0db4f;color:#f0db4f;font-size:0.9rem;font-weight:600;cursor:pointer;">
+      <span class="ico">🛡️</span> Admin Panel <span style="font-size:0.52rem;background:#f0db4f;color:#0a1a20;border-radius:4px;padding:1px 6px;margin-left:4px;font-weight:800">PRESS 0</span>
     </button>
 
-    <div class="sidebar-section">External</div>
-    <a href="https://sigmasigmatoiletedge.github.io/"             class="nav-item"><span class="ico">🌐</span> Nettle Web</a>
-    <a href="https://ihackforfree02.github.io/mrgames-/"
-       onclick="event.preventDefault();scoreAndGo('https://ihackforfree02.github.io/mrgames-/',150,'MR GAMES+ Beta')"
-       class="nav-item"><span class="ico">✨</span> MR GAMES+ Beta</a>
-    <a href="https://ihackforfree02.github.io/games/"             class="nav-item"><span class="ico">🕹️</span> MR GAMES GBA</a>
-    <a href="https://ihackforfree02.github.io/hollownight-sigma/" class="nav-item"><span class="ico">🗺️</span> Hollow Knight Map</a>
-    <a href="https://q6t1u8.ddx.edpuzzle.icu.cdn.cloudflare.net/" class="nav-item"><span class="ico">🔓</span> Working Proxy</a>
-    <a href="https://luminal.cfd.cdn.cloudflare.net/"             class="nav-item"><span class="ico">💡</span> Luminal</a>
+    <div class="ssec">Games & Proxies</div>
+    <a href="https://sigmasigmatoiletedge.github.io/" class="ni"><span class="ico">🌐</span> Nettle Web</a>
+    <a href="https://ihackforfree02.github.io/mrgames-/" onclick="event.preventDefault();scoreGo('https://ihackforfree02.github.io/mrgames-/',150,'MR GAMES+ Beta')" class="ni"><span class="ico">✨</span> MR GAMES+ Beta <span class="badge-new">NEW</span></a>
+    <a href="https://ihackforfree02.github.io/games/" class="ni"><span class="ico">🕹️</span> MR GAMES GBA</a>
+    <a href="https://ihackforfree02.github.io/hollownight-sigma/" class="ni"><span class="ico">🗺️</span> Hollow Knight Map</a>
+    <a href="https://q6t1u8.ddx.edpuzzle.icu.cdn.cloudflare.net/" class="ni"><span class="ico">🔓</span> Working Proxy</a>
+    <a href="https://luminal.cfd.cdn.cloudflare.net/" class="ni"><span class="ico">💡</span> Luminal</a>
 
-    <div class="sidebar-player">
-      <div class="player-avatar" id="player-avatar">?</div>
-      <div>
-        <div class="player-name" id="player-name">---</div>
-        <div class="player-tag" id="score-badge">0 pts</div>
-      </div>
-      <button class="logout-ico" onclick="doLogout()" title="Logout">⏏</button>
+    <div class="ssec">Movies & Shows</div>
+    <a href="https://www.soap2day.tf/" target="_blank" class="ni"><span class="ico">🎬</span> Soap2Day</a>
+    <a href="https://fmovies.ps/" target="_blank" class="ni"><span class="ico">🍿</span> FMovies</a>
+    <a href="https://123movies.ms/" target="_blank" class="ni"><span class="ico">📽️</span> 123Movies</a>
+    <a href="https://lookmovie2.to/" target="_blank" class="ni"><span class="ico">👁️</span> LookMovie</a>
+
+    <div class="splayer">
+      <div class="pav" id="pav">?</div>
+      <div><div class="pname" id="pname">---</div><div class="ptag" id="pbadge">0 pts</div></div>
+      <button class="logico" onclick="doLogout()" title="Logout">⏏</button>
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
-  <div class="main-content">
-
+  <div class="main">
     <div class="topnav">
-      <div class="topnav-title">Dashboard</div>
-      <div class="topnav-actions">
-        <button class="btn-outline" onclick="toggleChat()">💬 Chat</button>
-        <a href="settings.html" class="btn-outline">⚙️ Settings</a>
+      <div class="tnttl" id="topnav-greeting">Dashboard</div>
+      <div class="tna">
+        <button class="bto" onclick="toggleChat()">💬 Chat</button>
+        <a href="settings.html" class="bto">⚙️ Settings</a>
       </div>
     </div>
 
-    <div class="page-body">
+    <div class="pb">
+
+      <!-- ANNOUNCEMENT -->
+      <div class="announcement">
+        <div class="ico">📢</div>
+        <div class="announcement-txt">
+          <strong>MR GAMES is growing!</strong>
+          <span>New games added weekly · Check the leaderboard · Score points by visiting Games or MR GAMES+ Beta</span>
+        </div>
+      </div>
+
+      <!-- STATS STRIP -->
+      <div class="stats-strip" id="stats-strip">
+        <div class="stat-card"><div class="stat-icon">🎮</div><div><div class="stat-num" id="stat-games">12+</div><div class="stat-lbl">Games Available</div></div></div>
+        <div class="stat-card"><div class="stat-icon">👥</div><div><div class="stat-num" id="stat-players">—</div><div class="stat-lbl">Registered Players</div></div></div>
+        <div class="stat-card"><div class="stat-icon">🏆</div><div><div class="stat-num" id="stat-score">—</div><div class="stat-lbl">Your Score</div></div></div>
+        <div class="stat-card"><div class="stat-icon">⚡</div><div><div class="stat-num" id="stat-rank">—</div><div class="stat-lbl">Your Rank</div></div></div>
+      </div>
 
       <!-- HERO CAROUSEL -->
-      <div class="carousel-wrap">
-        <div class="carousel-track" id="carousel-track">
+      <div class="cw">
+        <div class="ct" id="ct">
 
-          <div class="carousel-slide slide-0">
-            <div class="slide-art"><div class="art-clover">🍀</div></div>
-            <div class="slide-content">
-              <div class="slide-badge">Featured Game</div>
-              <div class="slide-title">Clover Pit</div>
-              <div class="slide-desc">Dive into the luck-fuelled chaos of Clover Pit. Can you beat the house?</div>
-              <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="slide-play-btn">▶ &nbsp;Play Now</a>
+          <div class="cs s0">
+            <img class="slide-img" src="https://cdn.cloudflare.steamstatic.com/steam/apps/3314790/capsule_616x353.jpg" alt="CloverPit" onerror="this.src='https://cdn.cloudflare.steamstatic.com/steam/apps/3314790/header.jpg'"/>
+            <div class="sc">
+              <div class="sbadge b0">⭐ Featured Game</div>
+              <div class="stitle">Clover Pit</div>
+              <div class="sdesc">A rogue-lite slot machine nightmare. Gamble for your life in an ever-deepening debt spiral. Luck is all you have.</div>
+              <a href="Games.html" onclick="event.preventDefault();scoreGo('Games.html',100,'Play Games')" class="spbtn">▶ &nbsp;Play Now</a>
             </div>
           </div>
 
-          <div class="carousel-slide slide-1">
-            <div class="slide-art"><div class="art-anton">💥</div></div>
-            <div class="slide-content">
-              <div class="slide-badge">Action</div>
-              <div class="slide-title">Anton Blast</div>
-              <div class="slide-desc">Go full blast with Anton — the wildest action platformer in the arcade.</div>
-              <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="slide-play-btn">▶ &nbsp;Play Now</a>
+          <div class="cs s1">
+            <img class="slide-img" src="https://cdn.cloudflare.steamstatic.com/steam/apps/2325680/capsule_616x353.jpg" alt="Antonblast" onerror="this.src='https://cdn.cloudflare.steamstatic.com/steam/apps/2325680/header.jpg'"/>
+            <div class="sc">
+              <div class="sbadge b1">🔥 Action Platformer</div>
+              <div class="stitle">Anton Blast</div>
+              <div class="sdesc">Wield the Mighty F'n Hammer and demolish everything. Blast through Satan's army in this explosive arcade rampage.</div>
+              <a href="Games.html" onclick="event.preventDefault();scoreGo('Games.html',100,'Play Games')" class="spbtn">▶ &nbsp;Play Now</a>
             </div>
           </div>
 
-          <div class="carousel-slide slide-2">
-            <div class="slide-art"><div class="art-freddy">👁️</div></div>
-            <div class="slide-content">
-              <div class="slide-badge">Horror</div>
-              <div class="slide-title">Five Nights at Epsteins</div>
-              <div class="slide-desc">Survive the night. Watch the cameras. Don't let them in.</div>
-              <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="slide-play-btn">▶ &nbsp;Play Now</a>
+          <div class="cs s2">
+            <img class="slide-img" src="https://fivenightsatepsteins.github.io/logo.png" alt="Five Nights at Epsteins" onerror="this.style.display='none'"/>
+            <div class="sc">
+              <div class="sbadge b2">😱 Survival Horror</div>
+              <div class="stitle">Five Nights at Epsteins</div>
+              <div class="sdesc">Survive the night. Watch 11 cameras. Keep the doors closed. Don't let them reach you before 6AM.</div>
+              <a href="Games.html" onclick="event.preventDefault();scoreGo('Games.html',100,'Play Games')" class="spbtn">▶ &nbsp;Play Now</a>
             </div>
           </div>
 
         </div>
-        <button class="carousel-arrow prev" onclick="carouselMove(-1)">‹</button>
-        <button class="carousel-arrow next" onclick="carouselMove(1)">›</button>
-        <div class="carousel-dots">
-          <div class="dot active" onclick="carouselGo(0)"></div>
-          <div class="dot"       onclick="carouselGo(1)"></div>
-          <div class="dot"       onclick="carouselGo(2)"></div>
+        <button class="carr prev" onclick="cMove(-1)">‹</button>
+        <button class="carr next" onclick="cMove(1)">›</button>
+        <div class="cdots">
+          <div class="dot active" onclick="cGo(0)"></div>
+          <div class="dot" onclick="cGo(1)"></div>
+          <div class="dot" onclick="cGo(2)"></div>
         </div>
       </div>
 
-      <!-- QUICK LINKS -->
-      <div class="section-header">
-        <div class="section-title"><span></span>Quick Access</div>
+      <!-- MR GAMES SITES -->
+      <div class="sh"><div class="st"><span></span>MR GAMES Sites</div></div>
+      <div class="lg">
+        <a href="Games.html" onclick="event.preventDefault();scoreGo('Games.html',100,'Play Games')" class="lcard yc">
+          <div class="lico">🎮</div><div class="linf"><div class="lnm">Play Games</div><div class="lds">All unblocked games</div></div>
+        </a>
+        <a href="leaderboard.html" class="lcard">
+          <div class="lico">🏆</div><div class="linf"><div class="lnm">Leaderboard</div><div class="lds">Top players ranked</div></div>
+        </a>
+        <a href="record.html" class="lcard">
+          <div class="lico">📋</div><div class="linf"><div class="lnm">Records</div><div class="lds">All-time high scores</div></div>
+        </a>
+        <a href="about_us.html" class="lcard">
+          <div class="lico">ℹ️</div><div class="linf"><div class="lnm">About Us</div><div class="lds">Who we are</div></div>
+        </a>
+        <a href="use_full_links.html" class="lcard bc">
+          <div class="lico">🔗</div><div class="linf"><div class="lnm">Useful Links</div><div class="lds">Curated resources</div></div>
+        </a>
+        <a href="Clash.html" class="lcard bc">
+          <div class="lico">⚔️</div><div class="linf"><div class="lnm">Clash Picker</div><div class="lds">Team randomiser</div></div>
+        </a>
+        <a href="https://ihackforfree02.github.io/mrgames-/" onclick="event.preventDefault();scoreGo('https://ihackforfree02.github.io/mrgames-/',150,'MR GAMES+ Beta')" class="lcard yc">
+          <div class="lico">✨</div><div class="linf"><div class="lnm">MR GAMES+ Beta</div><div class="lds">Next-gen experience</div></div>
+        </a>
+        <a href="https://ihackforfree02.github.io/games/" class="lcard bc">
+          <div class="lico">🕹️</div><div class="linf"><div class="lnm">MR GAMES GBA</div><div class="lds">GBA emulator</div></div>
+        </a>
+        <a href="https://ihackforfree02.github.io/hollownight-sigma/" class="lcard">
+          <div class="lico">🗺️</div><div class="linf"><div class="lnm">Hollow Knight Map</div><div class="lds">Interactive map tool</div></div>
+        </a>
+        <a href="https://sigmasigmatoiletedge.github.io/" class="lcard">
+          <div class="lico">🌐</div><div class="linf"><div class="lnm">Nettle Web</div><div class="lds">Partner site</div></div>
+        </a>
       </div>
-      <div class="links-grid">
-        <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="link-card pink-card">
-          <div class="link-icon">🎮</div>
-          <div class="link-info"><div class="link-name">Play Games</div><div class="link-desc">All unblocked games</div></div>
+
+      <!-- PROXIES & UNBLOCKED TOOLS -->
+      <div class="sh"><div class="st"><span></span>Proxies &amp; Unblocked Tools</div></div>
+      <div class="lg">
+        <a href="https://q6t1u8.ddx.edpuzzle.icu.cdn.cloudflare.net/" target="_blank" class="lcard yc">
+          <div class="lico">🔓</div><div class="linf"><div class="lnm">Working Proxy</div><div class="lds">Bypass school filters</div></div>
         </a>
-        <a href="leaderboard.html" class="link-card">
-          <div class="link-icon">🏆</div>
-          <div class="link-info"><div class="link-name">Leaderboard</div><div class="link-desc">Top players</div></div>
+        <a href="https://luminal.cfd.cdn.cloudflare.net/" target="_blank" class="lcard bc">
+          <div class="lico">💡</div><div class="linf"><div class="lnm">Luminal</div><div class="lds">Fast unblocked proxy</div></div>
         </a>
-        <a href="record.html" class="link-card">
-          <div class="link-icon">📋</div>
-          <div class="link-info"><div class="link-name">Records</div><div class="link-desc">High scores</div></div>
+        <a href="https://ultrabypass.github.io/" target="_blank" class="lcard bc">
+          <div class="lico">🚀</div><div class="linf"><div class="lnm">UltraBypass</div><div class="lds">High-speed proxy</div></div>
         </a>
-        <a href="about_us.html" class="link-card">
-          <div class="link-icon">ℹ️</div>
-          <div class="link-info"><div class="link-name">About Us</div><div class="link-desc">Who we are</div></div>
+        <a href="https://www.croxyproxy.com/" target="_blank" class="lcard">
+          <div class="lico">🌀</div><div class="linf"><div class="lnm">CroxyProxy</div><div class="lds">Web-based proxy</div></div>
         </a>
-        <a href="use_full_links.html" class="link-card blue-card">
-          <div class="link-icon">🔗</div>
-          <div class="link-info"><div class="link-name">Useful Links</div><div class="link-desc">Resources</div></div>
+        <a href="https://www.proxysite.com/" target="_blank" class="lcard">
+          <div class="lico">🛡️</div><div class="linf"><div class="lnm">ProxySite</div><div class="lds">Anonymous browsing</div></div>
         </a>
-        <a href="Clash.html" class="link-card blue-card">
-          <div class="link-icon">⚔️</div>
-          <div class="link-info"><div class="link-name">Clash Picker</div><div class="link-desc">Team selector</div></div>
+        <a href="https://hide.me/en/proxy" target="_blank" class="lcard bc">
+          <div class="lico">👻</div><div class="linf"><div class="lnm">Hide.me Proxy</div><div class="lds">Privacy proxy</div></div>
         </a>
-        <a href="https://ihackforfree02.github.io/mrgames-/"
-           onclick="event.preventDefault();scoreAndGo('https://ihackforfree02.github.io/mrgames-/',150,'MR GAMES+ Beta')"
-           class="link-card pink-card">
-          <div class="link-icon">✨</div>
-          <div class="link-info"><div class="link-name">MR GAMES+ Beta</div><div class="link-desc">New experience</div></div>
+      </div>
+
+      <!-- MOVIES & SHOWS -->
+      <div class="sh"><div class="st"><span></span>Movies &amp; TV Shows</div></div>
+      <div class="lg">
+        <a href="https://www.soap2day.tf/" target="_blank" class="lcard rc">
+          <div class="lico">🎬</div><div class="linf"><div class="lnm">Soap2Day</div><div class="lds">Free HD movies & TV</div></div>
         </a>
-        <a href="https://ihackforfree02.github.io/games/" class="link-card blue-card">
-          <div class="link-icon">🕹️</div>
-          <div class="link-info"><div class="link-name">MR GAMES GBA</div><div class="link-desc">GBA emulator</div></div>
+        <a href="https://fmovies.ps/" target="_blank" class="lcard rc">
+          <div class="lico">🍿</div><div class="linf"><div class="lnm">FMovies</div><div class="lds">Stream movies free</div></div>
         </a>
-        <a href="https://ihackforfree02.github.io/hollownight-sigma/" class="link-card">
-          <div class="link-icon">🗺️</div>
-          <div class="link-info"><div class="link-name">Hollow Knight Map</div><div class="link-desc">Interactive map</div></div>
+        <a href="https://123movies.ms/" target="_blank" class="lcard rc">
+          <div class="lico">📽️</div><div class="linf"><div class="lnm">123Movies</div><div class="lds">Movies & series HD</div></div>
         </a>
-        <a href="https://sigmasigmatoiletedge.github.io/" class="link-card">
-          <div class="link-icon">🌐</div>
-          <div class="link-info"><div class="link-name">Nettle Web</div><div class="link-desc">Partner site</div></div>
+        <a href="https://lookmovie2.to/" target="_blank" class="lcard rc">
+          <div class="lico">👁️</div><div class="linf"><div class="lnm">LookMovie</div><div class="lds">Watch without ads</div></div>
         </a>
-        <a href="https://q6t1u8.ddx.edpuzzle.icu.cdn.cloudflare.net/" class="link-card blue-card">
-          <div class="link-icon">🔓</div>
-          <div class="link-info"><div class="link-name">Working Proxy</div><div class="link-desc">Bypass filters</div></div>
+        <a href="https://www.goojara.to/" target="_blank" class="lcard rc">
+          <div class="lico">🎥</div><div class="linf"><div class="lnm">Goojara</div><div class="lds">Movies, TV & anime</div></div>
         </a>
-        <a href="https://luminal.cfd.cdn.cloudflare.net/" class="link-card">
-          <div class="link-icon">💡</div>
-          <div class="link-info"><div class="link-name">Luminal</div><div class="link-desc">External tool</div></div>
+        <a href="https://hdtoday.so/" target="_blank" class="lcard rc">
+          <div class="lico">📺</div><div class="linf"><div class="lnm">HDToday</div><div class="lds">HD streaming site</div></div>
+        </a>
+        <a href="https://www.rave.io/" target="_blank" class="lcard">
+          <div class="lico">👥</div><div class="linf"><div class="lnm">Rave</div><div class="lds">Watch with friends</div></div>
+        </a>
+        <a href="https://www2.putlocker.vip/" target="_blank" class="lcard rc">
+          <div class="lico">🔮</div><div class="linf"><div class="lnm">Putlocker</div><div class="lds">Classic streaming</div></div>
+        </a>
+      </div>
+
+      <!-- MUSIC -->
+      <div class="sh"><div class="st"><span></span>Music &amp; Audio</div></div>
+      <div class="lg">
+        <a href="https://open.spotify.com/" target="_blank" class="lcard bc">
+          <div class="lico">🎵</div><div class="linf"><div class="lnm">Spotify Web</div><div class="lds">Stream music online</div></div>
+        </a>
+        <a href="https://www.youtube.com/music" target="_blank" class="lcard rc">
+          <div class="lico">🎶</div><div class="linf"><div class="lnm">YouTube Music</div><div class="lds">Free music streaming</div></div>
+        </a>
+        <a href="https://www.soundcloud.com/" target="_blank" class="lcard">
+          <div class="lico">☁️</div><div class="linf"><div class="lnm">SoundCloud</div><div class="lds">Independent artists</div></div>
+        </a>
+        <a href="https://mp3juice.tw/" target="_blank" class="lcard yc">
+          <div class="lico">⬇️</div><div class="linf"><div class="lnm">MP3 Juice</div><div class="lds">Free MP3 downloads</div></div>
+        </a>
+      </div>
+
+      <!-- ANIME -->
+      <div class="sh"><div class="st"><span></span>Anime</div></div>
+      <div class="lg">
+        <a href="https://gogoanime.cl/" target="_blank" class="lcard rc">
+          <div class="lico">⛩️</div><div class="linf"><div class="lnm">GogoAnime</div><div class="lds">Huge anime library</div></div>
+        </a>
+        <a href="https://www.crunchyroll.com/" target="_blank" class="lcard bc">
+          <div class="lico">🍥</div><div class="linf"><div class="lnm">Crunchyroll</div><div class="lds">Official anime stream</div></div>
+        </a>
+        <a href="https://9animetv.to/" target="_blank" class="lcard rc">
+          <div class="lico">🌸</div><div class="linf"><div class="lnm">9Anime</div><div class="lds">Sub & dub anime</div></div>
+        </a>
+        <a href="https://animesuge.to/" target="_blank" class="lcard">
+          <div class="lico">✨</div><div class="linf"><div class="lnm">AnimeSuge</div><div class="lds">Clean anime player</div></div>
+        </a>
+      </div>
+
+      <!-- GAMES ONLINE -->
+      <div class="sh"><div class="st"><span></span>Online Gaming</div></div>
+      <div class="lg">
+        <a href="https://www.miniclip.com/" target="_blank" class="lcard yc">
+          <div class="lico">🎯</div><div class="linf"><div class="lnm">Miniclip</div><div class="lds">Classic web games</div></div>
+        </a>
+        <a href="https://poki.com/" target="_blank" class="lcard yc">
+          <div class="lico">🃏</div><div class="linf"><div class="lnm">Poki</div><div class="lds">Hundreds of free games</div></div>
+        </a>
+        <a href="https://www.crazygames.com/" target="_blank" class="lcard yc">
+          <div class="lico">🤪</div><div class="linf"><div class="lnm">CrazyGames</div><div class="lds">Unblocked games hub</div></div>
+        </a>
+        <a href="https://www.silvergames.com/" target="_blank" class="lcard bc">
+          <div class="lico">🥈</div><div class="linf"><div class="lnm">Silver Games</div><div class="lds">Free browser games</div></div>
+        </a>
+        <a href="https://www.coolmathgames.com/" target="_blank" class="lcard bc">
+          <div class="lico">🧮</div><div class="linf"><div class="lnm">Cool Math Games</div><div class="lds">Logic & puzzle games</div></div>
+        </a>
+        <a href="https://now.gg/" target="_blank" class="lcard">
+          <div class="lico">📱</div><div class="linf"><div class="lnm">now.gg</div><div class="lds">Mobile games in browser</div></div>
         </a>
       </div>
 
     </div><!-- /page-body -->
 
-    <div class="bottom-bar">
-      <div class="music-ctrl">
-        <button class="music-play-btn" id="music-play-btn" onclick="toggleMusic()">▶</button>
-        <div class="music-label">
-          <strong id="music-label-title">Playground Rizz</strong>
-          Background Music
-        </div>
+    <div class="bb">
+      <div class="mc">
+        <button class="mpb" id="mpb" onclick="toggleMusic()">▶</button>
+        <div class="mlbl"><strong id="songtitle">Playground Rizz</strong>Background Music</div>
+        <input type="range" class="vol-slider" id="vol" min="0" max="1" step="0.05" value="0.5" oninput="setVol(this.value)" title="Volume"/>
       </div>
-      <a href="https://ezunblocktheopps.github.io/" class="partner-link" target="_blank">
-        🤝 Partnered with Sigmi
-      </a>
+      <a href="https://ezunblocktheopps.github.io/" class="plink" target="_blank">🤝 Partnered with Sigmi</a>
     </div>
-
-  </div><!-- /main-content -->
+  </div><!-- /main -->
 </div><!-- /app -->
 
-<!-- ═══════════════════════════════════════════
-     ADMIN PANEL
-═══════════════════════════════════════════ -->
+<!-- ADMIN PANEL -->
 <div id="admin-panel">
-  <div class="admin-inner">
-
-    <div class="admin-header">
+  <div class="ai">
+    <div class="ah">
       <div>
-        <div class="admin-title">⚙ ADMIN PANEL</div>
-        <div class="admin-subtitle">MR GAMES — Cameron's Control Centre · Press 0 to close</div>
+        <div class="atitle">⚙ ADMIN PANEL</div>
+        <div class="asub">MR GAMES — Cameron's Control Centre · Press 0 anywhere to toggle</div>
       </div>
-      <button class="admin-close-btn" onclick="closeAdmin()">✕ Close</button>
+      <button class="aclosebtn" onclick="closeAdmin()">✕ Close</button>
     </div>
-
-    <div class="atab-bar">
-      <button class="atab active" onclick="showTab('tab-accounts',this)">👥 Accounts</button>
-      <button class="atab"        onclick="showTab('tab-scores',this)">🏆 Leaderboard</button>
-      <button class="atab"        onclick="showTab('tab-email',this)">📧 Email Players</button>
+    <div class="asearch-wrap">
+      <span class="asearch-ico">🔍</span>
+      <input class="asearch" id="asearch" type="text" placeholder="Search players by name or email..." oninput="onSearch()"/>
     </div>
-
-    <!-- TAB: Accounts -->
-    <div id="tab-accounts" class="atab-panel active">
-      <div class="apanel-title">REGISTERED ACCOUNTS</div>
-      <div id="admin-accounts-list"></div>
+    <div class="atabbar">
+      <button class="atab active" onclick="showTab('t-accounts',this)">👥 Accounts</button>
+      <button class="atab" onclick="showTab('t-scores',this)">🏆 Leaderboard</button>
+      <button class="atab" onclick="showTab('t-email',this)">📧 Email Players</button>
     </div>
-
-    <!-- TAB: Scores -->
-    <div id="tab-scores" class="atab-panel">
-      <div class="apanel-title">EDIT LEADERBOARD SCORES</div>
-      <div id="admin-scores-list"></div>
+    <div id="t-accounts" class="atab-panel active">
+      <div class="apttl">REGISTERED ACCOUNTS</div>
+      <div id="a-accs"></div>
     </div>
-
-    <!-- TAB: Email -->
-    <div id="tab-email" class="atab-panel">
-      <div class="apanel-title">SEND EMAIL TO PLAYER</div>
-      <div class="email-compose">
+    <div id="t-scores" class="atab-panel">
+      <div class="apttl">EDIT LEADERBOARD SCORES</div>
+      <div id="a-scores"></div>
+    </div>
+    <div id="t-email" class="atab-panel">
+      <div class="apttl">SEND EMAIL TO PLAYER</div>
+      <div class="ecomp">
         <label class="lbl">Recipient</label>
-        <select id="admin-email-to" class="dash-input" style="cursor:pointer"></select>
-
+        <select id="e-to" class="di" style="cursor:pointer;margin-bottom:16px"></select>
         <label class="lbl">Subject</label>
-        <input class="dash-input" id="admin-email-subject" type="text" placeholder="Subject line..." />
-
+        <input class="di" id="e-subj" type="text" placeholder="Subject line..."/>
         <label class="lbl">Message</label>
-        <textarea id="admin-email-body" rows="6" placeholder="Write your message here..."></textarea>
-
-        <button class="email-send-btn" onclick="adminSendEmail()">📧 Open in Mail Client</button>
-        <div class="email-note">Opens your default mail app with the message pre-filled and ready to send.</div>
+        <textarea id="e-body" rows="7" placeholder="Write your message here..."></textarea>
+        <button class="esbtn" onclick="sendEmail()">📧 Open in Mail Client</button>
+        <div class="enote">This opens your default mail app pre-filled. The player's email is only visible to you (Cameron).</div>
       </div>
     </div>
-
   </div>
 </div>
 
-<button class="chat-fab" onclick="toggleChat()">💬</button>
+<button class="cfab" onclick="toggleChat()" title="Chat">💬</button>
 <div id="toast"></div>
-
-<audio id="bg-music" loop>
-  <source src="https://github.com/davidrobertwriter/davidrobertwriter.github.io/raw/refs/heads/main/Playground%20Rizz.mp3" type="audio/mpeg" />
-</audio>
-
+<audio id="bgm" loop><source src="https://github.com/davidrobertwriter/davidrobertwriter.github.io/raw/refs/heads/main/Playground%20Rizz.mp3" type="audio/mpeg"/></audio>
 <script src="cloak_panic.js"></script>
 <script>
-// ═══════════════════════════════════════════════════
-//  STORAGE HELPERS
-// ═══════════════════════════════════════════════════
-function getAccounts() {
-  try { return JSON.parse(localStorage.getItem('mrgames_accounts') || '{}'); }
-  catch { return {}; }
+// ═══════════════════════════════════════════
+//  STORAGE
+// ═══════════════════════════════════════════
+const S = {
+  accs:  ()=>{ try{return JSON.parse(localStorage.getItem('mrgames_accounts')||'{}');}catch{return{};} },
+  saccs: o=>localStorage.setItem('mrgames_accounts',JSON.stringify(o)),
+  scs:   ()=>{ try{return JSON.parse(localStorage.getItem('mrgames_scores')||'{}');}catch{return{};} },
+  sscs:  o=>localStorage.setItem('mrgames_scores',JSON.stringify(o)),
+  tos:   ()=>{ try{return JSON.parse(localStorage.getItem('mrgames_timeouts')||'{}');}catch{return{};} },
+  stos:  o=>localStorage.setItem('mrgames_timeouts',JSON.stringify(o)),
+  sess:  ()=>localStorage.getItem('mrgames_session')||null,
+  setSess: n=>localStorage.setItem('mrgames_session',n),
+  clSess: ()=>localStorage.removeItem('mrgames_session'),
+};
+function gHash(n){const v=S.accs()[n];if(v===undefined)return undefined;return typeof v==='string'?v:v.hash;}
+function gEmail(n){const v=S.accs()[n];if(!v||typeof v==='string')return'';return v.email||'';}
+function gMyScore(){const s=S.sess();return s?(S.scs()[s]||0):0;}
+function addScore(pts){
+  const s=S.sess();if(!s||s==='cameron')return;
+  const sc=S.scs();sc[s]=(sc[s]||0)+pts;S.sscs(sc);
+  const b=document.getElementById('pbadge');if(b)b.textContent=sc[s].toLocaleString()+' pts';
 }
-function saveAccounts(o) { localStorage.setItem('mrgames_accounts', JSON.stringify(o)); }
+function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return String(h);}
 
-// Account entry structure: { hash: "...", email: "..." }
-// Legacy entries (plain string hash) are handled gracefully
+// ── TIMEOUT ─────────────────────────────
+function toExp(n){return S.tos()[n]||null;}
+function isTO(n){const e=toExp(n);if(!e)return false;if(Date.now()<e)return true;const t=S.tos();delete t[n];S.stos(t);return false;}
+function setTO(n,ms){const t=S.tos();t[n]=Date.now()+ms;S.stos(t);}
+function clTO(n){const t=S.tos();delete t[n];S.stos(t);}
 
-function getAccountHash(name) {
-  const v = getAccounts()[name];
-  if (v === undefined) return undefined;
-  return typeof v === 'string' ? v : v.hash;
+let toInt=null;
+function showTOBanner(name){
+  document.getElementById('login-overlay').style.display='none';
+  document.getElementById('app').style.display='none';
+  const b=document.getElementById('timeout-banner');b.style.display='flex';
+  tickTO(name);
+  if(toInt)clearInterval(toInt);
+  toInt=setInterval(()=>{if(!isTO(name)){clearInterval(toInt);b.style.display='none';showApp(name);}else tickTO(name);},1000);
 }
-function getAccountEmail(name) {
-  const v = getAccounts()[name];
-  if (!v || typeof v === 'string') return '';
-  return v.email || '';
-}
-
-function getScores() {
-  try { return JSON.parse(localStorage.getItem('mrgames_scores') || '{}'); }
-  catch { return {}; }
-}
-function saveScores(o) { localStorage.setItem('mrgames_scores', JSON.stringify(o)); }
-
-function getSession()   { return localStorage.getItem('mrgames_session') || null; }
-function setSession(n)  { localStorage.setItem('mrgames_session', n); }
-function clearSession() { localStorage.removeItem('mrgames_session'); }
-
-function getMyScore() {
-  const s = getSession();
-  return s ? (getScores()[s] || 0) : 0;
-}
-
-function addScore(pts) {
-  const s = getSession();
-  if (!s || s === 'cameron') return;
-  const scores = getScores();
-  scores[s] = (scores[s] || 0) + pts;
-  saveScores(scores);
-  const badge = document.getElementById('score-badge');
-  if (badge) badge.textContent = scores[s].toLocaleString() + ' pts';
-}
-
-function hashCode(s) {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (Math.imul(31,h) + s.charCodeAt(i))|0;
-  return String(h);
+function tickTO(name){
+  const e=toExp(name);if(!e){document.getElementById('tocountdown').textContent='--:--';return;}
+  const r=Math.max(0,e-Date.now());
+  const h=Math.floor(r/3600000),m=Math.floor((r%3600000)/60000),s2=Math.floor((r%60000)/1000);
+  const hh=h>0?String(h).padStart(2,'0')+':':'';
+  document.getElementById('tocountdown').textContent=hh+String(m).padStart(2,'0')+':'+String(s2).padStart(2,'0');
 }
 
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  BOOT
-// ═══════════════════════════════════════════════════
-window.addEventListener('load', () => {
-  const s = getSession();
-  s ? showApp(s) : showLogin();
+// ═══════════════════════════════════════════
+window.addEventListener('load',()=>{
+  const s=S.sess();
+  if(s){if(s!=='cameron'&&isTO(s))showTOBanner(s);else showApp(s);}
+  else showLogin();
+  updateStats();
 });
 
-// ═══════════════════════════════════════════════════
-//  LOGIN / REGISTER
-// ═══════════════════════════════════════════════════
-function showLogin() {
-  document.getElementById('login-overlay').style.display = 'flex';
-  document.getElementById('app').style.display = 'none';
-  renderChips();
-  setTimeout(() => document.getElementById('login-username').focus(), 80);
-}
-
-function renderChips() {
-  const accounts = getAccounts();
-  const names    = Object.keys(accounts);
-  const wrap     = document.getElementById('saved-accounts');
-  const chips    = document.getElementById('saved-chips');
-  if (!names.length) { wrap.style.display = 'none'; return; }
-  wrap.style.display = 'block';
-  chips.innerHTML = names.map(n =>
-    `<span class="saved-chip" onclick="quickFill(${JSON.stringify(n)})">${n}</span>`
-  ).join('');
-}
-
-function quickFill(name) {
-  document.getElementById('login-username').value = name;
-  checkNewPlayer();
-  document.getElementById('login-code').focus();
-}
-
-// Show email field only for new accounts
-function checkNewPlayer() {
-  const name = document.getElementById('login-username').value.trim().toLowerCase();
-  const isNew = getAccountHash(name) === undefined;
-  document.getElementById('email-field-wrap').style.display = isNew ? 'block' : 'none';
-}
-
-function doLogin() {
-  const name  = document.getElementById('login-username').value.trim().toLowerCase();
-  const code  = document.getElementById('login-code').value.trim();
-  const emailEl = document.getElementById('login-email');
-  const email = emailEl ? emailEl.value.trim() : '';
-  const err   = document.getElementById('login-err');
-
-  if (!name || name.length < 2) { err.textContent = 'Name must be at least 2 characters.'; return; }
-  if (!code || code.length < 3) { err.textContent = 'Code must be at least 3 characters.'; return; }
-  err.textContent = '';
-
-  const hashed = hashCode(code);
-  const stored = getAccountHash(name);
-
-  if (stored === undefined) {
-    // ── NEW ACCOUNT ─────────────────────────────────
-    // Block second Cameron account
-    if (name === 'cameron') {
-      const accounts = getAccounts();
-      if (Object.prototype.hasOwnProperty.call(accounts, 'cameron')) {
-        err.textContent = '"Cameron" is a protected account. Only one is allowed.';
-        return;
-      }
-    }
-    // Require email
-    if (!email) {
-      document.getElementById('email-field-wrap').style.display = 'block';
-      err.textContent = 'Please enter your email to create an account.';
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      err.textContent = 'Please enter a valid email address.';
-      return;
-    }
-    const accounts = getAccounts();
-    accounts[name] = { hash: hashed, email: email };
-    saveAccounts(accounts);
-    setSession(name);
-    showApp(name);
-
-  } else if (stored === hashed) {
-    // ── RETURNING PLAYER ────────────────────────────
-    setSession(name);
-    showApp(name);
-  } else {
-    err.textContent = 'Wrong code — try again.';
+// ═══════════════════════════════════════════
+//  STATS STRIP
+// ═══════════════════════════════════════════
+function updateStats(){
+  const sess=S.sess();
+  const accs=S.accs();
+  const sc=S.scs();
+  document.getElementById('stat-players').textContent=Object.keys(accs).length||'—';
+  if(sess){
+    const mysc=sess==='cameron'?'∞':(sc[sess]||0).toLocaleString();
+    document.getElementById('stat-score').textContent=mysc;
+    // Rank calc
+    const DEFS={cameron:null,jimmy:21102,elliot:12029,zac:12003,louie:11028};
+    const merged={...DEFS};for(const[n,v]of Object.entries(sc))merged[n]=v;merged['cameron']=null;
+    const sorted=Object.entries(merged).sort((a,b)=>{if(a[1]===null)return-1;if(b[1]===null)return 1;return b[1]-a[1];});
+    const rank=sorted.findIndex(([n])=>n===sess)+1;
+    document.getElementById('stat-rank').textContent=rank?'#'+rank:'#—';
   }
 }
 
-function showApp(name) {
-  document.getElementById('login-overlay').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  const display = name.charAt(0).toUpperCase() + name.slice(1);
-  document.getElementById('player-name').textContent   = display;
-  document.getElementById('player-avatar').textContent = display.charAt(0).toUpperCase();
-  const badge = document.getElementById('score-badge');
-  if (badge) badge.textContent = name === 'cameron' ? '∞ pts' : (getMyScore().toLocaleString() + ' pts');
-  // Show Admin button only for Cameron
-  const adminBtn = document.getElementById('admin-nav-btn');
-  if (adminBtn) adminBtn.style.display = name === 'cameron' ? 'flex' : 'none';
+// ═══════════════════════════════════════════
+//  LOGIN
+// ═══════════════════════════════════════════
+function showLogin(){document.getElementById('login-overlay').style.display='flex';document.getElementById('app').style.display='none';renderChips();setTimeout(()=>document.getElementById('l-name').focus(),80);}
+function renderChips(){
+  const names=Object.keys(S.accs());
+  const w=document.getElementById('sav'),c=document.getElementById('savchips');
+  if(!names.length){w.style.display='none';return;}
+  w.style.display='block';
+  c.innerHTML=names.map(n=>`<span class="chip" onclick="qFill(${JSON.stringify(n)})">${n}</span>`).join('');
 }
-
-function doLogout() {
-  closeAdmin();
-  clearSession();
-  document.getElementById('login-code').value = '';
-  document.getElementById('email-field-wrap').style.display = 'none';
-  document.getElementById('login-err').textContent = '';
-  showLogin();
-  showToast('Logged out.');
+function qFill(n){document.getElementById('l-name').value=n;checkNew();document.getElementById('l-code').focus();}
+function checkNew(){
+  const n=document.getElementById('l-name').value.trim().toLowerCase();
+  document.getElementById('l-emailwrap').style.display=gHash(n)===undefined?'block':'none';
 }
+function doLogin(){
+  const name=document.getElementById('l-name').value.trim().toLowerCase();
+  const code=document.getElementById('l-code').value.trim();
+  const email=(document.getElementById('l-email')||{value:''}).value.trim();
+  const err=document.getElementById('l-err');
+  if(!name||name.length<2){err.textContent='Name must be at least 2 characters.';return;}
+  if(!code||code.length<3){err.textContent='Code must be at least 3 characters.';return;}
+  err.textContent='';
+  const stored=gHash(name);const hashed=hashStr(code);
+  if(stored===undefined){
+    if(name==='cameron'&&S.accs().hasOwnProperty('cameron')){err.textContent='"Cameron" is a protected account. Only one is allowed.';return;}
+    if(!email){document.getElementById('l-emailwrap').style.display='block';err.textContent='Please enter your email to create an account.';return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Please enter a valid email address.';return;}
+    const a=S.accs();a[name]={hash:hashed,email};S.saccs(a);S.setSess(name);showApp(name);
+  }else if(stored===hashed){
+    if(name!=='cameron'&&isTO(name)){showTOBanner(name);return;}
+    S.setSess(name);showApp(name);
+  }else{err.textContent='Wrong code — try again.';}
+}
+function showApp(name){
+  document.getElementById('login-overlay').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('timeout-banner').style.display='none';
+  const d=name.charAt(0).toUpperCase()+name.slice(1);
+  document.getElementById('pname').textContent=d;
+  document.getElementById('pav').textContent=d.charAt(0).toUpperCase();
+  document.getElementById('pbadge').textContent=name==='cameron'?'∞ pts':(gMyScore().toLocaleString()+' pts');
+  document.getElementById('admin-btn').style.display=name==='cameron'?'flex':'none';
+  // Personalised greeting
+  const hr=new Date().getHours();
+  const greet=hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+  document.getElementById('topnav-greeting').textContent=greet+', '+d+' 👋';
+  updateStats();
+}
+function doLogout(){closeAdmin();S.clSess();document.getElementById('l-code').value='';document.getElementById('l-emailwrap').style.display='none';document.getElementById('l-err').textContent='';showLogin();toast('Logged out.');}
 
-document.addEventListener('keydown', e => {
-  // Enter submits login
-  if (e.key === 'Enter') {
-    const lo = document.getElementById('login-overlay');
-    if (lo && lo.style.display !== 'none') { doLogin(); return; }
-  }
-  // Press 0 to toggle admin (Cameron only)
-  if (e.key === '0' && getSession() === 'cameron') {
-    const p = document.getElementById('admin-panel');
-    p.style.display === 'block' ? closeAdmin() : openAdmin();
+// ── KEYBOARD SHORTCUTS ──────────────────
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){const lo=document.getElementById('login-overlay');if(lo&&lo.style.display!=='none'){doLogin();return;}}
+  const tag=(document.activeElement||{}).tagName||'';
+  const inInput=tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT';
+  if((e.code==='Digit0'||e.key==='0')&&!inInput&&S.sess()==='cameron'){
+    e.preventDefault();
+    const p=document.getElementById('admin-panel');
+    p.style.display==='block'?closeAdmin():openAdmin();
   }
 });
 
-// ═══════════════════════════════════════════════════
-//  SCORE LINKS (+100 for Games, +150 for MR GAMES+)
-// ═══════════════════════════════════════════════════
-function scoreAndGo(url, pts, label) {
-  addScore(pts);
-  showToast('+' + pts + ' pts — ' + label + '! 🎮');
-  setTimeout(() => { window.location.href = url; }, 700);
-}
+// ═══════════════════════════════════════════
+//  SCORE LINKS
+// ═══════════════════════════════════════════
+function scoreGo(url,pts,label){addScore(pts);toast('+'+pts+' pts — '+label+'! 🎮');setTimeout(()=>{window.location.href=url;},700);}
 
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  ADMIN PANEL
-// ═══════════════════════════════════════════════════
-function openAdmin() {
-  if (getSession() !== 'cameron') return;
-  document.getElementById('admin-panel').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  renderAdminAccounts();
-  renderAdminScores();
-  renderAdminEmailSelect();
+// ═══════════════════════════════════════════
+let aq='';
+function openAdmin(){
+  if(S.sess()!=='cameron')return;
+  document.getElementById('admin-panel').style.display='block';
+  document.body.style.overflow='hidden';
+  document.getElementById('asearch').value='';aq='';
+  renderAccs();renderScores();renderEmailSel();
 }
-
-function closeAdmin() {
-  document.getElementById('admin-panel').style.display = 'none';
-  document.body.style.overflow = '';
+function closeAdmin(){document.getElementById('admin-panel').style.display='none';document.body.style.overflow='';}
+function showTab(id,btn){
+  document.querySelectorAll('.atab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');btn.classList.add('active');
 }
+function onSearch(){aq=document.getElementById('asearch').value.trim().toLowerCase();renderAccs();renderScores();}
 
-function showTab(id, btn) {
-  document.querySelectorAll('.atab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.atab').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-
-// ── Accounts tab ──────────────────────────────────
-function renderAdminAccounts() {
-  const accounts = getAccounts();
-  const scores   = getScores();
-  const el       = document.getElementById('admin-accounts-list');
-  const names    = Object.keys(accounts);
-
-  if (!names.length) {
-    el.innerHTML = '<p style="color:var(--muted);font-size:0.88rem;padding:10px 0">No accounts yet.</p>';
-    return;
-  }
-
-  el.innerHTML = names.map(name => {
-    const isCam   = name === 'cameron';
-    const display = name.charAt(0).toUpperCase() + name.slice(1);
-    const email   = getAccountEmail(name);
-    const score   = isCam ? '∞' : (scores[name] || 0).toLocaleString();
-    const avClass = isCam ? 'a-av gold' : 'a-av';
-    const actions = isCam
-      ? `<div class="protected-tag">protected</div>`
-      : `<button class="a-del-btn" onclick="adminDeleteAccount('${name}')">🗑 Delete</button>`;
-
-    return `<div class="arow">
-      <div class="${avClass}">${display[0].toUpperCase()}</div>
-      <div>
-        <div class="a-name">${display}${isCam ? '<span class="a-badge">ADMIN</span>' : ''}</div>
-        <div class="a-meta">${email || '<span style="color:#f87171">no email</span>'} &nbsp;·&nbsp; ${score} pts</div>
+function renderAccs(){
+  const accs=S.accs(),sc=S.scs();
+  let names=Object.keys(accs);
+  if(aq)names=names.filter(n=>n.includes(aq)||gEmail(n).toLowerCase().includes(aq));
+  const el=document.getElementById('a-accs');
+  if(!names.length){el.innerHTML=`<div class="nores">${aq?'No players match your search.':'No accounts registered yet.'}</div>`;return;}
+  el.innerHTML=names.map(name=>{
+    const isCam=name==='cameron';
+    const d=name.charAt(0).toUpperCase()+name.slice(1);
+    const em=gEmail(name);
+    const score=isCam?'∞':(sc[name]||0).toLocaleString();
+    const timedOut=!isCam&&isTO(name);
+    const exp=timedOut?toExp(name):null;
+    const remMin=exp?Math.ceil(Math.max(0,exp-Date.now())/60000):0;
+    return`<div class="arow">
+      <div class="arowtop">
+        <div class="aav${isCam?' gold':''}">${d[0].toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div class="anm">${d}${isCam?'<span class="abadge">ADMIN</span>':''}${timedOut?'<span class="tobadge">⏱ OUT</span>':''}</div>
+          <div class="amet">${em||'<span style="color:var(--red)">no email</span>'} &nbsp;·&nbsp; ${score} pts${timedOut?` &nbsp;·&nbsp; <span style="color:var(--red)">${remMin}min left</span>`:''}</div>
+        </div>
+        <div class="actions">${isCam?'<span class="prot">protected</span>':`
+          <button class="adel" onclick="delAcc('${name}')">🗑 Delete</button>
+          <button class="atobtn" onclick="toggleTO2('topanel-${name}')">${timedOut?'✏️ Edit':'⏱️ Timeout'}</button>
+          ${timedOut?`<button class="acanc" onclick="liftTO('${name}')">✕ Lift</button>`:''}
+        `}</div>
       </div>
-      <div style="font-size:0.74rem;color:var(--muted);font-family:monospace">${name}</div>
-      ${actions}
+      ${isCam?'':`<div class="topanel" id="topanel-${name}">
+        <div class="torow">
+          <span style="color:var(--mut);font-size:0.82rem">Duration:</span>
+          <input class="toinp" id="toval-${name}" type="number" min="1" value="${timedOut?remMin:30}"/>
+          <select class="tosel" id="tounit-${name}"><option value="60000">min</option><option value="3600000">hours</option><option value="86400000">days</option></select>
+          <button class="asave" onclick="applyTO('${name}')">✓ Apply</button>
+          <button class="acanc" onclick="toggleTO2('topanel-${name}')">Cancel</button>
+        </div>
+      </div>`}
     </div>`;
   }).join('');
 }
+function toggleTO2(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+function delAcc(name){if(name==='cameron')return;if(!confirm('Delete "'+name+'"? This cannot be undone.'))return;const a=S.accs(),s=S.scs(),t=S.tos();delete a[name];delete s[name];delete t[name];S.saccs(a);S.sscs(s);S.stos(t);renderAccs();renderScores();renderEmailSel();updateStats();toast('"'+name+'" deleted.');}
+function applyTO(name){if(name==='cameron')return;const v=parseInt(document.getElementById('toval-'+name).value,10);const u=parseInt(document.getElementById('tounit-'+name).value,10);if(isNaN(v)||v<1){toast('Enter a valid duration.');return;}setTO(name,v*u);if(S.sess()===name)S.clSess();renderAccs();toast('"'+name+'" timed out.');}
+function liftTO(name){clTO(name);renderAccs();toast('Timeout lifted for "'+name+'".');}
 
-function adminDeleteAccount(name) {
-  if (name === 'cameron') return;
-  if (!confirm('Delete account "' + name + '"? This cannot be undone.')) return;
-  const accounts = getAccounts();
-  const scores   = getScores();
-  delete accounts[name];
-  delete scores[name];
-  saveAccounts(accounts);
-  saveScores(scores);
-  renderAdminAccounts();
-  renderAdminScores();
-  renderAdminEmailSelect();
-  showToast('Account "' + name + '" deleted.');
-}
-
-// ── Scores tab ────────────────────────────────────
-function renderAdminScores() {
-  const accounts = getAccounts();
-  const scores   = getScores();
-  const DEFAULTS = { jimmy:21102, elliot:12029, zac:12003, louie:11028 };
-  const allNames = new Set([...Object.keys(accounts), ...Object.keys(DEFAULTS)]);
-  allNames.delete('cameron');
-
-  const el = document.getElementById('admin-scores-list');
-
-  // Cameron pinned row
-  let html = `<div class="arow scores-row">
-    <div class="a-av gold">C</div>
-    <div class="a-name">Cameron <span class="a-badge">ADMIN</span></div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;color:#f0db4f">∞</div>
-    <div class="protected-tag">locked</div>
-  </div>`;
-
-  allNames.forEach(name => {
-    const display = name.charAt(0).toUpperCase() + name.slice(1);
-    const val     = scores[name] !== undefined ? scores[name] : (DEFAULTS[name] || 0);
-    html += `<div class="arow scores-row">
-      <div class="a-av">${display[0].toUpperCase()}</div>
-      <div class="a-name">${display}</div>
-      <input class="a-score-inp" id="sinp-${name}" type="number" min="0" value="${val}" />
-      <button class="a-save-btn" onclick="adminSaveScore('${name}')">💾 Save</button>
-    </div>`;
+const DEFS={jimmy:21102,elliot:12029,zac:12003,louie:11028};
+function renderScores(){
+  const accs=S.accs(),sc=S.scs();
+  const all=new Set([...Object.keys(accs),...Object.keys(DEFS)]);all.delete('cameron');
+  let filtered=[...all];if(aq)filtered=filtered.filter(n=>n.includes(aq));
+  const el=document.getElementById('a-scores');
+  let h=`<div class="srow"><div class="aav gold">C</div><div class="anm">Cameron <span class="abadge">ADMIN</span></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;color:#f0db4f">∞</div><div class="prot">locked</div></div>`;
+  if(!filtered.length&&aq)h+='<div class="nores">No players match.</div>';
+  filtered.forEach(name=>{
+    const d=name.charAt(0).toUpperCase()+name.slice(1);
+    const v=sc[name]!==undefined?sc[name]:(DEFS[name]||0);
+    h+=`<div class="srow"><div class="aav">${d[0]}</div><div class="anm">${d}</div><input class="sinp" id="sinp-${name}" type="number" min="0" value="${v}"/><button class="asave" onclick="saveScore('${name}')">💾 Save</button></div>`;
   });
+  el.innerHTML=h;
+}
+function saveScore(name){const v=parseInt(document.getElementById('sinp-'+name).value,10);if(isNaN(v)||v<0){toast('Invalid score.');return;}const s=S.scs();s[name]=v;S.sscs(s);updateStats();toast('"'+name+'" → '+v.toLocaleString()+' pts');}
 
-  el.innerHTML = html;
+function renderEmailSel(){
+  const sel=document.getElementById('e-to');if(!sel)return;
+  sel.innerHTML='<option value="">— Select player —</option>';
+  Object.keys(S.accs()).forEach(name=>{const e=gEmail(name);if(!e)return;const o=document.createElement('option');o.value=e;o.textContent=name.charAt(0).toUpperCase()+name.slice(1)+' ('+e+')';sel.appendChild(o);});
+}
+function sendEmail(){
+  const to=document.getElementById('e-to').value,subj=document.getElementById('e-subj').value.trim(),body=document.getElementById('e-body').value.trim();
+  if(!to){toast('Select a recipient.');return;}if(!subj){toast('Enter a subject.');return;}if(!body){toast('Write a message.');return;}
+  window.location.href='mailto:'+encodeURIComponent(to)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 
-function adminSaveScore(name) {
-  const val = parseInt(document.getElementById('sinp-' + name).value, 10);
-  if (isNaN(val) || val < 0) { showToast('Invalid score.'); return; }
-  const scores = getScores();
-  scores[name] = val;
-  saveScores(scores);
-  showToast('"' + name + '" score set to ' + val.toLocaleString() + '.');
-}
-
-// ── Email tab ─────────────────────────────────────
-function renderAdminEmailSelect() {
-  const accounts = getAccounts();
-  const sel = document.getElementById('admin-email-to');
-  if (!sel) return;
-  sel.innerHTML = '<option value="">— Select player —</option>';
-  Object.keys(accounts).forEach(name => {
-    const email = getAccountEmail(name);
-    if (!email) return;
-    const opt = document.createElement('option');
-    opt.value       = email;
-    opt.textContent = name.charAt(0).toUpperCase() + name.slice(1) + ' (' + email + ')';
-    sel.appendChild(opt);
-  });
-}
-
-function adminSendEmail() {
-  const to      = document.getElementById('admin-email-to').value;
-  const subject = document.getElementById('admin-email-subject').value.trim();
-  const body    = document.getElementById('admin-email-body').value.trim();
-  if (!to)      { showToast('Select a recipient first.'); return; }
-  if (!subject) { showToast('Enter a subject.'); return; }
-  if (!body)    { showToast('Write a message.'); return; }
-  window.location.href = 'mailto:' + encodeURIComponent(to)
-    + '?subject=' + encodeURIComponent(subject)
-    + '&body='    + encodeURIComponent(body);
-}
-
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  CAROUSEL
-// ═══════════════════════════════════════════════════
-let current = 0;
-const total  = 3;
-let autoTimer;
-
-function carouselGo(n) {
-  current = (n + total) % total;
-  document.getElementById('carousel-track').style.transform = `translateX(-${current * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === current));
-}
-function carouselMove(dir) {
-  clearInterval(autoTimer);
-  carouselGo(current + dir);
-  startAuto();
-}
-function startAuto() {
-  autoTimer = setInterval(() => carouselGo(current + 1), 5000);
-}
+// ═══════════════════════════════════════════
+let cur=0;const tot=3;let atimer;
+function cGo(n){cur=(n+tot)%tot;document.getElementById('ct').style.transform=`translateX(-${cur*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));}
+function cMove(dir){clearInterval(atimer);cGo(cur+dir);startAuto();}
+function startAuto(){atimer=setInterval(()=>cGo(cur+1),5000);}
 startAuto();
 
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  MUSIC
-// ═══════════════════════════════════════════════════
-const audio   = document.getElementById('bg-music');
-const playBtn = document.getElementById('music-play-btn');
-let playing   = false;
+// ═══════════════════════════════════════════
+const bgm=document.getElementById('bgm');const mpb=document.getElementById('mpb');let playing=false;
+bgm.volume=0.5;
+function toggleMusic(){if(playing){bgm.pause();mpb.textContent='▶';playing=false;}else{bgm.play().catch(()=>toast('Audio blocked by browser.'));mpb.textContent='⏸';playing=true;}}
+function setVol(v){bgm.volume=parseFloat(v);}
 
-function toggleMusic() {
-  if (playing) { audio.pause(); playBtn.textContent = '▶'; playing = false; }
-  else { audio.play().catch(() => showToast('Audio blocked by browser.')); playBtn.textContent = '⏸'; playing = true; }
-}
-
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  CHAT
-// ═══════════════════════════════════════════════════
-function toggleChat() {
-  if (window.chatWindow && !window.chatWindow.closed) { window.chatWindow.focus(); return; }
-  window.chatWindow = window.open('https://communityhelp.linewize.org/', 'ChatWindow', 'width=400,height=600');
-  if (!window.chatWindow) showToast('Allow popups to use chat.');
-}
+// ═══════════════════════════════════════════
+function toggleChat(){if(window.cw&&!window.cw.closed){window.cw.focus();return;}window.cw=window.open('https://communityhelp.linewize.org/','CW','width=400,height=600');if(!window.cw)toast('Allow popups to use chat.');}
 
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  TOAST
-// ═══════════════════════════════════════════════════
-function showToast(msg, ms=3000) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), ms);
-}
-window.addEventListener('online',  () => showToast('✅ Back online'));
-window.addEventListener('offline', () => showToast('⚠️ Connection lost'));
+// ═══════════════════════════════════════════
+function toast(msg,ms=3000){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),ms);}
+window.addEventListener('online',()=>toast('✅ Back online'));
+window.addEventListener('offline',()=>toast('⚠️ Connection lost'));
 </script>
 </body>
 </html>
