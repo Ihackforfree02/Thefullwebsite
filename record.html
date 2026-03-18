@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Records</title>
+  <link rel="icon" href="favicon.ico" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #1a1a2e, #16213e, #0f3460);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .container {
+      text-align: center;
+      padding: 80px 20px;
+      max-width: 600px;
+      margin: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+      z-index: 10;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      color: gold;
+      text-shadow: 0 0 15px gold, 0 0 30px orange;
+      margin-bottom: 40px;
+      animation: pulse 2s infinite alternate;
+    }
+
+    #record-list p {
+      font-size: 1.25rem;
+      margin: 10px 0;
+      text-shadow: 0 0 8px #ffd700;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    .trophy-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .trophy {
+      position: absolute;
+      top: -50px;
+      font-size: 2rem;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      color: gold;
+      filter: drop-shadow(0 0 5px gold);
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main">
+    <h1>Records</h1>
+    <div id="record-list"></div>
+  </main>
+
+  <div class="trophy-wrapper" aria-hidden="true"></div>
+
+  <!-- Audio background (optional, add if you want) -->
+  <audio autoplay loop>
+    <source src="https://github.com/davidrobertwriter/davidrobertwriter.github.io/raw/refs/heads/main/Playground%20Rizz.mp3" type="audio/mpeg" />
+  </audio>
+<!-- 💬 Chat Button -->
+<div id="chat-toggle" onclick="toggleChat()" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #0078D7;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  font-family: sans-serif;
+  box-shadow: 0 0 10px #0078D7;
+  user-select: none;
+">
+  💬 Chat
+</div>
+
+<script>
+  function toggleChat() {
+    if (window.chatWindow && !window.chatWindow.closed) {
+      window.chatWindow.focus();
+    } else {
+      window.chatWindow = window.open(
+        'https://communityhelp.linewize.org/',
+        'ChatWindow',
+        'width=400,height=600'
+      );
+      if (!window.chatWindow) {
+        alert("Popup blocked! Please allow popups to use chat.");
+      }
+    }
+  }
+</script>
+
+  <!-- Load cloak + panic logic script -->
+  <script src="cloak_panic.js"></script>
+
+  <script>
+    // Create falling trophies animation
+    const wrapper = document.querySelector('.trophy-wrapper');
+    const trophyCount = 50;
+
+    for (let i = 0; i < trophyCount; i++) {
+      const trophy = document.createElement('div');
+      trophy.className = 'trophy';
+      trophy.textContent = '🏆';
+      trophy.style.left = Math.random() * 100 + 'vw';
+      const fallDuration = 3 + Math.random() * 3;
+      trophy.style.animationDuration = `${fallDuration}s`;
+      trophy.style.animationDelay = `${Math.random() * 5}s`;
+      wrapper.appendChild(trophy);
+    }
+
+    // Populate record list dynamically
+    const records = [
+      { name: "Owner: Cameron", score: "For being the best owner" },
+      { name: "Jimmy", score: "Best at gunspin" },
+      { name: "Rowan", score: "Loves game website" },
+      { name: "Zac", score: "Good at stuff I guess" },
+      { name: "Louie", score: "Because he asked" }
+    ];
+
+    const listContainer = document.getElementById('record-list');
+    records.forEach(record => {
+      const p = document.createElement('p');
+      p.textContent = `${record.name} – ${record.score}`;
+      listContainer.appendChild(p);
+    });
+  </script>
+</body>
+</html>
