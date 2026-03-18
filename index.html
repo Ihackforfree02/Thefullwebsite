@@ -35,9 +35,7 @@
       overflow-x: hidden;
     }
 
-    /* ═══════════════════════════════
-       LOGIN OVERLAY
-    ═══════════════════════════════ */
+    /* LOGIN OVERLAY */
     #login-overlay {
       position: fixed; inset: 0;
       z-index: 900;
@@ -164,31 +162,23 @@
     }
     .saved-chip:hover { background: rgba(0,255,255,0.2); }
 
-    /* ═══════════════════════════════
-       LAYOUT: SIDEBAR + MAIN
-    ═══════════════════════════════ */
+    /* LAYOUT */
     #app { display: flex; min-height: 100vh; }
 
-    /* SIDEBAR */
     .sidebar {
-      width: 220px;
-      min-width: 220px;
+      width: 220px; min-width: 220px;
       background: var(--sidebar);
       border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       padding: 24px 0;
-      position: fixed;
-      top: 0; left: 0;
-      height: 100vh;
-      z-index: 100;
+      position: fixed; top: 0; left: 0;
+      height: 100vh; z-index: 100;
       overflow-y: auto;
     }
 
     .sidebar-logo {
       font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: 1.5rem;
+      font-weight: 800; font-size: 1.5rem;
       letter-spacing: 0.1em;
       padding: 0 20px 24px;
       background: linear-gradient(90deg, #f0db4f, #00ffff);
@@ -199,164 +189,92 @@
       margin-bottom: 16px;
     }
     .sidebar-logo span {
-      display: block;
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      color: var(--muted);
-      -webkit-text-fill-color: var(--muted);
-      margin-top: 2px;
+      display: block; font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.2em; color: var(--muted);
+      -webkit-text-fill-color: var(--muted); margin-top: 2px;
     }
 
     .sidebar-section {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 12px 20px 6px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); padding: 12px 20px 6px;
     }
 
     .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 10px 20px;
-      color: rgba(226,232,240,0.6);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border-radius: 0;
-      transition: all 0.15s;
-      position: relative;
-      cursor: pointer;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 20px; color: rgba(226,232,240,0.6);
+      text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      border-radius: 0; transition: all 0.15s;
+      position: relative; cursor: pointer;
+      border: none; background: none;
+      width: 100%; text-align: left;
     }
-    .nav-item:hover, .nav-item.active {
-      color: var(--text);
-      background: rgba(0,255,255,0.08);
-    }
+    .nav-item:hover, .nav-item.active { color: var(--text); background: rgba(0,255,255,0.08); }
     .nav-item.active::before {
-      content: '';
-      position: absolute;
+      content: ''; position: absolute;
       left: 0; top: 4px; bottom: 4px;
-      width: 3px;
-      background: #00ffff;
+      width: 3px; background: #00ffff;
       border-radius: 0 3px 3px 0;
     }
     .nav-item .ico { font-size: 1rem; width: 20px; text-align: center; }
 
     .sidebar-player {
-      margin-top: auto;
-      padding: 16px 20px;
+      margin-top: auto; padding: 16px 20px;
       border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 12px;
     }
     .player-avatar {
-      width: 36px; height: 36px;
-      border-radius: 50%;
+      width: 36px; height: 36px; border-radius: 50%;
       background: linear-gradient(135deg, #0077aa, #00ffff);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-      flex-shrink: 0;
+      font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
     }
     .player-name { font-size: 0.85rem; font-weight: 600; }
     .player-tag  { font-size: 0.7rem; color: var(--muted); }
     .logout-ico  {
-      margin-left: auto;
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 1rem;
-      transition: color 0.15s;
-      padding: 4px;
+      margin-left: auto; background: none; border: none;
+      color: var(--muted); cursor: pointer; font-size: 1rem;
+      transition: color 0.15s; padding: 4px;
     }
     .logout-ico:hover { color: #f87171; }
 
-    /* MAIN CONTENT */
     .main-content {
-      margin-left: 220px;
-      flex: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      margin-left: 220px; flex: 1;
+      min-height: 100vh; display: flex; flex-direction: column;
     }
 
-    /* TOP NAV BAR */
     .topnav {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
-      padding: 16px 28px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(10, 26, 32, 0.85);
-      backdrop-filter: blur(8px);
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      padding: 16px 28px; border-bottom: 1px solid var(--border);
+      background: rgba(10, 26, 32, 0.85); backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 50;
     }
     .topnav-title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+      font-size: 1.3rem; font-weight: 700; letter-spacing: 0.04em;
     }
     .topnav-actions { display: flex; gap: 10px; align-items: center; }
     .btn-outline {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-family: 'Barlow', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 7px 14px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      background: none; border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      font-size: 0.82rem; font-weight: 600; padding: 7px 14px;
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
       transition: background 0.15s, border-color 0.15s;
     }
     .btn-outline:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); }
 
-    /* PAGE BODY */
     .page-body { padding: 28px; flex: 1; }
 
-    /* ═══════════════════════════════
-       HERO CAROUSEL
-    ═══════════════════════════════ */
+    /* CAROUSEL */
     .carousel-wrap {
-      position: relative;
-      border-radius: 18px;
-      overflow: hidden;
-      margin-bottom: 36px;
-      height: 320px;
+      position: relative; border-radius: 18px; overflow: hidden;
+      margin-bottom: 36px; height: 320px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
+    .carousel-track { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(.4,0,.2,1); }
+    .carousel-slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: flex-end; }
 
-    .carousel-track {
-      display: flex;
-      height: 100%;
-      transition: transform 0.6s cubic-bezier(.4,0,.2,1);
-    }
-
-    .carousel-slide {
-      min-width: 100%;
-      height: 100%;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    /* Slide backgrounds using real game imagery via placeholder gradients */
     .slide-0 {
       background:
         linear-gradient(to right, rgba(10,26,32,0.95) 0%, rgba(10,26,32,0.5) 55%, transparent 100%),
@@ -373,190 +291,90 @@
         linear-gradient(135deg, #1a0a10 0%, #3a0f18 40%, #8b1a30 80%, #200d12 100%);
     }
 
-    /* Floating game art silhouettes using CSS shapes */
     .slide-art {
-      position: absolute;
-      right: 0; top: 0; bottom: 0;
-      width: 55%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      position: absolute; right: 0; top: 0; bottom: 0; width: 55%;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
-    .slide-art img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      opacity: 0.85;
-      filter: drop-shadow(-20px 0 40px rgba(0,0,0,0.8));
-    }
-    /* Fallback art for slides without real images */
     .art-clover { font-size: 9rem; opacity: 0.25; filter: drop-shadow(0 0 40px #00ffff); }
     .art-anton  { font-size: 9rem; opacity: 0.25; filter: drop-shadow(0 0 40px #00ff88); }
     .art-freddy { font-size: 9rem; opacity: 0.25; filter: drop-shadow(0 0 40px #f0db4f); }
 
-    .slide-content {
-      position: relative;
-      z-index: 2;
-      padding: 28px 36px;
-      max-width: 55%;
-    }
+    .slide-content { position: relative; z-index: 2; padding: 28px 36px; max-width: 55%; }
     .slide-badge {
-      display: inline-block;
-      background: #0077aa;
-      color: #fff;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 12px;
+      display: inline-block; background: #0077aa; color: #fff;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
     }
     .slide-0 .slide-badge { background: #0077aa; }
     .slide-1 .slide-badge { background: #16a34a; }
     .slide-2 .slide-badge { background: #b91c1c; }
 
     .slide-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 2.4rem;
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: 0.02em;
-      margin-bottom: 10px;
-      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      font-family: 'Barlow Condensed', sans-serif; font-size: 2.4rem;
+      font-weight: 800; line-height: 1.1; letter-spacing: 0.02em;
+      margin-bottom: 10px; text-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
-    .slide-desc {
-      font-size: 0.88rem;
-      color: rgba(226,232,240,0.7);
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
+    .slide-desc { font-size: 0.88rem; color: rgba(226,232,240,0.7); margin-bottom: 20px; line-height: 1.5; }
     .slide-play-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #fff;
-      color: #0d0f1a;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      padding: 10px 22px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: opacity 0.15s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: #0d0f1a; border: none; border-radius: 10px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1rem;
+      font-weight: 700; letter-spacing: 0.06em; padding: 10px 22px;
+      cursor: pointer; text-decoration: none; transition: opacity 0.15s, transform 0.15s;
     }
     .slide-play-btn:hover { opacity: 0.9; transform: scale(1.03); }
 
-    /* Dots */
     .carousel-dots {
-      position: absolute;
-      bottom: 16px; left: 50%;
-      transform: translateX(-50%);
-      display: flex; gap: 8px;
-      z-index: 10;
+      position: absolute; bottom: 16px; left: 50%;
+      transform: translateX(-50%); display: flex; gap: 8px; z-index: 10;
     }
     .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      cursor: pointer;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.3); cursor: pointer;
       transition: background 0.2s, transform 0.2s;
     }
     .dot.active { background: #fff; transform: scale(1.3); }
 
-    /* Arrows */
     .carousel-arrow {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
-      border-radius: 50%;
-      width: 40px; height: 40px;
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1);
+      color: #fff; border-radius: 50%; width: 40px; height: 40px;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      z-index: 10;
-      font-size: 1.1rem;
-      transition: background 0.15s;
+      cursor: pointer; z-index: 10; font-size: 1.1rem; transition: background 0.15s;
       backdrop-filter: blur(4px);
     }
     .carousel-arrow:hover { background: rgba(0,184,204,0.5); }
     .carousel-arrow.prev { left: 14px; }
     .carousel-arrow.next { right: 14px; }
 
-    /* ═══════════════════════════════
-       SECTION HEADERS
-    ═══════════════════════════════ */
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
+    /* SECTION / CARDS */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.04em; }
     .section-title span {
-      display: inline-block;
-      width: 4px; height: 18px;
+      display: inline-block; width: 4px; height: 18px;
       background: linear-gradient(180deg, #00ffff, #0077aa);
-      border-radius: 2px;
-      margin-right: 10px;
-      vertical-align: middle;
+      border-radius: 2px; margin-right: 10px; vertical-align: middle;
     }
 
-    /* ═══════════════════════════════
-       LINK CARDS GRID
-    ═══════════════════════════════ */
-    .links-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
-      margin-bottom: 36px;
-    }
+    .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 36px; }
 
     .link-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px 16px;
-      text-decoration: none;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 16px; text-decoration: none; color: var(--text);
+      display: flex; align-items: center; gap: 14px; transition: all 0.2s;
+      position: relative; overflow: hidden;
     }
     .link-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, #0077aa, #00ffff);
-      opacity: 0;
-      transition: opacity 0.2s;
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, #0077aa, #00ffff); opacity: 0; transition: opacity 0.2s;
     }
     .link-card:hover { border-color: rgba(0,184,204,0.5); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,184,204,0.3); }
     .link-card:hover::after { opacity: 0.08; }
 
     .link-icon {
-      width: 42px; height: 42px;
-      border-radius: 10px;
-      background: rgba(0,184,204,0.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-      position: relative; z-index: 1;
-      transition: background 0.2s;
+      width: 42px; height: 42px; border-radius: 10px; background: rgba(0,184,204,0.15);
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+      flex-shrink: 0; position: relative; z-index: 1; transition: background 0.2s;
     }
     .link-card:hover .link-icon { background: rgba(0,184,204,0.3); }
     .link-card.blue-card .link-icon  { background: rgba(0,119,170,0.15); }
@@ -570,29 +388,18 @@
     .link-name { font-weight: 600; font-size: 0.92rem; }
     .link-desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
-    /* ═══════════════════════════════
-       MUSIC + PARTNER BAR
-    ═══════════════════════════════ */
+    /* BOTTOM BAR */
     .bottom-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 28px;
-      border-top: 1px solid var(--border);
-      background: var(--sidebar);
-      flex-wrap: wrap;
-      gap: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px; border-top: 1px solid var(--border);
+      background: var(--sidebar); flex-wrap: wrap; gap: 10px;
     }
     .music-ctrl { display: flex; align-items: center; gap: 12px; }
     .music-play-btn {
-      background: linear-gradient(90deg, #0077aa, #00b8cc);
-      border: none;
-      border-radius: 50%;
-      width: 36px; height: 36px;
+      background: linear-gradient(90deg, #0077aa, #00b8cc); border: none;
+      border-radius: 50%; width: 36px; height: 36px;
       display: flex; align-items: center; justify-content: center;
-      color: #fff;
-      font-size: 0.9rem;
-      cursor: pointer;
+      color: #fff; font-size: 0.9rem; cursor: pointer;
       transition: opacity 0.15s, transform 0.15s;
       box-shadow: 0 4px 14px rgba(0,184,204,0.4);
     }
@@ -601,60 +408,36 @@
     .music-label strong { color: var(--text); display: block; font-size: 0.85rem; }
 
     .partner-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(240,219,79,0.1);
-      border: 1px solid rgba(240,219,79,0.3);
-      border-radius: 20px;
-      color: #f0db4f;
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 6px 16px;
-      transition: background 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(240,219,79,0.1); border: 1px solid rgba(240,219,79,0.3);
+      border-radius: 20px; color: #f0db4f; text-decoration: none;
+      font-size: 0.8rem; font-weight: 600; padding: 6px 16px; transition: background 0.15s;
     }
     .partner-link:hover { background: rgba(240,219,79,0.2); }
 
-    /* Toast */
     #toast {
-      position: fixed;
-      bottom: 80px; left: 50%;
+      position: fixed; bottom: 80px; left: 50%;
       transform: translateX(-50%) translateY(16px);
-      background: var(--card2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-size: 0.82rem;
-      font-weight: 500;
-      padding: 10px 20px;
-      border-radius: 30px;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 2000;
+      background: var(--card2); border: 1px solid var(--border);
+      color: var(--text); font-size: 0.82rem; font-weight: 500;
+      padding: 10px 20px; border-radius: 30px; opacity: 0;
+      pointer-events: none; z-index: 2000;
       transition: opacity 0.3s, transform 0.3s;
       box-shadow: 0 8px 30px rgba(0,0,0,0.4);
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* Chat button */
     .chat-fab {
-      position: fixed;
-      bottom: 70px; right: 24px;
+      position: fixed; bottom: 70px; right: 24px;
       background: linear-gradient(135deg, #0077aa, #00ffff);
-      border: none;
-      border-radius: 50%;
-      width: 52px; height: 52px;
+      border: none; border-radius: 50%; width: 52px; height: 52px;
       display: flex; align-items: center; justify-content: center;
-      color: #fff;
-      font-size: 1.3rem;
-      cursor: pointer;
-      z-index: 500;
+      color: #fff; font-size: 1.3rem; cursor: pointer; z-index: 500;
       box-shadow: 0 6px 24px rgba(0,184,204,0.45);
       transition: transform 0.15s, box-shadow 0.15s;
     }
     .chat-fab:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(0,184,204,0.6); }
 
-    /* Responsive */
     @media (max-width: 720px) {
       .sidebar { display: none; }
       .main-content { margin-left: 0; }
@@ -664,6 +447,115 @@
       .slide-art { display: none; }
       .links-grid { grid-template-columns: 1fr 1fr; }
     }
+
+    /* ═══════ ADMIN PANEL ═══════ */
+    #admin-panel {
+      display: none; position: fixed; inset: 0;
+      z-index: 9500; background: rgba(5,15,20,0.97);
+      backdrop-filter: blur(16px); overflow-y: auto;
+    }
+    .admin-inner { max-width: 900px; margin: 0 auto; padding: 32px 24px 80px; }
+    .admin-header {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 28px;
+    }
+    .admin-title {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 800;
+      background: linear-gradient(90deg, #f0db4f, #00ffff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .admin-subtitle { color: var(--muted); font-size: 0.82rem; margin-top: 3px; }
+
+    .atab-bar { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 14px; flex-wrap: wrap; }
+    .atab {
+      background: none; border: 1px solid rgba(0,255,255,0.15); border-radius: 8px;
+      color: rgba(226,244,248,0.55); font-family: 'Barlow', sans-serif;
+      font-size: 0.85rem; font-weight: 600; padding: 8px 16px;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .atab:hover { background: rgba(0,255,255,0.07); color: var(--text); }
+    .atab.active { background: rgba(0,255,255,0.12); border-color: rgba(0,255,255,0.4); color: #00ffff; }
+    .atab-panel { display: none; }
+    .atab-panel.active { display: block; }
+
+    .apanel-title {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem;
+      font-weight: 700; color: #00ffff; margin-bottom: 16px; letter-spacing: 0.05em;
+    }
+
+    .arow {
+      display: grid; grid-template-columns: 38px 1fr 160px 100px;
+      align-items: center; gap: 12px;
+      background: var(--card); border: 1px solid rgba(0,255,255,0.08);
+      border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+      transition: border-color 0.15s;
+    }
+    .arow:hover { border-color: rgba(0,255,255,0.2); }
+    .arow.scores-row { grid-template-columns: 38px 1fr 150px 80px; }
+
+    .a-av {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #0077aa, #00ffff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+    }
+    .a-av.gold { background: linear-gradient(135deg, #b8860b, #f0db4f); }
+
+    .a-name { font-weight: 600; font-size: 0.92rem; }
+    .a-meta { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+    .a-badge {
+      background: #f0db4f; color: #0a1a20;
+      font-size: 0.58rem; font-weight: 800; padding: 1px 7px;
+      border-radius: 5px; letter-spacing: 0.08em; margin-left: 7px; vertical-align: middle;
+    }
+
+    .a-del-btn {
+      background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 8px; color: #f87171; font-size: 0.78rem; font-weight: 600;
+      padding: 6px 12px; cursor: pointer; transition: background 0.15s; white-space: nowrap;
+    }
+    .a-del-btn:hover { background: rgba(248,113,113,0.25); }
+
+    .a-save-btn {
+      background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);
+      border-radius: 8px; color: #00ffff; font-size: 0.78rem; font-weight: 600;
+      padding: 6px 12px; cursor: pointer; transition: background 0.15s; white-space: nowrap;
+    }
+    .a-save-btn:hover { background: rgba(0,255,255,0.22); }
+
+    .a-score-inp {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(0,255,255,0.15);
+      border-radius: 8px; color: var(--text); font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700; padding: 6px 10px; width: 100%; outline: none;
+      transition: border-color 0.15s;
+    }
+    .a-score-inp:focus { border-color: #00ffff; }
+
+    .email-compose { background: var(--card); border: 1px solid rgba(0,255,255,0.1); border-radius: 14px; padding: 24px; }
+    .email-compose textarea {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,255,255,0.15); border-radius: 10px;
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+      padding: 10px 14px; resize: vertical; outline: none; margin-bottom: 14px;
+    }
+    .email-compose textarea:focus { border-color: #00ffff; }
+    .email-send-btn {
+      background: linear-gradient(90deg, #0077aa, #00b8cc); border: none;
+      border-radius: 10px; color: #fff; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700; letter-spacing: 0.08em;
+      padding: 11px 24px; cursor: pointer; transition: opacity 0.15s;
+    }
+    .email-send-btn:hover { opacity: 0.88; }
+    .email-note { color: var(--muted); font-size: 0.77rem; margin-top: 10px; }
+
+    .admin-close-btn {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(0,255,255,0.2);
+      border-radius: 8px; color: var(--text); font-size: 0.85rem; font-weight: 600;
+      padding: 9px 18px; cursor: pointer; transition: background 0.15s;
+    }
+    .admin-close-btn:hover { background: rgba(255,255,255,0.13); }
+
+    .protected-tag { color: var(--muted); font-size: 0.75rem; }
   </style>
 </head>
 <body>
@@ -676,16 +568,23 @@
 
     <label class="lbl">Player Name</label>
     <input class="dash-input" id="login-username" type="text" maxlength="20"
-           placeholder="Enter your name" autocomplete="off" spellcheck="false" />
+           placeholder="Enter your name" autocomplete="off" spellcheck="false"
+           oninput="checkNewPlayer()" />
 
     <label class="lbl">Secret Code</label>
     <input class="dash-input" id="login-code" type="password" maxlength="20"
            placeholder="Enter your code" autocomplete="off" />
 
+    <div id="email-field-wrap" style="display:none">
+      <label class="lbl">Email Address <span style="color:#f0db4f;font-size:0.62rem">(new accounts only)</span></label>
+      <input class="dash-input" id="login-email" type="email" maxlength="100"
+             placeholder="your@email.com" autocomplete="off" />
+    </div>
+
     <button class="login-btn" onclick="doLogin()">▶ &nbsp;PLAY NOW</button>
 
     <div class="login-err" id="login-err"></div>
-    <div class="login-hint">New player? Any name + code creates your account.</div>
+    <div class="login-hint">New here? Enter name + code + email to register.</div>
 
     <div class="saved-accounts" id="saved-accounts">
       <div class="saved-label">Returning Players</div>
@@ -705,17 +604,26 @@
     </div>
 
     <div class="sidebar-section">Navigation</div>
-    <a href="Games.html"       class="nav-item active"><span class="ico">🎮</span> Play Games</a>
+    <a href="Games.html"       onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')"
+       class="nav-item active"><span class="ico">🎮</span> Play Games</a>
     <a href="leaderboard.html" class="nav-item"><span class="ico">🏆</span> Leaderboard</a>
     <a href="record.html"      class="nav-item"><span class="ico">📋</span> Records</a>
     <a href="about_us.html"    class="nav-item"><span class="ico">ℹ️</span> About Us</a>
     <a href="use_full_links.html" class="nav-item"><span class="ico">🔗</span> Useful Links</a>
     <a href="Clash.html"       class="nav-item"><span class="ico">⚔️</span> Clash Picker</a>
     <a href="settings.html"    class="nav-item"><span class="ico">⚙️</span> Settings</a>
+    <button id="admin-nav-btn" onclick="openAdmin()"
+      style="display:none;background:rgba(240,219,79,0.08);border:none;border-left:3px solid #f0db4f;color:#f0db4f;width:100%;text-align:left;cursor:pointer;font-size:0.9rem;font-weight:600;"
+      class="nav-item">
+      <span class="ico">🛡️</span> Admin Panel
+      <span style="font-size:0.58rem;background:#f0db4f;color:#0a1a20;border-radius:4px;padding:1px 6px;margin-left:4px;font-weight:800">PRESS 0</span>
+    </button>
 
     <div class="sidebar-section">External</div>
     <a href="https://sigmasigmatoiletedge.github.io/"             class="nav-item"><span class="ico">🌐</span> Nettle Web</a>
-    <a href="https://ihackforfree02.github.io/mrgames-/"          class="nav-item"><span class="ico">✨</span> MR GAMES+ Beta</a>
+    <a href="https://ihackforfree02.github.io/mrgames-/"
+       onclick="event.preventDefault();scoreAndGo('https://ihackforfree02.github.io/mrgames-/',150,'MR GAMES+ Beta')"
+       class="nav-item"><span class="ico">✨</span> MR GAMES+ Beta</a>
     <a href="https://ihackforfree02.github.io/games/"             class="nav-item"><span class="ico">🕹️</span> MR GAMES GBA</a>
     <a href="https://ihackforfree02.github.io/hollownight-sigma/" class="nav-item"><span class="ico">🗺️</span> Hollow Knight Map</a>
     <a href="https://q6t1u8.ddx.edpuzzle.icu.cdn.cloudflare.net/" class="nav-item"><span class="ico">🔓</span> Working Proxy</a>
@@ -725,7 +633,7 @@
       <div class="player-avatar" id="player-avatar">?</div>
       <div>
         <div class="player-name" id="player-name">---</div>
-        <div class="player-tag">Player</div>
+        <div class="player-tag" id="score-badge">0 pts</div>
       </div>
       <button class="logout-ico" onclick="doLogout()" title="Logout">⏏</button>
     </div>
@@ -734,7 +642,6 @@
   <!-- MAIN CONTENT -->
   <div class="main-content">
 
-    <!-- TOP NAV -->
     <div class="topnav">
       <div class="topnav-title">Dashboard</div>
       <div class="topnav-actions">
@@ -743,51 +650,45 @@
       </div>
     </div>
 
-    <!-- PAGE BODY -->
     <div class="page-body">
 
       <!-- HERO CAROUSEL -->
       <div class="carousel-wrap">
         <div class="carousel-track" id="carousel-track">
 
-          <!-- Slide 0: Clover Pit -->
           <div class="carousel-slide slide-0">
             <div class="slide-art"><div class="art-clover">🍀</div></div>
             <div class="slide-content">
               <div class="slide-badge">Featured Game</div>
               <div class="slide-title">Clover Pit</div>
               <div class="slide-desc">Dive into the luck-fuelled chaos of Clover Pit. Can you beat the house?</div>
-              <a href="Games.html" class="slide-play-btn">▶ &nbsp;Play Now</a>
+              <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="slide-play-btn">▶ &nbsp;Play Now</a>
             </div>
           </div>
 
-          <!-- Slide 1: Anton Blast -->
           <div class="carousel-slide slide-1">
             <div class="slide-art"><div class="art-anton">💥</div></div>
             <div class="slide-content">
               <div class="slide-badge">Action</div>
               <div class="slide-title">Anton Blast</div>
               <div class="slide-desc">Go full blast with Anton — the wildest action platformer in the arcade.</div>
-              <a href="Games.html" class="slide-play-btn">▶ &nbsp;Play Now</a>
+              <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="slide-play-btn">▶ &nbsp;Play Now</a>
             </div>
           </div>
 
-          <!-- Slide 2: Five Nights at Epsteins -->
           <div class="carousel-slide slide-2">
             <div class="slide-art"><div class="art-freddy">👁️</div></div>
             <div class="slide-content">
               <div class="slide-badge">Horror</div>
               <div class="slide-title">Five Nights at Epsteins</div>
               <div class="slide-desc">Survive the night. Watch the cameras. Don't let them in.</div>
-              <a href="Games.html" class="slide-play-btn">▶ &nbsp;Play Now</a>
+              <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="slide-play-btn">▶ &nbsp;Play Now</a>
             </div>
           </div>
 
         </div>
-
         <button class="carousel-arrow prev" onclick="carouselMove(-1)">‹</button>
         <button class="carousel-arrow next" onclick="carouselMove(1)">›</button>
-
         <div class="carousel-dots">
           <div class="dot active" onclick="carouselGo(0)"></div>
           <div class="dot"       onclick="carouselGo(1)"></div>
@@ -800,7 +701,7 @@
         <div class="section-title"><span></span>Quick Access</div>
       </div>
       <div class="links-grid">
-        <a href="Games.html" class="link-card pink-card">
+        <a href="Games.html" onclick="event.preventDefault();scoreAndGo('Games.html',100,'Play Games')" class="link-card pink-card">
           <div class="link-icon">🎮</div>
           <div class="link-info"><div class="link-name">Play Games</div><div class="link-desc">All unblocked games</div></div>
         </a>
@@ -824,7 +725,9 @@
           <div class="link-icon">⚔️</div>
           <div class="link-info"><div class="link-name">Clash Picker</div><div class="link-desc">Team selector</div></div>
         </a>
-        <a href="https://ihackforfree02.github.io/mrgames-/" class="link-card pink-card">
+        <a href="https://ihackforfree02.github.io/mrgames-/"
+           onclick="event.preventDefault();scoreAndGo('https://ihackforfree02.github.io/mrgames-/',150,'MR GAMES+ Beta')"
+           class="link-card pink-card">
           <div class="link-icon">✨</div>
           <div class="link-info"><div class="link-name">MR GAMES+ Beta</div><div class="link-desc">New experience</div></div>
         </a>
@@ -852,7 +755,6 @@
 
     </div><!-- /page-body -->
 
-    <!-- BOTTOM BAR -->
     <div class="bottom-bar">
       <div class="music-ctrl">
         <button class="music-play-btn" id="music-play-btn" onclick="toggleMusic()">▶</button>
@@ -869,6 +771,59 @@
   </div><!-- /main-content -->
 </div><!-- /app -->
 
+<!-- ═══════════════════════════════════════════
+     ADMIN PANEL
+═══════════════════════════════════════════ -->
+<div id="admin-panel">
+  <div class="admin-inner">
+
+    <div class="admin-header">
+      <div>
+        <div class="admin-title">⚙ ADMIN PANEL</div>
+        <div class="admin-subtitle">MR GAMES — Cameron's Control Centre · Press 0 to close</div>
+      </div>
+      <button class="admin-close-btn" onclick="closeAdmin()">✕ Close</button>
+    </div>
+
+    <div class="atab-bar">
+      <button class="atab active" onclick="showTab('tab-accounts',this)">👥 Accounts</button>
+      <button class="atab"        onclick="showTab('tab-scores',this)">🏆 Leaderboard</button>
+      <button class="atab"        onclick="showTab('tab-email',this)">📧 Email Players</button>
+    </div>
+
+    <!-- TAB: Accounts -->
+    <div id="tab-accounts" class="atab-panel active">
+      <div class="apanel-title">REGISTERED ACCOUNTS</div>
+      <div id="admin-accounts-list"></div>
+    </div>
+
+    <!-- TAB: Scores -->
+    <div id="tab-scores" class="atab-panel">
+      <div class="apanel-title">EDIT LEADERBOARD SCORES</div>
+      <div id="admin-scores-list"></div>
+    </div>
+
+    <!-- TAB: Email -->
+    <div id="tab-email" class="atab-panel">
+      <div class="apanel-title">SEND EMAIL TO PLAYER</div>
+      <div class="email-compose">
+        <label class="lbl">Recipient</label>
+        <select id="admin-email-to" class="dash-input" style="cursor:pointer"></select>
+
+        <label class="lbl">Subject</label>
+        <input class="dash-input" id="admin-email-subject" type="text" placeholder="Subject line..." />
+
+        <label class="lbl">Message</label>
+        <textarea id="admin-email-body" rows="6" placeholder="Write your message here..."></textarea>
+
+        <button class="email-send-btn" onclick="adminSendEmail()">📧 Open in Mail Client</button>
+        <div class="email-note">Opens your default mail app with the message pre-filled and ready to send.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <button class="chat-fab" onclick="toggleChat()">💬</button>
 <div id="toast"></div>
 
@@ -878,15 +833,53 @@
 
 <script src="cloak_panic.js"></script>
 <script>
-// ─── AUTH ────────────────────────────────────────
+// ═══════════════════════════════════════════════════
+//  STORAGE HELPERS
+// ═══════════════════════════════════════════════════
 function getAccounts() {
   try { return JSON.parse(localStorage.getItem('mrgames_accounts') || '{}'); }
   catch { return {}; }
 }
 function saveAccounts(o) { localStorage.setItem('mrgames_accounts', JSON.stringify(o)); }
-function getSession()    { return localStorage.getItem('mrgames_session') || null; }
-function setSession(n)   { localStorage.setItem('mrgames_session', n); }
-function clearSession()  { localStorage.removeItem('mrgames_session'); }
+
+// Account entry structure: { hash: "...", email: "..." }
+// Legacy entries (plain string hash) are handled gracefully
+
+function getAccountHash(name) {
+  const v = getAccounts()[name];
+  if (v === undefined) return undefined;
+  return typeof v === 'string' ? v : v.hash;
+}
+function getAccountEmail(name) {
+  const v = getAccounts()[name];
+  if (!v || typeof v === 'string') return '';
+  return v.email || '';
+}
+
+function getScores() {
+  try { return JSON.parse(localStorage.getItem('mrgames_scores') || '{}'); }
+  catch { return {}; }
+}
+function saveScores(o) { localStorage.setItem('mrgames_scores', JSON.stringify(o)); }
+
+function getSession()   { return localStorage.getItem('mrgames_session') || null; }
+function setSession(n)  { localStorage.setItem('mrgames_session', n); }
+function clearSession() { localStorage.removeItem('mrgames_session'); }
+
+function getMyScore() {
+  const s = getSession();
+  return s ? (getScores()[s] || 0) : 0;
+}
+
+function addScore(pts) {
+  const s = getSession();
+  if (!s || s === 'cameron') return;
+  const scores = getScores();
+  scores[s] = (scores[s] || 0) + pts;
+  saveScores(scores);
+  const badge = document.getElementById('score-badge');
+  if (badge) badge.textContent = scores[s].toLocaleString() + ' pts';
+}
 
 function hashCode(s) {
   let h = 0;
@@ -894,12 +887,17 @@ function hashCode(s) {
   return String(h);
 }
 
+// ═══════════════════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════════════════
 window.addEventListener('load', () => {
   const s = getSession();
-  if (s) { showApp(s); }
-  else   { showLogin(); }
+  s ? showApp(s) : showLogin();
 });
 
+// ═══════════════════════════════════════════════════
+//  LOGIN / REGISTER
+// ═══════════════════════════════════════════════════
 function showLogin() {
   document.getElementById('login-overlay').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
@@ -921,26 +919,59 @@ function renderChips() {
 
 function quickFill(name) {
   document.getElementById('login-username').value = name;
+  checkNewPlayer();
   document.getElementById('login-code').focus();
 }
 
-function doLogin() {
+// Show email field only for new accounts
+function checkNewPlayer() {
   const name = document.getElementById('login-username').value.trim().toLowerCase();
-  const code = document.getElementById('login-code').value.trim();
-  const err  = document.getElementById('login-err');
+  const isNew = getAccountHash(name) === undefined;
+  document.getElementById('email-field-wrap').style.display = isNew ? 'block' : 'none';
+}
+
+function doLogin() {
+  const name  = document.getElementById('login-username').value.trim().toLowerCase();
+  const code  = document.getElementById('login-code').value.trim();
+  const emailEl = document.getElementById('login-email');
+  const email = emailEl ? emailEl.value.trim() : '';
+  const err   = document.getElementById('login-err');
+
   if (!name || name.length < 2) { err.textContent = 'Name must be at least 2 characters.'; return; }
   if (!code || code.length < 3) { err.textContent = 'Code must be at least 3 characters.'; return; }
   err.textContent = '';
 
-  const accounts = getAccounts();
-  const hashed   = hashCode(code);
+  const hashed = hashCode(code);
+  const stored = getAccountHash(name);
 
-  if (accounts[name] === undefined) {
-    accounts[name] = hashed;
+  if (stored === undefined) {
+    // ── NEW ACCOUNT ─────────────────────────────────
+    // Block second Cameron account
+    if (name === 'cameron') {
+      const accounts = getAccounts();
+      if (Object.prototype.hasOwnProperty.call(accounts, 'cameron')) {
+        err.textContent = '"Cameron" is a protected account. Only one is allowed.';
+        return;
+      }
+    }
+    // Require email
+    if (!email) {
+      document.getElementById('email-field-wrap').style.display = 'block';
+      err.textContent = 'Please enter your email to create an account.';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      err.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    const accounts = getAccounts();
+    accounts[name] = { hash: hashed, email: email };
     saveAccounts(accounts);
     setSession(name);
     showApp(name);
-  } else if (accounts[name] === hashed) {
+
+  } else if (stored === hashed) {
+    // ── RETURNING PLAYER ────────────────────────────
     setSession(name);
     showApp(name);
   } else {
@@ -954,23 +985,190 @@ function showApp(name) {
   const display = name.charAt(0).toUpperCase() + name.slice(1);
   document.getElementById('player-name').textContent   = display;
   document.getElementById('player-avatar').textContent = display.charAt(0).toUpperCase();
+  const badge = document.getElementById('score-badge');
+  if (badge) badge.textContent = name === 'cameron' ? '∞ pts' : (getMyScore().toLocaleString() + ' pts');
+  // Show Admin button only for Cameron
+  const adminBtn = document.getElementById('admin-nav-btn');
+  if (adminBtn) adminBtn.style.display = name === 'cameron' ? 'flex' : 'none';
 }
 
 function doLogout() {
+  closeAdmin();
   clearSession();
   document.getElementById('login-code').value = '';
+  document.getElementById('email-field-wrap').style.display = 'none';
+  document.getElementById('login-err').textContent = '';
   showLogin();
   showToast('Logged out.');
 }
 
 document.addEventListener('keydown', e => {
+  // Enter submits login
   if (e.key === 'Enter') {
     const lo = document.getElementById('login-overlay');
-    if (lo && lo.style.display !== 'none') doLogin();
+    if (lo && lo.style.display !== 'none') { doLogin(); return; }
+  }
+  // Press 0 to toggle admin (Cameron only)
+  if (e.key === '0' && getSession() === 'cameron') {
+    const p = document.getElementById('admin-panel');
+    p.style.display === 'block' ? closeAdmin() : openAdmin();
   }
 });
 
-// ─── CAROUSEL ────────────────────────────────────
+// ═══════════════════════════════════════════════════
+//  SCORE LINKS (+100 for Games, +150 for MR GAMES+)
+// ═══════════════════════════════════════════════════
+function scoreAndGo(url, pts, label) {
+  addScore(pts);
+  showToast('+' + pts + ' pts — ' + label + '! 🎮');
+  setTimeout(() => { window.location.href = url; }, 700);
+}
+
+// ═══════════════════════════════════════════════════
+//  ADMIN PANEL
+// ═══════════════════════════════════════════════════
+function openAdmin() {
+  if (getSession() !== 'cameron') return;
+  document.getElementById('admin-panel').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  renderAdminAccounts();
+  renderAdminScores();
+  renderAdminEmailSelect();
+}
+
+function closeAdmin() {
+  document.getElementById('admin-panel').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.atab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.atab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Accounts tab ──────────────────────────────────
+function renderAdminAccounts() {
+  const accounts = getAccounts();
+  const scores   = getScores();
+  const el       = document.getElementById('admin-accounts-list');
+  const names    = Object.keys(accounts);
+
+  if (!names.length) {
+    el.innerHTML = '<p style="color:var(--muted);font-size:0.88rem;padding:10px 0">No accounts yet.</p>';
+    return;
+  }
+
+  el.innerHTML = names.map(name => {
+    const isCam   = name === 'cameron';
+    const display = name.charAt(0).toUpperCase() + name.slice(1);
+    const email   = getAccountEmail(name);
+    const score   = isCam ? '∞' : (scores[name] || 0).toLocaleString();
+    const avClass = isCam ? 'a-av gold' : 'a-av';
+    const actions = isCam
+      ? `<div class="protected-tag">protected</div>`
+      : `<button class="a-del-btn" onclick="adminDeleteAccount('${name}')">🗑 Delete</button>`;
+
+    return `<div class="arow">
+      <div class="${avClass}">${display[0].toUpperCase()}</div>
+      <div>
+        <div class="a-name">${display}${isCam ? '<span class="a-badge">ADMIN</span>' : ''}</div>
+        <div class="a-meta">${email || '<span style="color:#f87171">no email</span>'} &nbsp;·&nbsp; ${score} pts</div>
+      </div>
+      <div style="font-size:0.74rem;color:var(--muted);font-family:monospace">${name}</div>
+      ${actions}
+    </div>`;
+  }).join('');
+}
+
+function adminDeleteAccount(name) {
+  if (name === 'cameron') return;
+  if (!confirm('Delete account "' + name + '"? This cannot be undone.')) return;
+  const accounts = getAccounts();
+  const scores   = getScores();
+  delete accounts[name];
+  delete scores[name];
+  saveAccounts(accounts);
+  saveScores(scores);
+  renderAdminAccounts();
+  renderAdminScores();
+  renderAdminEmailSelect();
+  showToast('Account "' + name + '" deleted.');
+}
+
+// ── Scores tab ────────────────────────────────────
+function renderAdminScores() {
+  const accounts = getAccounts();
+  const scores   = getScores();
+  const DEFAULTS = { jimmy:21102, elliot:12029, zac:12003, louie:11028 };
+  const allNames = new Set([...Object.keys(accounts), ...Object.keys(DEFAULTS)]);
+  allNames.delete('cameron');
+
+  const el = document.getElementById('admin-scores-list');
+
+  // Cameron pinned row
+  let html = `<div class="arow scores-row">
+    <div class="a-av gold">C</div>
+    <div class="a-name">Cameron <span class="a-badge">ADMIN</span></div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;color:#f0db4f">∞</div>
+    <div class="protected-tag">locked</div>
+  </div>`;
+
+  allNames.forEach(name => {
+    const display = name.charAt(0).toUpperCase() + name.slice(1);
+    const val     = scores[name] !== undefined ? scores[name] : (DEFAULTS[name] || 0);
+    html += `<div class="arow scores-row">
+      <div class="a-av">${display[0].toUpperCase()}</div>
+      <div class="a-name">${display}</div>
+      <input class="a-score-inp" id="sinp-${name}" type="number" min="0" value="${val}" />
+      <button class="a-save-btn" onclick="adminSaveScore('${name}')">💾 Save</button>
+    </div>`;
+  });
+
+  el.innerHTML = html;
+}
+
+function adminSaveScore(name) {
+  const val = parseInt(document.getElementById('sinp-' + name).value, 10);
+  if (isNaN(val) || val < 0) { showToast('Invalid score.'); return; }
+  const scores = getScores();
+  scores[name] = val;
+  saveScores(scores);
+  showToast('"' + name + '" score set to ' + val.toLocaleString() + '.');
+}
+
+// ── Email tab ─────────────────────────────────────
+function renderAdminEmailSelect() {
+  const accounts = getAccounts();
+  const sel = document.getElementById('admin-email-to');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Select player —</option>';
+  Object.keys(accounts).forEach(name => {
+    const email = getAccountEmail(name);
+    if (!email) return;
+    const opt = document.createElement('option');
+    opt.value       = email;
+    opt.textContent = name.charAt(0).toUpperCase() + name.slice(1) + ' (' + email + ')';
+    sel.appendChild(opt);
+  });
+}
+
+function adminSendEmail() {
+  const to      = document.getElementById('admin-email-to').value;
+  const subject = document.getElementById('admin-email-subject').value.trim();
+  const body    = document.getElementById('admin-email-body').value.trim();
+  if (!to)      { showToast('Select a recipient first.'); return; }
+  if (!subject) { showToast('Enter a subject.'); return; }
+  if (!body)    { showToast('Write a message.'); return; }
+  window.location.href = 'mailto:' + encodeURIComponent(to)
+    + '?subject=' + encodeURIComponent(subject)
+    + '&body='    + encodeURIComponent(body);
+}
+
+// ═══════════════════════════════════════════════════
+//  CAROUSEL
+// ═══════════════════════════════════════════════════
 let current = 0;
 const total  = 3;
 let autoTimer;
@@ -978,45 +1176,42 @@ let autoTimer;
 function carouselGo(n) {
   current = (n + total) % total;
   document.getElementById('carousel-track').style.transform = `translateX(-${current * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===current));
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === current));
 }
-
 function carouselMove(dir) {
   clearInterval(autoTimer);
   carouselGo(current + dir);
   startAuto();
 }
-
 function startAuto() {
   autoTimer = setInterval(() => carouselGo(current + 1), 5000);
 }
 startAuto();
 
-// ─── MUSIC ───────────────────────────────────────
+// ═══════════════════════════════════════════════════
+//  MUSIC
+// ═══════════════════════════════════════════════════
 const audio   = document.getElementById('bg-music');
 const playBtn = document.getElementById('music-play-btn');
 let playing   = false;
 
 function toggleMusic() {
-  if (playing) {
-    audio.pause();
-    playBtn.textContent = '▶';
-    playing = false;
-  } else {
-    audio.play().catch(() => showToast('Audio blocked by browser.'));
-    playBtn.textContent = '⏸';
-    playing = true;
-  }
+  if (playing) { audio.pause(); playBtn.textContent = '▶'; playing = false; }
+  else { audio.play().catch(() => showToast('Audio blocked by browser.')); playBtn.textContent = '⏸'; playing = true; }
 }
 
-// ─── CHAT ────────────────────────────────────────
+// ═══════════════════════════════════════════════════
+//  CHAT
+// ═══════════════════════════════════════════════════
 function toggleChat() {
   if (window.chatWindow && !window.chatWindow.closed) { window.chatWindow.focus(); return; }
   window.chatWindow = window.open('https://communityhelp.linewize.org/', 'ChatWindow', 'width=400,height=600');
   if (!window.chatWindow) showToast('Allow popups to use chat.');
 }
 
-// ─── TOAST ───────────────────────────────────────
+// ═══════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════
 function showToast(msg, ms=3000) {
   const t = document.getElementById('toast');
   t.textContent = msg;
