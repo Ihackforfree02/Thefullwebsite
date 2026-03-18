@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About the Creator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f2027;
+      color: #00ffff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .about-container {
+      max-width: 700px;
+      margin: 80px auto;
+      padding: 40px 30px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 16px;
+      box-shadow: 0 0 20px #00ffff, inset 0 0 30px #00ffff;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      line-height: 1.6;
+      font-size: 1.2rem;
+      user-select: text;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 30px;
+      text-shadow: 0 0 8px #00ffff, 0 0 20px #00ffff;
+      letter-spacing: 3px;
+    }
+
+    p {
+      margin-bottom: 24px;
+      text-shadow: 0 0 8px #00ffff;
+    }
+
+    .border-top, .border-right, .border-bottom, .border-left {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      background: linear-gradient(90deg, transparent, #00ffff, transparent);
+      animation: technoGlow 3s linear infinite;
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    .border-top {
+      top: 0; left: 0;
+      width: 100vw; height: 4px;
+      animation-delay: 0s;
+    }
+    .border-right {
+      top: 0; right: 0;
+      width: 4px; height: 100vh;
+      animation-delay: 0.75s;
+      background: linear-gradient(180deg, transparent, #00ffff, transparent);
+    }
+    .border-bottom {
+      bottom: 0; left: 0;
+      width: 100vw; height: 4px;
+      animation-delay: 1.5s;
+    }
+    .border-left {
+      top: 0; left: 0;
+      width: 4px; height: 100vh;
+      animation-delay: 2.25s;
+      background: linear-gradient(0deg, transparent, #00ffff, transparent);
+    }
+
+    @keyframes technoGlow {
+      0% { background-position: 0% 50%; opacity: 0.4; box-shadow: 0 0 5px #00ffff; }
+      50% { background-position: 100% 50%; opacity: 1; box-shadow: 0 0 20px #00ffff; }
+      100% { background-position: 0% 50%; opacity: 0.4; box-shadow: 0 0 5px #00ffff; }
+    }
+
+    /* Falling smiley emoji styling */
+    .emoji {
+      position: fixed;
+      top: -20px;
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      pointer-events: none;
+      z-index: 9998;
+      animation: fall linear forwards;
+      filter: drop-shadow(0 0 3px #00cfff);
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="about-container" role="main">
+    <h1>About This Project</h1>
+    <p>Hi there! I'm a student who built this website in my spare time, just for fun and to learn more about web development. I love games, design, and creating cool things people can interact with online.</p>
+    <p>I'm always open to including tributes to other amazing players or community members who inspire me. If you’ve got ideas or want to be a part of it—I'd love to hear from you!</p>
+    <p>Thanks for stopping by and supporting my journey. ✌️</p>
+  </div>
+
+  <!-- Techno borders -->
+  <div class="border-top"></div>
+  <div class="border-right"></div>
+  <div class="border-bottom"></div>
+  <div class="border-left"></div>
+
+  <script src="cloak_panic.js"></script>
+
+  <!-- Music -->
+  <audio autoplay loop>
+    <source src="https://github.com/davidrobertwriter/davidrobertwriter.github.io/raw/refs/heads/main/Playground%20Rizz.mp3" type="audio/mpeg" />
+  </audio>
+<!-- 💬 Chat Button -->
+<div id="chat-toggle" onclick="toggleChat()" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #0078D7;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  font-family: sans-serif;
+  box-shadow: 0 0 10px #0078D7;
+  user-select: none;
+">
+  💬 Chat
+</div>
+
+<script>
+  function toggleChat() {
+    if (window.chatWindow && !window.chatWindow.closed) {
+      window.chatWindow.focus();
+    } else {
+      window.chatWindow = window.open(
+        'https://communityhelp.linewize.org/',
+        'ChatWindow',
+        'width=400,height=600'
+      );
+      if (!window.chatWindow) {
+        alert("Popup blocked! Please allow popups to use chat.");
+      }
+    }
+  }
+</script>
+
+  <!-- Falling emojis -->
+  <script>
+    const numEmojis = 30;
+    for (let i = 0; i < numEmojis; i++) {
+      const emoji = document.createElement('div');
+      emoji.classList.add('emoji');
+      emoji.textContent = '😊';
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      emoji.style.animationDelay = (Math.random() * 10) + 's';
+      document.body.appendChild(emoji);
+    }
+  </script>
+</body>
+</html>
