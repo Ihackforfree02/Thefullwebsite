@@ -3,252 +3,782 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Game Launcher</title>
+  <title>Play Games | MR GAMES</title>
+  <link rel="icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-    /* Reset & base */
-    * {
-      box-sizing: border-box;
+    :root {
+      --bg:      #0f2027; --sidebar: #0a1a20; --card: #112028; --card2: #162e38;
+      --cyan:    #00b8cc; --cyan2:   #00ffff; --teal: #0077aa;
+      --yellow:  #f0db4f; --text:    #e2f4f8; --muted: #5a8a99;
+      --border:  rgba(0,255,255,0.1); --red: #f87171;
     }
-    body, html {
-      margin: 0; padding: 0;
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0f2027;
-      color: #00ffff;
-      overflow-x: hidden;
-      position: relative;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      min-height: 100vh; overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--sidebar); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,255,255,0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,255,255,0.5); }
+
+    /* ── ANIMATIONS ─────────────────────────── */
+    @keyframes fadeSlideUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,255,255,0.2); }
+      50%      { box-shadow: 0 0 0 8px rgba(0,255,255,0); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -300% 0; }
+      100% { background-position: 300% 0; }
     }
 
-    .container {
-      max-width: 700px;
-      margin: 80px auto;
-      padding: 40px 30px;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 16px;
-      box-shadow: 0 0 20px #00ffff, inset 0 0 30px #00ffff;
-      text-align: center;
-      position: relative;
-      z-index: 10;
+    /* ── SIDEBAR ────────────────────────────── */
+    #app { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 230px; min-width: 230px; background: var(--sidebar);
+      border-right: 1px solid var(--border); display: flex; flex-direction: column;
+      padding: 24px 0; position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 100; overflow-y: auto;
+    }
+    .sidebar-logo {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.5rem;
+      letter-spacing: 0.1em; padding: 0 20px 24px;
+      background: linear-gradient(90deg, #f0db4f, #00ffff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      border-bottom: 1px solid var(--border); margin-bottom: 16px;
+    }
+    .sidebar-logo span {
+      display: block; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+      color: var(--muted); -webkit-text-fill-color: var(--muted); margin-top: 2px;
+    }
+    .sidebar-section {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); padding: 12px 20px 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 11px; padding: 10px 20px;
+      color: rgba(226,232,240,0.6); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; transition: all 0.18s cubic-bezier(.22,1,.36,1);
+      position: relative; cursor: pointer; border: none; background: none;
+      width: 100%; text-align: left;
+    }
+    .nav-item:hover, .nav-item.active { color: var(--text); background: rgba(0,255,255,0.08); }
+    .nav-item.active::before {
+      content: ''; position: absolute; left: 0; top: 4px; bottom: 4px;
+      width: 3px; background: #00ffff; border-radius: 0 3px 3px 0;
+    }
+    .nav-item .ico { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-badge { background: var(--red); color: #fff; font-size: 0.5rem; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin-left: auto; }
+    .nav-badge.new { background: var(--teal); }
+    .sidebar-player {
+      margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .player-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #0077aa, #00ffff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+    .player-name { font-size: 0.85rem; font-weight: 600; }
+    .player-tag  { font-size: 0.7rem; color: var(--muted); }
+    .logout-ico  { margin-left: auto; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; transition: color 0.15s; padding: 4px; }
+    .logout-ico:hover { color: var(--red); }
+
+    /* ── MAIN ───────────────────────────────── */
+    .main-content { margin-left: 230px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; }
+    .topnav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px; border-bottom: 1px solid var(--border);
+      background: rgba(10,26,32,0.9); backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topnav-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.04em; }
+    .topnav-right { display: flex; gap: 10px; align-items: center; }
+    .btn-outline {
+      background: none; border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.82rem;
+      font-weight: 600; padding: 7px 14px; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.07); border-color: rgba(0,255,255,0.3); }
+    .page-body { padding: 26px 28px; flex: 1; }
+
+    /* ── HERO BANNER ────────────────────────── */
+    .games-hero {
+      border-radius: 20px; overflow: hidden; margin-bottom: 28px;
+      background: linear-gradient(135deg, #0a2030 0%, #0d3a50 40%, #103a2a 70%, #0a2030 100%);
+      border: 1px solid rgba(0,255,255,0.12);
+      padding: 36px 40px; position: relative;
+      animation: fadeSlideUp 0.4s cubic-bezier(.22,1,.36,1) both;
+    }
+    .games-hero::before {
+      content: ''; position: absolute; inset: 0; opacity: 0.4;
+      background: radial-gradient(ellipse at 80% 50%, rgba(0,255,255,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 50%, rgba(240,219,79,0.08) 0%, transparent 50%);
+    }
+    .games-hero::after {
+      content: '&#127918;'; position: absolute; right: 32px; top: 50%;
+      transform: translateY(-50%); font-size: 7rem; opacity: 0.06; pointer-events: none;
+      font-family: sans-serif;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cyan2); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .hero-eyebrow::before { content: ''; width: 20px; height: 2px; background: var(--cyan2); border-radius: 1px; }
+    .hero-h1 {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 3rem; font-weight: 800;
+      line-height: 1.05; letter-spacing: 0.02em; margin-bottom: 12px;
+      background: linear-gradient(90deg, #fff 0%, #00ffff 60%, #f0db4f 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub { font-size: 0.92rem; color: rgba(226,232,240,0.7); line-height: 1.6; max-width: 520px; margin-bottom: 22px; }
+    .hero-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero-pill {
+      background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.25);
+      border-radius: 20px; color: var(--cyan2); font-size: 0.78rem; font-weight: 600;
+      padding: 5px 14px; display: flex; align-items: center; gap: 6px;
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 40px;
-      text-shadow: 0 0 8px #00ffff, 0 0 20px #00ffff;
-      letter-spacing: 3px;
+    /* ── SEARCH + FILTER BAR ────────────────── */
+    .controls-bar {
+      display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: center;
+      animation: fadeSlideUp 0.45s 0.08s cubic-bezier(.22,1,.36,1) both;
     }
+    .search-wrap { position: relative; flex: 1; min-width: 200px; }
+    .search-ico { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.95rem; pointer-events: none; }
+    .search-input {
+      width: 100%; background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-family: 'Barlow', sans-serif;
+      font-size: 0.92rem; padding: 11px 14px 11px 38px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-input:focus { border-color: var(--cyan2); box-shadow: 0 0 0 3px rgba(0,255,255,0.12); }
+    .search-input::placeholder { color: rgba(255,255,255,0.22); }
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .fchip {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      color: rgba(226,232,240,0.65); font-size: 0.8rem; font-weight: 600;
+      padding: 6px 14px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .fchip:hover { border-color: rgba(0,255,255,0.4); color: var(--text); }
+    .fchip.active { background: rgba(0,255,255,0.12); border-color: rgba(0,255,255,0.4); color: var(--cyan2); }
 
-    .button-grid {
+    /* ── SECTION HEADERS ────────────────────── */
+    .sh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; margin-top: 32px; }
+    .sh:first-of-type { margin-top: 0; }
+    .sht { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.04em; display: flex; align-items: center; gap: 10px; }
+    .sht-bar { width: 4px; height: 20px; background: linear-gradient(180deg, #00ffff, #0077aa); border-radius: 2px; flex-shrink: 0; }
+    .sh-count { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+
+    /* ── GAME CARDS ─────────────────────────── */
+    .game-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px 40px;
-      justify-items: center;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .game-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      text-decoration: none; color: var(--text); overflow: hidden;
+      transition: all 0.22s cubic-bezier(.22,1,.36,1); position: relative;
+      display: flex; flex-direction: column;
+      animation: fadeSlideUp 0.45s cubic-bezier(.22,1,.36,1) both;
+    }
+    .game-card:hover {
+      border-color: rgba(0,255,255,0.45); transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,255,0.2);
+    }
+    .game-card:active { transform: translateY(-2px) scale(0.99); }
+
+    /* Coloured top stripe per category */
+    .game-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--cyan2), var(--teal));
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .game-card:hover::before { opacity: 1; }
+    .game-card.cat-action::before { background: linear-gradient(90deg, #f0db4f, #ff8c00); }
+    .game-card.cat-puzzle::before { background: linear-gradient(90deg, #00ffff, #0077aa); }
+    .game-card.cat-shooter::before { background: linear-gradient(90deg, #f87171, #c0392b); }
+    .game-card.cat-horror::before { background: linear-gradient(90deg, #9b59b6, #6c3483); }
+    .game-card.cat-sports::before { background: linear-gradient(90deg, #2ecc71, #16a34a); }
+    .game-card.cat-clicker::before { background: linear-gradient(90deg, #f0db4f, #00b8cc); }
+    .game-card.cat-rpg::before { background: linear-gradient(90deg, #e74c3c, #9b59b6); }
+    .game-card.cat-casino::before { background: linear-gradient(90deg, #f0db4f, #e74c3c); }
+
+    .game-thumb {
+      width: 100%; height: 130px; object-fit: cover; display: block;
+      background: linear-gradient(135deg, #0a1a20 0%, #162e38 100%);
+      transition: filter 0.2s;
+    }
+    .game-card:hover .game-thumb { filter: brightness(1.1); }
+    .game-thumb-placeholder {
+      width: 100%; height: 130px; display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; background: linear-gradient(135deg, #0a1a20, #162e38);
+      transition: transform 0.25s;
+    }
+    .game-card:hover .game-thumb-placeholder { transform: scale(1.05); }
+
+    .game-body { padding: 14px 15px 15px; flex: 1; display: flex; flex-direction: column; }
+    .game-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+    .game-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.2; }
+    .game-cat-badge {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 6px; white-space: nowrap; flex-shrink: 0;
+    }
+    .cat-action   .game-cat-badge { background: rgba(240,219,79,0.15); color: #f0db4f; }
+    .cat-puzzle   .game-cat-badge { background: rgba(0,255,255,0.12); color: #00ffff; }
+    .cat-shooter  .game-cat-badge { background: rgba(248,113,113,0.15); color: #f87171; }
+    .cat-horror   .game-cat-badge { background: rgba(155,89,182,0.18); color: #c39bd3; }
+    .cat-sports   .game-cat-badge { background: rgba(46,204,113,0.15); color: #2ecc71; }
+    .cat-clicker  .game-cat-badge { background: rgba(0,184,204,0.15); color: #00b8cc; }
+    .cat-rpg      .game-cat-badge { background: rgba(231,76,60,0.15); color: #e74c3c; }
+    .cat-casino   .game-cat-badge { background: rgba(240,219,79,0.15); color: #f0db4f; }
+
+    .game-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; flex: 1; }
+    .game-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .game-stars { color: #f0db4f; font-size: 0.75rem; letter-spacing: 1px; }
+    .game-play-btn {
+      background: linear-gradient(90deg, #0077aa, #00b8cc); border: none; border-radius: 8px;
+      color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem;
+      font-weight: 700; letter-spacing: 0.06em; padding: 6px 14px; cursor: pointer;
+      transition: opacity 0.15s, transform 0.12s; text-decoration: none; display: inline-block;
+    }
+    .game-play-btn:hover { opacity: 0.88; transform: scale(1.04); }
+
+    /* Featured badge */
+    .featured-badge {
+      position: absolute; top: 12px; left: 12px; z-index: 2;
+      background: var(--yellow); color: #0a1a20; font-size: 0.58rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 6px;
     }
 
-    .button-grid a {
-      text-decoration: none;
-      font-size: 1.4rem;
-      padding: 12px 28px;
-      border-radius: 30px;
-      color: #00ffff;
-      border: 2px solid #00ffff;
-      box-shadow: 0 0 8px #00ffff;
-      background: transparent;
-      transition: all 0.3s ease;
-      display: inline-block;
-      width: 150px;
-      text-align: center;
-      user-select: none;
-      font-weight: 600;
-      position: relative;
-      overflow: hidden;
+    /* ── NO RESULTS ─────────────────────────── */
+    .no-results {
+      text-align: center; padding: 60px 20px; color: var(--muted);
+      font-size: 0.9rem; display: none;
     }
+    .no-results .nr-ico { font-size: 3rem; margin-bottom: 12px; }
 
-    .button-grid a:hover {
-      background: #00ffff;
-      color: #0f2027;
-      box-shadow: 0 0 20px #00ffff, inset 0 0 30px #00ffff;
-      cursor: pointer;
+    /* ── BOTTOM BAR ─────────────────────────── */
+    .stats-footer {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
+      padding: 18px 28px; border-top: 1px solid var(--border);
+      background: linear-gradient(to bottom, var(--sidebar), #060e13);
     }
+    .sf-card { display: flex; align-items: center; gap: 12px; }
+    .sf-ico { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .sf-num { font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 800; color: #00ffff; line-height: 1; }
+    .sf-lbl { font-size: 0.67rem; color: var(--muted); margin-top: 2px; }
+    .bottom-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 28px; border-top: 1px solid var(--border);
+      background: var(--sidebar); flex-wrap: wrap; gap: 10px;
+    }
+    .music-ctrl { display: flex; align-items: center; gap: 12px; }
+    .music-play-btn {
+      background: linear-gradient(90deg, #0077aa, #00b8cc); border: none; border-radius: 50%;
+      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.9rem; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,184,204,0.4); transition: opacity 0.15s, transform 0.15s;
+    }
+    .music-play-btn:hover { opacity: 0.85; transform: scale(1.1); }
+    .music-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+    .music-label strong { color: var(--text); display: block; font-size: 0.85rem; }
+    .vol-slider { -webkit-appearance:none; appearance:none; width:72px; height:4px; background:rgba(0,255,255,0.2); border-radius:2px; outline:none; cursor:pointer; }
+    .vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:13px; height:13px; border-radius:50%; background:#00ffff; cursor:pointer; }
+    .partner-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(240,219,79,0.1); border: 1px solid rgba(240,219,79,0.3);
+      border-radius: 20px; color: #f0db4f; text-decoration: none; font-size: 0.8rem;
+      font-weight: 600; padding: 6px 16px; transition: background 0.15s;
+    }
+    .partner-link:hover { background: rgba(240,219,79,0.2); }
 
-    /* Techno border effect */
-    .border-top, .border-right, .border-bottom, .border-left {
-      content: "";
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      background: linear-gradient(90deg, transparent, #00ffff, transparent);
-      animation: technoGlow 3s linear infinite;
-      box-shadow: 0 0 10px #00ffff;
+    /* ── TOAST + FAB ────────────────────────── */
+    #toast {
+      position: fixed; bottom: 80px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--card2); border: 1px solid var(--border); color: var(--text);
+      font-size: 0.82rem; font-weight: 500; padding: 10px 20px; border-radius: 30px;
+      opacity: 0; pointer-events: none; z-index: 2000;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,255,0.08);
     }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .chat-fab {
+      position: fixed; bottom: 22px; right: 22px;
+      background: linear-gradient(135deg, #0077aa, #00ffff);
+      border: none; border-radius: 50%; width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.3rem; cursor: pointer; z-index: 500;
+      box-shadow: 0 6px 24px rgba(0,184,204,0.5); transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .chat-fab:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(0,184,204,0.65); }
 
-    .border-top {
-      top: 0; left: 0;
-      width: 100vw; height: 4px;
-      animation-delay: 0s;
+    /* ── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 900px) { .stats-footer { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 720px) {
+      .sidebar { display: none; } .main-content { margin-left: 0; }
+      .page-body { padding: 14px 16px; }
+      .game-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stats-footer { grid-template-columns: 1fr 1fr; padding: 14px; }
+      .games-hero { padding: 22px 20px; } .hero-h1 { font-size: 2rem; }
     }
-
-    .border-right {
-      top: 0; right: 0;
-      width: 4px; height: 100vh;
-      animation-delay: 0.75s;
-      background: linear-gradient(180deg, transparent, #00ffff, transparent);
-    }
-
-    .border-bottom {
-      bottom: 0; left: 0;
-      width: 100vw; height: 4px;
-      animation-delay: 1.5s;
-    }
-
-    .border-left {
-      top: 0; left: 0;
-      width: 4px; height: 100vh;
-      animation-delay: 2.25s;
-      background: linear-gradient(0deg, transparent, #00ffff, transparent);
-    }
-
-    @keyframes technoGlow {
-      0% { background-position: 0% 50%; opacity: 0.4; box-shadow: 0 0 5px #00ffff; }
-      50% { background-position: 100% 50%; opacity: 1; box-shadow: 0 0 20px #00ffff; }
-      100% { background-position: 0% 50%; opacity: 0.4; box-shadow: 0 0 5px #00ffff; }
-    }
-
-    /* Controller rain */
-    .controller {
-      position: fixed;
-      top: -50px;
-      font-size: 2rem;
-      animation: fall linear;
-      color: #00ffff;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh);
-        opacity: 0;
-      }
-    }
+    @media (max-width: 480px) { .game-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-  <div class="container" role="main">
-    <h1>Games</h1>
-    <div class="button-grid" role="list">
-      <!-- Games list -->
-      <a href="https://ihackforfree02.github.io/Precision-Client-For-EaglerCraft/" role="listitem">Minecraft</a>
-      <a href="https://schoolaccountforme.github.io/Time-Shooter-3-SWAT/" role="listitem">Time Shooter</a>
-      <a href="https://ihackforfree02.github.io/1v1.lol/" role="listitem">1v1.LOL</a>
-      <a href="https://schoolaccountforme.github.io/2048/" role="listitem">2048</a>
-      <a href="https://ihackforfree02.github.io/GunSpin/" role="listitem">Gun Spin</a>
-      <a href="https://ihackforfree02.github.io/polytrack.3/" role="listitem">Polytrack</a>
-      <a href="https://ihackforfree02.github.io/Stickman-Hook/" role="listitem">Stickman Hook</a>
-      <a href="https://ihackforfree02.github.io/cluster/" role="listitem">Cluster Rush</a>
-      <a href="https://ihackforfree02.github.io/cookie-clicker/" role="listitem">Cookie Clicker</a>
-      <a href="https://ezunblocktheopps.github.io/ezunblocktheopp.github.io/" role="listitem">CSGO Clicker</a>
-      <a href="https://amazingwebsitesupersigma.github.io/dogeminer/" role="listitem">Dogeminer</a>
-      <a href="https://amazingwebsitesupersigma.github.io/tinyfishing/" role="listitem">Tiny Fishing</a>
-      <a href="https://amazingwebsitesupersigma.github.io/rooftops/" role="listitem">Rooftop Snipers</a>
-      <a href="https://amazingwebsitesupersigma.github.io/bitlife/" role="listitem">Bitlife</a>
-      <a href="https://lnahtml.github.io/a6/sausage-flip" role="listitem">Sausage Flip</a>
-      <a href="https://amazingwebsitesupersigma.github.io/tanukisunset/" role="listitem">Tanuki Sunset</a>
-      <a href="https://amazingwebsitesupersigma.github.io/drivemad/" role="listitem">Drive Mad</a>
-      <a href="https://amazingwebsitesupersigma.github.io/basketrandom/" role="listitem">Basket Random</a>
-      <a href="https://amazingwebsitesupersigma.github.io/tunnelrush/" role="listitem">Tunnel Rush</a>
-      <a href="https://amazingwebsitesupersigma.github.io/basketballstars/" role="listitem">Basketball Stars</a>
-      <a href="https://quiz-50.github.io/driving-games/drift-boss/" role="listitem">Drift Boss</a>
-      <a href="https://quiz-50.github.io/action-games/gun-mayhem-2/" role="listitem">Gun Mayhem 2</a>
-      <a href="https://quiz-50.github.io/strategy-games/ballistic/" role="listitem">Ballistic</a>
-      <a href="https://sigmasigmapd2mods.github.io/subwaysurfers/" role="listitem">Subway Surfers</a>
-      <a href="https://amazingwebsitesupersigma.github.io/geodash/" role="listitem">Geometry Dash</a>
-      <a href="https://irv77.github.io/hd_fnaf/1/" role="listitem">FNAF</a>
-      <a href="https://irv77.github.io/hd_fnaf/2/" role="listitem">FNAF 2</a>
-      <a href="https://irv77.github.io/hd_fnaf/3/" role="listitem">FNAF 3</a>
-      <a href="https://irv77.github.io/hd_fnaf/4/" role="listitem">FNAF 4</a>
-      <a href="https://irv77.github.io/hd_fnaf/w/" role="listitem">FNAF World</a>
-      <a href="https://irv77.github.io/hd_fnaf/sl/" role="listitem">FNAF Sister Location</a>
-      <a href="https://irv77.github.io/hd_fnaf/ps/" role="listitem">FNAF Pizzaria</a>
-      <a href="https://irv77.github.io/hd_fnaf/ucn/" role="listitem">FNAF Custom Night</a>
-      <a href="https://amazingwebsitesupersigma.github.io/hd_fnaf/1/" role="listitem">5 Night at Diddys</a>
-      <a href="https://fusioncalc.com/" role="listitem">Pokemon Fusion</a>
-      <a href="https://www.transum.org/Maths/Activity/Probability/Gambling.asp" role="listitem">Gambling</a>
-       <a href="https://stake.whatthesigma.site/" role="listitem">Gambling Better</a>
-      <a href="https://sleepie.uk/undertale/save_states.html" role="listitem">Undertale</a>
-      <a href="https://quiz-50.github.io/action-games/10-minutes-till-dawn/" role="listitem">10 Mins Till Dawn</a>
-      <a href="https://amazingwebsitesupersigma.github.io/UltraKill/" role="listitem">UltraKill</a>
-     <a href="https://amazingwebsitesupersigma.github.io/deltarune/" role="listitem">Deltarune</a>
-     <a href="https://amazingwebsitesupersigma.github.io/buckshot-roulette/" role="listitem">Buckshot Roulette</a>
-     <a href="https://amazingwebsitesupersigma.github.io/People-Playground/" role="listitem">Person Playground</a>
-     <a href="https://ihackforfree02.github.io/TriggerRally/server/public/" role="listitem">Track Racing</a>  
-     <a href="https://ihackforfree02.github.io/IronSnout/" role="listitem">Iron Snout</a>
+
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">MR GAMES<span>MR02 &middot; UNBLOCKED</span></div>
+
+    <div class="sidebar-section">Navigation</div>
+    <a href="index.html" class="nav-item"><span class="ico">&#127968;</span> Home</a>
+    <a href="Games.html" class="nav-item active"><span class="ico">&#127918;</span> Play Games <span class="nav-badge">HOT</span></a>
+    <a href="leaderboard.html" class="nav-item"><span class="ico">&#127942;</span> Leaderboard</a>
+    <a href="record.html" class="nav-item"><span class="ico">&#128203;</span> Records</a>
+    <a href="about_us.html" class="nav-item"><span class="ico">&#8505;&#65039;</span> About Us</a>
+    <a href="use_full_links.html" class="nav-item"><span class="ico">&#128279;</span> Useful Links</a>
+    <a href="Clash.html" class="nav-item"><span class="ico">&#9876;&#65039;</span> Clash Picker</a>
+    <a href="settings.html" class="nav-item"><span class="ico">&#9881;&#65039;</span> Settings</a>
+
+    <div class="sidebar-section">External Sites</div>
+    <a href="https://sigmasigmatoiletedge.github.io/" target="_blank" class="nav-item"><span class="ico">&#127760;</span> Nettle Web</a>
+    <a href="https://ihackforfree02.github.io/mrgames-/" target="_blank" class="nav-item"><span class="ico">&#10024;</span> MR GAMES+ Beta <span class="nav-badge new">NEW</span></a>
+    <a href="https://ihackforfree02.github.io/games/" target="_blank" class="nav-item"><span class="ico">&#128377;&#65039;</span> MR GAMES GBA</a>
+    <a href="https://ihackforfree02.github.io/hollownight-sigma/" target="_blank" class="nav-item"><span class="ico">&#128506;&#65039;</span> Hollow Knight Map</a>
+    <a href="https://q6t1u8.ddx.edpuzzle.icu.cdn.cloudflare.net/" target="_blank" class="nav-item"><span class="ico">&#128275;</span> Working Proxy</a>
+    <a href="https://luminal.cfd.cdn.cloudflare.net/" target="_blank" class="nav-item"><span class="ico">&#128161;</span> Luminal</a>
+
+    <div class="sidebar-player">
+      <div class="player-avatar" id="player-avatar">?</div>
+      <div>
+        <div class="player-name" id="player-name">---</div>
+        <div class="player-tag" id="score-badge">0 pts</div>
+      </div>
+      <button class="logout-ico" onclick="doLogout()" title="Logout">&#9167;</button>
     </div>
-  </div>
+  </aside>
 
-  <!-- 💬 Chat Button -->
-<div id="chat-toggle" onclick="toggleChat()" style="
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background-color: #0078D7;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  z-index: 1000;
-  font-family: sans-serif;
-  box-shadow: 0 0 10px #0078D7;
-  user-select: none;
-">
-  💬 Chat
-</div>
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topnav">
+      <div class="topnav-title">&#127918; Play Games</div>
+      <div class="topnav-right">
+        <button class="btn-outline" onclick="toggleChat()">&#128172; Chat</button>
+        <a href="index.html" class="btn-outline">&#8592; Home</a>
+      </div>
+    </div>
 
+    <div class="page-body">
+
+      <!-- HERO -->
+      <div class="games-hero">
+        <div class="hero-content">
+          <div class="hero-eyebrow">MR GAMES &mdash; Unblocked Games Hub</div>
+          <div class="hero-h1">Pick Your Game.<br>Beat the Score.</div>
+          <div class="hero-sub">Every game here runs directly in your browser &mdash; no downloads, no installs, no blocks. Jump in and start playing in seconds.</div>
+          <div class="hero-pills">
+            <div class="hero-pill">&#9889; Instant Play</div>
+            <div class="hero-pill">&#127942; Score Points</div>
+            <div class="hero-pill">&#128101; Multiplayer Options</div>
+            <div class="hero-pill">&#128504; Always Free</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCH + FILTERS -->
+      <div class="controls-bar">
+        <div class="search-wrap">
+          <span class="search-ico">&#128269;</span>
+          <input class="search-input" id="game-search" type="text"
+                 placeholder="Search games..." oninput="filterGames()"/>
+        </div>
+        <div class="filter-chips">
+          <button class="fchip active" onclick="setFilter('all',this)">All</button>
+          <button class="fchip" onclick="setFilter('action',this)">&#9889; Action</button>
+          <button class="fchip" onclick="setFilter('puzzle',this)">&#129504; Puzzle</button>
+          <button class="fchip" onclick="setFilter('shooter',this)">&#127919; Shooter</button>
+          <button class="fchip" onclick="setFilter('sports',this)">&#9917; Sports</button>
+          <button class="fchip" onclick="setFilter('clicker',this)">&#128070; Clicker</button>
+          <button class="fchip" onclick="setFilter('casino',this)">&#127183; Casino</button>
+          <button class="fchip" onclick="setFilter('rpg',this)">&#9876;&#65039; RPG</button>
+          <button class="fchip" onclick="setFilter('horror',this)">&#128561; Horror</button>
+        </div>
+      </div>
+
+      <!-- NO RESULTS -->
+      <div class="no-results" id="no-results">
+        <div class="nr-ico">&#128269;</div>
+        <div>No games match that search. Try something else!</div>
+      </div>
+
+      <!-- FEATURED -->
+      <div class="sh" id="sh-featured">
+        <div class="sht"><div class="sht-bar"></div>&#11088; Featured &amp; Popular</div>
+        <span class="sh-count" id="count-featured"></span>
+      </div>
+      <div class="game-grid" id="grid-featured"></div>
+
+      <!-- ACTION -->
+      <div class="sh" id="sh-action">
+        <div class="sht"><div class="sht-bar"></div>&#9889; Action &amp; Platformers</div>
+        <span class="sh-count" id="count-action"></span>
+      </div>
+      <div class="game-grid" id="grid-action"></div>
+
+      <!-- PUZZLE -->
+      <div class="sh" id="sh-puzzle">
+        <div class="sht"><div class="sht-bar"></div>&#129504; Puzzle &amp; Strategy</div>
+        <span class="sh-count" id="count-puzzle"></span>
+      </div>
+      <div class="game-grid" id="grid-puzzle"></div>
+
+      <!-- SHOOTER -->
+      <div class="sh" id="sh-shooter">
+        <div class="sht"><div class="sht-bar"></div>&#127919; Shooters</div>
+        <span class="sh-count" id="count-shooter"></span>
+      </div>
+      <div class="game-grid" id="grid-shooter"></div>
+
+      <!-- SPORTS -->
+      <div class="sh" id="sh-sports">
+        <div class="sht"><div class="sht-bar"></div>&#9917; Sports &amp; Racing</div>
+        <span class="sh-count" id="count-sports"></span>
+      </div>
+      <div class="game-grid" id="grid-sports"></div>
+
+      <!-- CLICKER -->
+      <div class="sh" id="sh-clicker">
+        <div class="sht"><div class="sht-bar"></div>&#128070; Idle &amp; Clicker</div>
+        <span class="sh-count" id="count-clicker"></span>
+      </div>
+      <div class="game-grid" id="grid-clicker"></div>
+
+      <!-- CASINO -->
+      <div class="sh" id="sh-casino">
+        <div class="sht"><div class="sht-bar"></div>&#127183; Casino &amp; Luck</div>
+        <span class="sh-count" id="count-casino"></span>
+      </div>
+      <div class="game-grid" id="grid-casino"></div>
+
+      <!-- RPG -->
+      <div class="sh" id="sh-rpg">
+        <div class="sht"><div class="sht-bar"></div>&#9876;&#65039; RPG &amp; Adventure</div>
+        <span class="sh-count" id="count-rpg"></span>
+      </div>
+      <div class="game-grid" id="grid-rpg"></div>
+
+      <!-- HORROR -->
+      <div class="sh" id="sh-horror">
+        <div class="sht"><div class="sht-bar"></div>&#128561; Horror &amp; Survival</div>
+        <span class="sh-count" id="count-horror"></span>
+      </div>
+      <div class="game-grid" id="grid-horror"></div>
+
+    </div><!-- /page-body -->
+
+    <!-- STATS FOOTER -->
+    <div class="stats-footer">
+      <div class="sf-card"><div class="sf-ico">&#127918;</div><div><div class="sf-num" id="sf-total">--</div><div class="sf-lbl">Total Games</div></div></div>
+      <div class="sf-card"><div class="sf-ico">&#128101;</div><div><div class="sf-num" id="sf-players">--</div><div class="sf-lbl">Players Registered</div></div></div>
+      <div class="sf-card"><div class="sf-ico">&#127942;</div><div><div class="sf-num" id="sf-score">--</div><div class="sf-lbl">Your Score</div></div></div>
+      <div class="sf-card"><div class="sf-ico">&#9889;</div><div><div class="sf-num" id="sf-rank">--</div><div class="sf-lbl">Your Rank</div></div></div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar">
+      <div class="music-ctrl">
+        <button class="music-play-btn" id="music-play-btn" onclick="toggleMusic()">&#9654;</button>
+        <div class="music-label"><strong>Playground Rizz</strong>Background Music</div>
+        <input type="range" class="vol-slider" id="vol-slider" min="0" max="1" step="0.05" value="0.5" oninput="setVol(this.value)" title="Volume"/>
+      </div>
+      <a href="https://ezunblocktheopps.github.io/" class="partner-link" target="_blank">&#129309; Partnered with Sigmi</a>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /app -->
+
+<button class="chat-fab" onclick="toggleChat()">&#128172;</button>
+<div id="toast"></div>
+<audio id="bg-music" loop>
+  <source src="https://github.com/davidrobertwriter/davidrobertwriter.github.io/raw/refs/heads/main/Playground%20Rizz.mp3" type="audio/mpeg"/>
+</audio>
+
+<script src="cloak_panic.js"></script>
 <script>
-  function toggleChat() {
-    if (window.chatWindow && !window.chatWindow.closed) {
-      window.chatWindow.focus();
-    } else {
-      window.chatWindow = window.open(
-        'https://communityhelp.linewize.org/',
-        'ChatWindow',
-        'width=400,height=600'
-      );
-      if (!window.chatWindow) {
-        alert("Popup blocked! Please allow popups to use chat.");
-      }
-    }
+// ============================================================
+//  GAME DATA
+//  Each entry: { name, desc, url, cat, emoji, stars, featured }
+//  cat: 'action' | 'puzzle' | 'shooter' | 'sports' | 'clicker' | 'casino' | 'rpg' | 'horror'
+//  featured: true = appears in the Featured section too
+// ============================================================
+var GAMES = [
+  // ── FEATURED / POPULAR ─────────────────────────────────────
+  { name:"Slope",               desc:"Race a ball down an endless neon slope at terrifying speed. Don't fall off!", url:"https://slope-game.github.io/", cat:"action", emoji:"&#9917;", stars:5, featured:true },
+  { name:"1v1.LOL",             desc:"Build, shoot, and outplay your opponent in this fast-paced 1v1 builder shooter.", url:"https://1v1.lol/", cat:"shooter", emoji:"&#127918;", stars:5, featured:true },
+  { name:"Drift Boss",          desc:"Simple one-button drifting that's impossibly hard to master. Can you go the distance?", url:"https://driftboss.io/", cat:"sports", emoji:"&#128664;", stars:4, featured:true },
+
+  // ── ACTION ──────────────────────────────────────────────────
+  { name:"Rooftop Snipers",     desc:"Two-player rooftop battle. One shot sends your opponent flying off the edge.", url:"https://rooftopsnipers.io/", cat:"action", emoji:"&#127939;", stars:4 },
+  { name:"Fireboy and Watergirl", desc:"Classic co-op puzzle platformer. Work together to collect gems and reach the exits.", url:"https://fireboyandwatergirlgame.com/", cat:"action", emoji:"&#128293;", stars:4 },
+  { name:"OvO",                 desc:"Precision platformer with fluid movement. Sprint, slide, and dive at lightning speed.", url:"https://ovo-game.github.io/", cat:"action", emoji:"&#128024;", stars:4 },
+  { name:"Moto X3M",            desc:"Insane motorbike stunts across explosive obstacle courses. Beat the clock!", url:"https://www.moto-x3m.com/", cat:"action", emoji:"&#127949;", stars:4 },
+  { name:"Getaway Shootout",    desc:"Race to the getaway vehicle while shooting, punching, and sabotaging opponents.", url:"https://getawayshootout.com/", cat:"action", emoji:"&#128222;", stars:4 },
+  { name:"Smash Karts",         desc:"Kart racing meets battle royale. Grab weapons and blast opponents off the track!", url:"https://smashkarts.io/", cat:"action", emoji:"&#127954;", stars:5 },
+
+  // ── PUZZLE ──────────────────────────────────────────────────
+  { name:"2048",                desc:"Slide tiles and merge numbers to reach 2048. Simple but deeply addictive.", url:"https://play2048.co/", cat:"puzzle", emoji:"&#128254;", stars:4 },
+  { name:"Bloxd.io",            desc:"Multiplayer building and survival in a blocky world. Your imagination is the limit.", url:"https://bloxd.io/", cat:"puzzle", emoji:"&#127823;", stars:4 },
+  { name:"Chess.com",           desc:"Play chess against players worldwide or sharpen your skills against the AI.", url:"https://www.chess.com/play/online", cat:"puzzle", emoji:"&#9822;", stars:5 },
+  { name:"Sudoku",              desc:"Classic number puzzle. Fill the grid so every row, column, and box has 1-9.", url:"https://sudoku.com/", cat:"puzzle", emoji:"&#9997;", stars:4 },
+  { name:"Cut The Rope",        desc:"Feed Om Nom candy by cutting ropes in just the right order. Charming physics puzzles.", url:"https://www.cuttherope.app/", cat:"puzzle", emoji:"&#129381;", stars:4 },
+
+  // ── SHOOTER ─────────────────────────────────────────────────
+  { name:"Krunker.io",          desc:"Fast-paced first-person shooter right in your browser. Multiple modes, skins, and clans.", url:"https://krunker.io/", cat:"shooter", emoji:"&#127919;", stars:5 },
+  { name:"Shell Shockers",      desc:"You are an egg with a gun. Scramble the competition in this insane egg-based FPS.", url:"https://shellshock.io/", cat:"shooter", emoji:"&#129370;", stars:4 },
+  { name:"Combat Reloaded 2",   desc:"Online tactical shooter with multiple weapons and maps. Team up or go solo.", url:"https://poki.com/en/g/combat-reloaded-2", cat:"shooter", emoji:"&#128299;", stars:4 },
+  { name:"Voxiom.io",           desc:"Voxel-based battle royale FPS. Build, mine, and shoot your way to victory.", url:"https://voxiom.io/", cat:"shooter", emoji:"&#127962;", stars:4 },
+
+  // ── SPORTS ──────────────────────────────────────────────────
+  { name:"Basketball Stars",    desc:"1v1 basketball against players online. Show off your handles and dunk on everyone.", url:"https://www.basketballstars.io/", cat:"sports", emoji:"&#127936;", stars:4 },
+  { name:"Soccer Random",       desc:"Physics-based football chaos. Unpredictable, hilarious, impossible to stop playing.", url:"https://soccerandom.io/", cat:"sports", emoji:"&#9917;", stars:4 },
+  { name:"Racing Limits",       desc:"Highway traffic racing at extreme speed. Weave through cars without crashing.", url:"https://www.crazygames.com/game/racing-limits", cat:"sports", emoji:"&#127950;", stars:4 },
+  { name:"Stickman Hook",       desc:"Swing through levels like Spider-Man on a stickman budget. Insanely satisfying.", url:"https://stickmanhook.com/", cat:"sports", emoji:"&#129535;", stars:4 },
+
+  // ── CLICKER / IDLE ──────────────────────────────────────────
+  { name:"Cookie Clicker",      desc:"Click cookies to buy buildings, upgrades, and create a cookie empire. Impossibly addictive.", url:"https://orteil.dashnet.org/cookieclicker/", cat:"clicker", emoji:"&#127850;", stars:5 },
+  { name:"Idle Breakout",       desc:"Idle clicker meets classic brick breaker. Upgrade balls and watch them do the work.", url:"https://kodiqi.com/idlebreakout/", cat:"clicker", emoji:"&#127987;", stars:4 },
+  { name:"Adventure Capitalist", desc:"Start a lemon stand, hire managers, and build a billion-dollar empire while AFK.", url:"https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist", cat:"clicker", emoji:"&#128181;", stars:4 },
+  { name:"Clicker Heroes",      desc:"Slay monsters, recruit heroes, and ascend to new levels of clicker power.", url:"https://www.clickerheroes.com/", cat:"clicker", emoji:"&#128081;", stars:4 },
+
+  // ── CASINO / LUCK ───────────────────────────────────────────
+  { name:"Balatro",             desc:"Roguelike poker with jokers and multipliers. Build insane combos to beat the blinds.", url:"https://ihackforfree02.github.io/mrgames-/", cat:"casino", emoji:"&#127183;", stars:5 },
+  { name:"Spider Solitaire",    desc:"Classic card game with four suits. Clear the tableau before your stack overflows.", url:"https://www.solitaireparadise.com/games_list/spider_solitaire.html", cat:"casino", emoji:"&#127183;", stars:4 },
+  { name:"Blackjack",           desc:"Beat the dealer to 21 without going bust. Strategy meets luck in this casino classic.", url:"https://www.247blackjack.com/", cat:"casino", emoji:"&#127193;", stars:4 },
+
+  // ── RPG / ADVENTURE ─────────────────────────────────────────
+  { name:"Agar.io",             desc:"Eat smaller cells, avoid bigger ones, and grow to dominate the entire map.", url:"https://agar.io/", cat:"rpg", emoji:"&#129580;", stars:4 },
+  { name:"Slither.io",          desc:"Snake game meets online multiplayer. Grow your snake and trap others to defeat them.", url:"https://slither.io/", cat:"rpg", emoji:"&#128027;", stars:4 },
+  { name:"Wings.io",            desc:"Aerial dogfight battle royale. Collect power-ups and shoot down every enemy plane.", url:"https://wings.io/", cat:"rpg", emoji:"&#9992;&#65039;", stars:4 },
+  { name:"Little Alchemy 2",    desc:"Combine elements to discover new ones. Start with fire, water, earth, air &mdash; find 700+ items.", url:"https://littlealchemy2.com/", cat:"rpg", emoji:"&#128299;", stars:4 },
+  { name:"Diep.io",             desc:"Tank battle royale. Shoot, upgrade stats, and evolve your tank class to dominate.", url:"https://diep.io/", cat:"rpg", emoji:"&#128081;", stars:4 },
+
+  // ── HORROR / SURVIVAL ───────────────────────────────────────
+  { name:"Granny",              desc:"Escape the house before Granny catches you. Search, solve, and survive five terrifying nights.", url:"https://granny-game.io/", cat:"horror", emoji:"&#128119;", stars:4 },
+  { name:"Among Us Online",     desc:"Find the impostors &mdash; or BE the impostor. Classic social deduction in your browser.", url:"https://www.crazygames.com/game/among-us-online", cat:"horror", emoji:"&#128123;", stars:5 },
+  { name:"Backrooms",           desc:"Escape the endless yellow liminal spaces. Don't run &mdash; just walk, and pray you find the exit.", url:"https://www.crazygames.com/game/backrooms", cat:"horror", emoji:"&#128277;", stars:4 },
+];
+
+// ── AUTH (mirrors index.html) ─────────────────
+function gA()   { try{return JSON.parse(localStorage.getItem('mrgames_accounts')||'{}');}catch(e){return{};} }
+function gSc()  { try{return JSON.parse(localStorage.getItem('mrgames_scores')||'{}');}catch(e){return{};} }
+function sSc(o) { localStorage.setItem('mrgames_scores', JSON.stringify(o)); }
+function gSess(){ return localStorage.getItem('mrgames_session')||null; }
+function clSess(){ localStorage.removeItem('mrgames_session'); }
+
+function getHash(name) {
+  var v = gA()[name];
+  if (v===undefined) return undefined;
+  return (typeof v==='string') ? v : v.hash;
+}
+
+var DEFS = {jimmy:21102,elliot:12029,zac:12003,louie:11028};
+
+function addScore(pts) {
+  var s = gSess(); if (!s || s==='cameron') return;
+  var sc = gSc(); sc[s] = (sc[s]||0) + pts; sSc(sc);
+  var b = document.getElementById('score-badge');
+  if (b) b.textContent = sc[s].toLocaleString() + ' pts';
+  updateFooterStats();
+}
+
+function updateFooterStats() {
+  var accs = gA(), sc = gSc(), sess = gSess();
+  var fp = document.getElementById('sf-players');
+  if (fp) fp.textContent = Object.keys(accs).length || '0';
+  var ftot = document.getElementById('sf-total');
+  if (ftot) ftot.textContent = GAMES.length;
+  if (sess) {
+    var mysc = sess==='cameron' ? '\u221e' : (sc[sess]||0).toLocaleString();
+    var fs = document.getElementById('sf-score'); if (fs) fs.textContent = mysc;
+    var merged = {cameron:null};
+    for (var k in DEFS) merged[k] = DEFS[k];
+    for (var k in sc) merged[k] = sc[k];
+    merged['cameron'] = null;
+    var sorted = Object.entries(merged).sort(function(a,b){ if(a[1]===null)return -1;if(b[1]===null)return 1;return b[1]-a[1]; });
+    var rank = sorted.findIndex(function(x){return x[0]===sess;})+1;
+    var fr = document.getElementById('sf-rank'); if (fr) fr.textContent = rank?'#'+rank:'#-';
   }
+}
+
+// ── BOOT ──────────────────────────────────────
+window.addEventListener('load', function() {
+  var sess = gSess();
+  if (sess) {
+    var d = sess.charAt(0).toUpperCase()+sess.slice(1);
+    document.getElementById('player-name').textContent = d;
+    document.getElementById('player-avatar').textContent = d.charAt(0).toUpperCase();
+    var sc = gSc();
+    var badge = document.getElementById('score-badge');
+    if (badge) badge.textContent = sess==='cameron' ? '\u221e pts' : ((sc[sess]||0).toLocaleString()+' pts');
+  }
+  buildGrids();
+  updateFooterStats();
+});
+
+function doLogout() { clSess(); window.location.href='index.html'; }
+
+// ── GAME RENDERING ─────────────────────────────
+var activeFilter = 'all';
+
+function starStr(n) {
+  var s='';
+  for(var i=0;i<5;i++) s+=(i<n)?'&#9733;':'&#9734;';
+  return s;
+}
+
+function buildCard(g, delay) {
+  var d = document.createElement('div');
+  d.className = 'game-card cat-' + g.cat;
+  d.style.animationDelay = (delay * 0.04) + 's';
+  d.setAttribute('data-name', g.name.toLowerCase());
+  d.setAttribute('data-cat', g.cat);
+
+  var thumbHtml = '<div class="game-thumb-placeholder">' + g.emoji + '</div>';
+
+  var featuredBadge = g.featured ? '<div class="featured-badge">&#11088; Featured</div>' : '';
+
+  d.innerHTML = featuredBadge + thumbHtml +
+    '<div class="game-body">' +
+      '<div class="game-top">' +
+        '<div class="game-name">' + g.name + '</div>' +
+        '<div class="game-cat-badge">' + g.cat + '</div>' +
+      '</div>' +
+      '<div class="game-desc">' + g.desc + '</div>' +
+      '<div class="game-footer">' +
+        '<div class="game-stars">' + starStr(g.stars) + '</div>' +
+        '<a href="' + g.url + '" class="game-play-btn" onclick="scoreClick(event)" target="_blank">&#9654; Play</a>' +
+      '</div>' +
+    '</div>';
+
+  return d;
+}
+
+function scoreClick(e) {
+  addScore(50);
+  showToast('+50 pts \u2014 Enjoy the game! \uD83C\uDFAE');
+}
+
+var CATS = ['featured','action','puzzle','shooter','sports','clicker','casino','rpg','horror'];
+
+function buildGrids() {
+  // Clear
+  CATS.forEach(function(c) {
+    var g = document.getElementById('grid-'+c); if(g) g.innerHTML='';
+  });
+
+  var search = document.getElementById('game-search').value.trim().toLowerCase();
+
+  // Filter
+  var visible = GAMES.filter(function(g) {
+    var matchCat = (activeFilter==='all') || (g.cat===activeFilter) || (activeFilter==='featured'&&g.featured);
+    var matchSearch = !search || g.name.toLowerCase().includes(search) || g.desc.toLowerCase().includes(search) || g.cat.includes(search);
+    return matchCat && matchSearch;
+  });
+
+  var anyVisible = visible.length > 0;
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+
+  // Populate sections
+  var counters = {};
+  CATS.forEach(function(c){counters[c]=0;});
+
+  // Featured
+  if (activeFilter==='all'||activeFilter==='featured') {
+    var featGames = visible.filter(function(g){return g.featured;});
+    var grid = document.getElementById('grid-featured');
+    featGames.forEach(function(g,i){ grid.appendChild(buildCard(g,i)); counters['featured']++; });
+  }
+
+  // Category grids
+  var catList = ['action','puzzle','shooter','sports','clicker','casino','rpg','horror'];
+  catList.forEach(function(cat) {
+    if (activeFilter!=='all' && activeFilter!==cat) return;
+    var catGames = visible.filter(function(g){return g.cat===cat;});
+    var grid = document.getElementById('grid-'+cat);
+    catGames.forEach(function(g,i){ grid.appendChild(buildCard(g,i)); counters[cat]++; });
+  });
+
+  // Show/hide sections + counts
+  CATS.forEach(function(c) {
+    var sh = document.getElementById('sh-'+c);
+    var cnt = document.getElementById('count-'+c);
+    var grid = document.getElementById('grid-'+c);
+    var hasItems = counters[c]>0;
+    if(sh) sh.style.display = hasItems ? 'flex' : 'none';
+    if(grid) grid.style.display = hasItems ? 'grid' : 'none';
+    if(cnt) cnt.textContent = hasItems ? counters[c]+' game'+(counters[c]!==1?'s':'') : '';
+  });
+
+  // Update footer total
+  var ftot = document.getElementById('sf-total');
+  if (ftot) ftot.textContent = visible.length;
+}
+
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.fchip').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('game-search').value='';
+  buildGrids();
+}
+
+function filterGames() { buildGrids(); }
+
+// ── MUSIC ────────────────────────────────────
+var bgm = document.getElementById('bg-music');
+var mpb = document.getElementById('music-play-btn');
+var playing = false;
+bgm.volume = 0.5;
+function toggleMusic() {
+  if(playing){bgm.pause();mpb.innerHTML='&#9654;';playing=false;}
+  else{bgm.play().catch(function(){showToast('Audio blocked by browser.');});mpb.innerHTML='&#9646;&#9646;';playing=true;}
+}
+function setVol(v){bgm.volume=parseFloat(v);}
+
+// ── CHAT ─────────────────────────────────────
+function toggleChat() {
+  if(window._cw&&!window._cw.closed){window._cw.focus();return;}
+  window._cw=window.open('https://communityhelp.linewize.org/','CW','width=400,height=600');
+  if(!window._cw) showToast('Allow popups to use chat.');
+}
+
+// ── TOAST ────────────────────────────────────
+var _tt = null;
+function showToast(msg,ms){
+  ms=ms||3000;
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  if(_tt)clearTimeout(_tt);
+  _tt=setTimeout(function(){t.classList.remove('show');},ms);
+}
+window.addEventListener('online', function(){showToast('\u2705 Back online');});
+window.addEventListener('offline',function(){showToast('\u26A0\uFE0F Connection lost');});
 </script>
-
-  <!-- Techno border elements -->
-  <div class="border-top"></div>
-  <div class="border-right"></div>
-  <div class="border-bottom"></div>
-  <div class="border-left"></div>
-
-  <!-- Background music -->
-  <audio autoplay loop>
-    <source src="https://github.com/davidrobertwriter/davidrobertwriter.github.io/raw/refs/heads/main/Playground%20Rizz.mp3" type="audio/mpeg" />
-  </audio>
-
-  <!-- Load cloak & panic logic (centralized) -->
-  <script src="cloak_panic.js"></script>
-
-  <!-- Controller Rain Animation -->
-  <script>
-    const createController = () => {
-      const controller = document.createElement('div');
-      controller.classList.add('controller');
-      controller.textContent = '🎮';
-      controller.style.left = `${Math.random() * 100}vw`;
-      controller.style.animationDuration = `${3 + Math.random() * 2}s`;
-      controller.style.fontSize = `${1.5 + Math.random() * 2}rem`;
-      document.body.appendChild(controller);
-      setTimeout(() => controller.remove(), 6000);
-    };
-
-    setInterval(createController, 250);
-  </script>
 </body>
 </html>
