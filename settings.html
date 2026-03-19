@@ -1,331 +1,793 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Settings</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings | MR GAMES</title>
   <link id="page-favicon" rel="icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-    /* === Your existing styling preserved === */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    :root {
+      --bg: #0f2027; --sb: #0a1a20; --card: #112028; --card2: #162e38;
+      --cyan: #00b8cc; --cyan2: #00ffff; --teal: #0077aa;
+      --yel: #f0db4f; --txt: #e2f4f8; --mut: #5a8a99;
+      --bdr: rgba(0,255,255,0.1); --red: #f87171; --grn: #4ade80;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
       background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: #00ffff;
-      overflow-x: hidden;
-      position: relative;
+      color: var(--txt); font-family: 'Barlow', sans-serif;
+      min-height: 100vh; overflow-x: hidden;
     }
-    .container {
-      text-align: center;
-      padding: 60px 20px;
-      max-width: 600px;
-      margin: auto;
-      background-color: rgba(0, 0, 0, 0.7);
-      border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
-      animation: fadeIn 2s ease-out forwards;
-      opacity: 0;
-      position: relative;
-      z-index: 10;
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--sb); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,255,255,0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,255,255,0.5); }
+
+    /* ── RAIN ───────────────────────────────── */
+    .rain-wrapper {
+      pointer-events: none; position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh; overflow: visible; z-index: 5;
     }
-    @keyframes fadeIn { to { opacity: 1; } }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 30px;
-      color: #f0db4f;
-      text-shadow: 0 0 10px #f0db4f, 0 0 20px #f0db4f;
-      animation: glow 1.5s ease-in-out infinite alternate;
+    .raindrop {
+      position: absolute; top: -20px; width: 2px;
+      background: linear-gradient(180deg, rgba(0,255,255,0.6), rgba(0,119,170,0.1));
+      border-radius: 50%/40%; opacity: 0.5;
+      animation-name: fall; animation-timing-function: linear;
+      animation-iteration-count: infinite;
     }
-    @keyframes glow { from { text-shadow: 0 0 5px #f0db4f; } to { text-shadow: 0 0 20px #f0db4f; } }
-    label { display:block; margin-top:18px; font-size:1.05rem; }
-    input, select {
-      width:80%; padding:12px; margin-top:10px;
-      background:#000; color:#00ffff; border:2px solid #00ffff; border-radius:8px;
-      font-size:1.05rem; box-shadow:0 0 10px #00ffff;
+    @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
+
+    /* ── ANIMATIONS ─────────────────────────── */
+    @keyframes fadeSlideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(0,255,255,0.2);}50%{box-shadow:0 0 0 8px rgba(0,255,255,0);} }
+    @keyframes glowPulse { 0%,100%{text-shadow:0 0 6px var(--yel);}50%{text-shadow:0 0 22px var(--yel),0 0 40px var(--yel);} }
+
+    /* ── SIDEBAR ────────────────────────────── */
+    #app { display: flex; min-height: 100vh; position: relative; z-index: 10; }
+    .sidebar {
+      width: 230px; min-width: 230px; background: var(--sb);
+      border-right: 1px solid var(--bdr); display: flex; flex-direction: column;
+      padding: 24px 0; position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 100; overflow-y: auto;
     }
-    button {
-      margin-top:18px; padding:10px 18px; background:#00ffff; color:#0f2027; font-weight:bold;
-      border:none; border-radius:8px; cursor:pointer; box-shadow:0 0 12px #00ffff;
+    .slogo {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.5rem;
+      letter-spacing: 0.1em; padding: 0 20px 24px;
+      background: linear-gradient(90deg, #f0db4f, #00ffff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      border-bottom: 1px solid var(--bdr); margin-bottom: 16px;
     }
-    button:hover { box-shadow:0 0 20px #00ffff; }
-    .inline-row { display:flex; gap:10px; align-items:center; justify-content:center; margin-top:10px; flex-wrap:wrap; }
-    .key-display {
-      min-width:140px; text-align:center; padding:10px; border-radius:8px;
-      border:2px solid rgba(0,255,255,0.2); background:rgba(0,0,0,0.6); color:#00ffff; font-weight:bold;
+    .slogo small { display:block; font-size:0.65rem; font-weight:500; letter-spacing:0.2em; color:var(--mut); -webkit-text-fill-color:var(--mut); margin-top:2px; }
+    .ssec { font-size:0.65rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--mut); padding:12px 20px 6px; }
+    .ni {
+      display:flex; align-items:center; gap:11px; padding:10px 20px;
+      color:rgba(226,232,240,0.6); text-decoration:none; font-size:0.9rem; font-weight:500;
+      transition:all 0.18s cubic-bezier(.22,1,.36,1); position:relative;
+      cursor:pointer; border:none; background:none; width:100%; text-align:left;
     }
-    .muted { color: rgba(0,255,255,0.8); font-size:0.95rem; margin-top:8px; }
-    .rain-wrapper { pointer-events:none; position:fixed; top:0; left:0; width:100vw; height:100vh; overflow:visible; z-index:5; }
-    .raindrop { position:absolute; top:-20px; width:2px; background:linear-gradient(180deg,#00ffff,#0077aa); border-radius:50%/40%; opacity:0.6; animation-name:fall; animation-timing-function:linear; animation-iteration-count:infinite; }
-    @keyframes fall { to { transform:translateY(110vh); opacity:0; } }
+    .ni:hover, .ni.active { color:var(--txt); background:rgba(0,255,255,0.08); }
+    .ni.active::before { content:''; position:absolute; left:0; top:4px; bottom:4px; width:3px; background:#00ffff; border-radius:0 3px 3px 0; }
+    .ni .ico { font-size:1rem; width:20px; text-align:center; flex-shrink:0; }
+    .splayer { margin-top:auto; padding:16px 20px; border-top:1px solid var(--bdr); display:flex; align-items:center; gap:12px; }
+    .pav { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#0077aa,#00ffff); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem; flex-shrink:0; animation:pulseGlow 3s ease-in-out infinite; }
+    .pname { font-size:0.85rem; font-weight:600; }
+    .ptag { font-size:0.7rem; color:var(--mut); }
+    .logico { margin-left:auto; background:none; border:none; color:var(--mut); cursor:pointer; font-size:1rem; transition:color 0.15s; padding:4px; }
+    .logico:hover { color:var(--red); }
+
+    /* ── MAIN ───────────────────────────────── */
+    .main { margin-left:230px; flex:1; min-height:100vh; display:flex; flex-direction:column; }
+    .topnav {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 28px; border-bottom:1px solid var(--bdr);
+      background:rgba(10,26,32,0.9); backdrop-filter:blur(10px);
+      position:sticky; top:0; z-index:50;
+    }
+    .tnttl { font-family:'Barlow Condensed',sans-serif; font-size:1.3rem; font-weight:700; letter-spacing:0.04em; }
+    .tnr { display:flex; gap:10px; align-items:center; }
+    .bto {
+      background:none; border:1px solid var(--bdr); border-radius:8px; color:var(--txt);
+      font-family:'Barlow',sans-serif; font-size:0.82rem; font-weight:600; padding:7px 14px;
+      cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      transition:background 0.15s,border-color 0.15s;
+    }
+    .bto:hover { background:rgba(255,255,255,0.07); border-color:rgba(0,255,255,0.3); }
+    .pb { padding:24px 28px; flex:1; }
+
+    /* ── SETTINGS GRID ──────────────────────── */
+    .sgrid { display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:900px; }
+    .sgrid .fw { grid-column:1/-1; }
+
+    .sc {
+      background:var(--card); border:1px solid var(--bdr); border-radius:16px;
+      padding:22px 20px; transition:border-color 0.2s, box-shadow 0.2s;
+      animation:fadeSlideUp 0.4s cubic-bezier(.22,1,.36,1) both;
+    }
+    .sc:hover { border-color:rgba(0,255,255,0.22); box-shadow:0 4px 24px rgba(0,255,255,0.04); }
+
+    .chdr {
+      display:flex; align-items:center; gap:12px;
+      margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--bdr);
+    }
+    .cico { width:38px; height:38px; border-radius:10px; background:rgba(0,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+    .cttl { font-family:'Barlow Condensed',sans-serif; font-size:1.05rem; font-weight:700; letter-spacing:0.04em; color:#00ffff; }
+    .csub { font-size:0.74rem; color:var(--mut); margin-top:2px; }
+
+    /* ── FORM ───────────────────────────────── */
+    .lbl { display:block; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--mut); margin-bottom:6px; }
+    .fw2 { margin-bottom:15px; } .fw2:last-child { margin-bottom:0; }
+    .si, .ss {
+      width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--bdr);
+      border-radius:10px; color:var(--txt); font-family:'Barlow',sans-serif;
+      font-size:0.95rem; padding:10px 13px; outline:none;
+      transition:border-color 0.2s,box-shadow 0.2s;
+    }
+    .si:focus, .ss:focus { border-color:var(--cyan2); box-shadow:0 0 0 3px rgba(0,255,255,0.12); }
+    .si::placeholder { color:rgba(255,255,255,0.22); }
+    .ss { cursor:pointer; } .ss option { background:var(--card); }
+
+    /* ── BUTTONS ────────────────────────────── */
+    .sb2 {
+      background:linear-gradient(90deg,#0077aa,#00b8cc); border:none;
+      border-radius:9px; color:#fff; font-family:'Barlow Condensed',sans-serif;
+      font-size:0.92rem; font-weight:700; letter-spacing:0.06em;
+      padding:9px 18px; cursor:pointer; transition:opacity 0.15s,transform 0.12s; white-space:nowrap;
+    }
+    .sb2:hover { opacity:0.88; transform:translateY(-1px); }
+    .sb2:active { transform:scale(0.97); }
+    .sb2.danger { background:linear-gradient(90deg,#7f1d1d,#b91c1c); }
+    .sb2.success { background:linear-gradient(90deg,#14532d,#16a34a); }
+    .sb2.grey { background:rgba(255,255,255,0.08); border:1px solid var(--bdr); color:var(--txt); }
+    .sb2.grey:hover { background:rgba(255,255,255,0.14); }
+    .brow { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+
+    /* ── KEY DISPLAY ────────────────────────── */
+    .kd {
+      flex:1; min-width:90px; padding:10px 14px; border-radius:9px;
+      border:1px solid rgba(0,255,255,0.2); background:rgba(0,0,0,0.3);
+      color:var(--cyan2); font-weight:700; font-size:0.95rem; text-align:center; font-family:monospace;
+      transition:border-color 0.2s,box-shadow 0.2s,color 0.2s;
+    }
+    .kd.listening { border-color:var(--yel); box-shadow:0 0 0 3px rgba(240,219,79,0.15); color:var(--yel); }
+
+    /* ── TOGGLE ─────────────────────────────── */
+    .trow { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(0,255,255,0.06); }
+    .trow:last-child { border-bottom:none; }
+    .tlbl { font-size:0.88rem; font-weight:500; }
+    .tsub { font-size:0.74rem; color:var(--mut); margin-top:2px; }
+    .tgl { position:relative; width:44px; height:24px; flex-shrink:0; cursor:pointer; }
+    .tgl input { opacity:0; width:0; height:0; }
+    .ttrack { position:absolute; inset:0; background:rgba(255,255,255,0.1); border-radius:12px; transition:background 0.2s; border:1px solid var(--bdr); }
+    .tgl input:checked + .ttrack { background:var(--teal); border-color:var(--cyan); }
+    .tthumb { position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; transition:transform 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.4); }
+    .tgl input:checked ~ .tthumb { transform:translateX(20px); }
+
+    /* ── SWATCHES ───────────────────────────── */
+    .swatches { display:flex; gap:10px; flex-wrap:wrap; }
+    .sw { width:36px; height:36px; border-radius:50%; cursor:pointer; border:3px solid transparent; transition:transform 0.15s,border-color 0.15s; flex-shrink:0; }
+    .sw:hover { transform:scale(1.15); }
+    .sw.active { border-color:#fff; transform:scale(1.1); box-shadow:0 0 12px rgba(0,255,255,0.3); }
+    .sw.c1 { background:linear-gradient(135deg,#0077aa,#00ffff); }
+    .sw.c2 { background:linear-gradient(135deg,#b8860b,#f0db4f); }
+    .sw.c3 { background:linear-gradient(135deg,#7f1d1d,#ef4444); }
+    .sw.c4 { background:linear-gradient(135deg,#14532d,#4ade80); }
+    .sw.c5 { background:linear-gradient(135deg,#4c1d95,#a78bfa); }
+    .sw.c6 { background:linear-gradient(135deg,#831843,#f472b6); }
+
+    /* ── RAIN TOGGLES ───────────────────────── */
+    .rain-controls { display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
+    .rc-btn {
+      flex:1; padding:8px 12px; border-radius:8px; border:1px solid var(--bdr);
+      background:rgba(255,255,255,0.05); color:var(--mut); font-family:'Barlow',sans-serif;
+      font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.15s; text-align:center;
+    }
+    .rc-btn:hover { border-color:rgba(0,255,255,0.3); color:var(--txt); }
+    .rc-btn.active { background:rgba(0,255,255,0.12); border-color:rgba(0,255,255,0.4); color:#00ffff; }
+    .rain-slider-wrap { display:flex; align-items:center; gap:12px; margin-top:10px; }
+    .rain-lbl { font-size:0.72rem; color:var(--mut); min-width:70px; }
+
+    /* ── STATUS ─────────────────────────────── */
+    .sbadge { display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; font-weight:600; padding:3px 10px; border-radius:20px; }
+    .sbadge.ok  { background:rgba(74,222,128,0.12); border:1px solid rgba(74,222,128,0.3); color:#4ade80; }
+    .sbadge.off { background:rgba(248,113,113,0.12); border:1px solid rgba(248,113,113,0.3); color:#f87171; }
+    .sdot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+    /* ── CLOAK PREVIEW ──────────────────────── */
+    .cpreview { display:flex; align-items:center; gap:12px; padding:11px 14px; background:rgba(0,0,0,0.25); border-radius:10px; border:1px solid var(--bdr); margin-top:12px; }
+    .cfavimg { width:16px; height:16px; border-radius:3px; object-fit:contain; }
+    .ctabtitle { font-size:0.82rem; color:var(--mut); }
+
+    /* ── ABOUT ROWS ─────────────────────────── */
+    .arow { display:flex; align-items:center; justify-content:space-between; padding:9px 0; border-bottom:1px solid rgba(0,255,255,0.06); font-size:0.86rem; }
+    .arow:last-child { border-bottom:none; }
+    .aval { color:var(--cyan2); font-weight:600; }
+
+    /* ── SAVE BANNER ────────────────────────── */
+    #save-banner {
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+      background:var(--card2); border:1px solid rgba(0,255,255,0.2); border-radius:14px;
+      padding:12px 22px; display:flex; align-items:center; gap:14px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.5); z-index:300;
+      transition:transform 0.35s cubic-bezier(.22,1,.36,1),opacity 0.35s;
+      opacity:0; font-size:0.88rem; font-weight:500; white-space:nowrap;
+    }
+    #save-banner.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+    /* ── TOAST ──────────────────────────────── */
+    #toast {
+      position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(16px);
+      background:var(--card2); border:1px solid var(--bdr); color:var(--txt);
+      font-size:0.82rem; font-weight:500; padding:10px 20px; border-radius:30px;
+      opacity:0; pointer-events:none; z-index:2000; transition:opacity 0.3s,transform 0.3s;
+      box-shadow:0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,255,0.08);
+    }
+    #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* ── CHAT FAB ───────────────────────────── */
+    .cfab {
+      position:fixed; bottom:22px; right:22px;
+      background:linear-gradient(135deg,#0077aa,#00ffff);
+      border:none; border-radius:50%; width:52px; height:52px;
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; font-size:1.3rem; cursor:pointer; z-index:500;
+      box-shadow:0 6px 24px rgba(0,184,204,0.5); transition:transform 0.15s,box-shadow 0.15s;
+    }
+    .cfab:hover { transform:scale(1.1); box-shadow:0 10px 32px rgba(0,184,204,0.65); }
+
+    /* ── BOTTOM BAR ─────────────────────────── */
+    .bb { display:flex; align-items:center; justify-content:space-between; padding:13px 28px; border-top:1px solid var(--bdr); background:var(--sb); flex-wrap:wrap; gap:10px; }
+    .mc { display:flex; align-items:center; gap:12px; }
+    .mpb { background:linear-gradient(90deg,#0077aa,#00b8cc); border:none; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.9rem; cursor:pointer; box-shadow:0 4px 14px rgba(0,184,204,0.4); transition:opacity 0.15s,transform 0.15s; }
+    .mpb:hover { opacity:0.85; transform:scale(1.1); }
+    .mlbl { font-size:0.8rem; color:var(--mut); font-weight:500; }
+    .mlbl strong { color:var(--txt); display:block; font-size:0.85rem; }
+    .vsl { -webkit-appearance:none; appearance:none; width:72px; height:4px; background:rgba(0,255,255,0.2); border-radius:2px; outline:none; cursor:pointer; }
+    .vsl::-webkit-slider-thumb { -webkit-appearance:none; width:13px; height:13px; border-radius:50%; background:#00ffff; cursor:pointer; }
+    .pl { display:inline-flex; align-items:center; gap:8px; background:rgba(240,219,79,0.1); border:1px solid rgba(240,219,79,0.3); border-radius:20px; color:#f0db4f; text-decoration:none; font-size:0.8rem; font-weight:600; padding:6px 16px; transition:background 0.15s; }
+    .pl:hover { background:rgba(240,219,79,0.2); }
+
+    /* vol range full */
+    input[type=range].wide { -webkit-appearance:none; appearance:none; width:100%; height:6px; background:rgba(0,255,255,0.2); border-radius:3px; outline:none; cursor:pointer; }
+    input[type=range].wide::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--cyan2); cursor:pointer; box-shadow:0 0 6px rgba(0,255,255,0.4); }
+
+    @media(max-width:900px) { .sgrid { grid-template-columns:1fr; } .sgrid .fw { grid-column:1; } }
+    @media(max-width:720px) { .sidebar { display:none; } .main { margin-left:0; } .pb { padding:14px 16px; } }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Settings</h1>
 
-    <label for="cloakSelect">Tab cloak</label>
-    <select id="cloakSelect" aria-label="Tab cloak select">
-      <option value="">None</option>
-      <option value="classroom">Google Classroom</option>
-      <option value="gmail">Gmail</option>
-      <option value="docs">Google Docs</option>
-      <option value="slides">Google Slides</option>
-    </select>
-    <div class="muted">Choosing a cloak changes your tab title & favicon but keeps this page open.</div>
+<!-- RAIN LAYER -->
+<div class="rain-wrapper" id="rainWrapper"></div>
 
-    <label style="margin-top:16px;">Panic URL</label>
-    <input id="panicUrl" type="url" placeholder="https://example.com" />
+<div id="app">
 
-    <label style="margin-top:18px;">Panic key</label>
-    <div class="inline-row">
-      <div id="keyDisplay" class="key-display">Not set</div>
-      <button id="setKeyBtn" type="button">Set Panic Key</button>
-      <button id="clearKeyBtn" type="button">Clear Key</button>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="slogo">MR GAMES<small>MR02 &middot; UNBLOCKED</small></div>
+    <div class="ssec">Navigation</div>
+    <a href="index.html" class="ni"><span class="ico">&#127968;</span> Home</a>
+    <a href="Games.html" class="ni"><span class="ico">&#127918;</span> Play Games</a>
+    <a href="leaderboard.html" class="ni"><span class="ico">&#127942;</span> Leaderboard</a>
+    <a href="record.html" class="ni"><span class="ico">&#128203;</span> Records</a>
+    <a href="about_us.html" class="ni"><span class="ico">&#8505;&#65039;</span> About Us</a>
+    <a href="use_full_links.html" class="ni"><span class="ico">&#128279;</span> Useful Links</a>
+    <a href="Clash.html" class="ni"><span class="ico">&#9876;&#65039;</span> Clash Picker</a>
+    <a href="settings.html" class="ni active"><span class="ico">&#9881;&#65039;</span> Settings</a>
+    <div class="ssec">External</div>
+    <a href="https://sigmasigmatoiletedge.github.io/" target="_blank" class="ni"><span class="ico">&#127760;</span> Nettle Web</a>
+    <a href="https://ihackforfree02.github.io/mrgames-/" target="_blank" class="ni"><span class="ico">&#10024;</span> MR GAMES+ Beta</a>
+    <a href="https://ihackforfree02.github.io/games/" target="_blank" class="ni"><span class="ico">&#128377;&#65039;</span> MR GAMES GBA</a>
+    <a href="https://ihackforfree02.github.io/hollownight-sigma/" target="_blank" class="ni"><span class="ico">&#128506;&#65039;</span> Hollow Knight Map</a>
+    <a href="https://q6t1u8.ddx.edpuzzle.icu.cdn.cloudflare.net/" target="_blank" class="ni"><span class="ico">&#128275;</span> Working Proxy</a>
+    <a href="https://luminal.cfd.cdn.cloudflare.net/" target="_blank" class="ni"><span class="ico">&#128161;</span> Luminal</a>
+    <div class="splayer">
+      <div class="pav" id="pav">?</div>
+      <div><div class="pname" id="pname">---</div><div class="ptag" id="pbadge">0 pts</div></div>
+      <button class="logico" onclick="doLogout()">&#9167;</button>
     </div>
-    <div class="muted">Press "Set Panic Key", then press the key you want to use. Modifiers (Shift/Ctrl/Alt/Meta) are ignored.</div>
+  </aside>
 
-    <div style="margin-top:16px;">
-      <button id="saveBtn" type="button">Save Settings</button>
-      <button id="testPanicBtn" type="button">Test Panic</button>
+  <div class="main">
+    <div class="topnav">
+      <div class="tnttl">&#9881;&#65039; Settings</div>
+      <div class="tnr">
+        <button class="bto" onclick="toggleChat()">&#128172; Chat</button>
+        <a href="index.html" class="bto">&#8592; Home</a>
+      </div>
     </div>
-  </div>
-<!-- 💬 Chat Button -->
-<div id="chat-toggle" onclick="toggleChat()" style="
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background-color: #0078D7;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  z-index: 1000;
-  font-family: sans-serif;
-  box-shadow: 0 0 10px #0078D7;
-  user-select: none;
-">
-  💬 Chat
+
+    <div class="pb">
+      <div class="sgrid">
+
+        <!-- ── TAB CLOAK ──────────────────────── -->
+        <div class="sc" style="animation-delay:0.05s">
+          <div class="chdr">
+            <div class="cico">&#128065;&#65039;</div>
+            <div><div class="cttl">Tab Cloak</div><div class="csub">Disguise this tab so teachers see something else</div></div>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Cloak as</label>
+            <select class="ss" id="cloakSelect">
+              <option value="">None (show MR GAMES)</option>
+              <option value="classroom">Google Classroom</option>
+              <option value="gmail">Gmail</option>
+              <option value="docs">Google Docs</option>
+              <option value="slides">Google Slides</option>
+              <option value="canvas">Canvas LMS</option>
+              <option value="teams">Microsoft Teams</option>
+              <option value="outlook">Outlook</option>
+            </select>
+          </div>
+          <div class="cpreview" id="cpreview" style="display:none">
+            <img class="cfavimg" id="cfavimg" src="" alt=""/>
+            <span class="ctabtitle" id="ctabtitle">Preview</span>
+            <span class="sbadge ok" style="margin-left:auto"><span class="sdot"></span>Active</span>
+          </div>
+          <div class="cpreview" id="cnone">
+            <span style="font-size:0.82rem;color:var(--mut)">No cloak active &mdash; tab shows MR GAMES</span>
+          </div>
+        </div>
+
+        <!-- ── PANIC BUTTON ───────────────────── -->
+        <div class="sc" style="animation-delay:0.1s">
+          <div class="chdr">
+            <div class="cico">&#9889;</div>
+            <div><div class="cttl">Panic Button</div><div class="csub">One keypress to instantly jump to another page</div></div>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Redirect URL</label>
+            <input class="si" id="panicUrl" type="url" placeholder="https://classroom.google.com"/>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Panic Key</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="kd" id="keyDisplay">Not set</div>
+              <button class="sb2" id="setKeyBtn">Set Key</button>
+              <button class="sb2 grey" id="clearKeyBtn">Clear</button>
+            </div>
+            <div style="margin-top:8px;font-size:0.74rem;color:var(--mut)">
+              Click "Set Key" then press any key. Shift / Ctrl / Alt / Meta are ignored.
+            </div>
+          </div>
+          <div class="brow">
+            <button class="sb2 success" id="testPanicBtn">&#9654; Test Panic</button>
+            <div id="panicStatus" class="sbadge off"><span class="sdot"></span>Not configured</div>
+          </div>
+        </div>
+
+        <!-- ── APPEARANCE ─────────────────────── -->
+        <div class="sc" style="animation-delay:0.15s">
+          <div class="chdr">
+            <div class="cico">&#127912;</div>
+            <div><div class="cttl">Appearance</div><div class="csub">Colours and visual style</div></div>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Accent Colour</label>
+            <div class="swatches">
+              <div class="sw c1 active" data-theme="cyan"   title="Cyan (default)" onclick="setTheme('cyan',this)"></div>
+              <div class="sw c2"        data-theme="yellow" title="Gold"            onclick="setTheme('yellow',this)"></div>
+              <div class="sw c3"        data-theme="red"    title="Red"             onclick="setTheme('red',this)"></div>
+              <div class="sw c4"        data-theme="green"  title="Green"           onclick="setTheme('green',this)"></div>
+              <div class="sw c5"        data-theme="purple" title="Purple"          onclick="setTheme('purple',this)"></div>
+              <div class="sw c6"        data-theme="pink"   title="Pink"            onclick="setTheme('pink',this)"></div>
+            </div>
+          </div>
+          <div class="trow">
+            <div><div class="tlbl">Page animations</div><div class="tsub">Fade-in and hover effects</div></div>
+            <label class="tgl"><input type="checkbox" id="tog-anim" checked onchange="savePref('anim',this.checked)"/><div class="ttrack"></div><div class="tthumb"></div></label>
+          </div>
+        </div>
+
+        <!-- ── RAIN EFFECT ────────────────────── -->
+        <div class="sc" style="animation-delay:0.2s">
+          <div class="chdr">
+            <div class="cico">&#127783;&#65039;</div>
+            <div><div class="cttl">Rain Effect</div><div class="csub">Animated cyan rain on the background</div></div>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Rain Mode</label>
+            <div class="rain-controls">
+              <div class="rc-btn" id="rain-off" onclick="setRainMode('off',this)">Off</div>
+              <div class="rc-btn active" id="rain-light" onclick="setRainMode('light',this)">Light</div>
+              <div class="rc-btn" id="rain-medium" onclick="setRainMode('medium',this)">Medium</div>
+              <div class="rc-btn" id="rain-heavy" onclick="setRainMode('heavy',this)">Heavy</div>
+            </div>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Drop Speed</label>
+            <div class="rain-slider-wrap">
+              <span class="rain-lbl">Slow</span>
+              <input type="range" class="wide" id="rainSpeed" min="1" max="5" step="0.5" value="3" oninput="rebuildRain()"/>
+              <span class="rain-lbl" style="text-align:right">Fast</span>
+            </div>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Drop Opacity</label>
+            <div class="rain-slider-wrap">
+              <span class="rain-lbl">Subtle</span>
+              <input type="range" class="wide" id="rainOpacity" min="0.1" max="1" step="0.05" value="0.5" oninput="rebuildRain()"/>
+              <span class="rain-lbl" style="text-align:right">Strong</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── AUDIO ──────────────────────────── -->
+        <div class="sc" style="animation-delay:0.25s">
+          <div class="chdr">
+            <div class="cico">&#127925;</div>
+            <div><div class="cttl">Audio</div><div class="csub">Music and sound settings</div></div>
+          </div>
+          <div class="fw2">
+            <label class="lbl">Default Volume</label>
+            <div style="display:flex;align-items:center;gap:12px">
+              <input type="range" class="wide" id="volSetting" min="0" max="100" step="5" value="50" oninput="onVolChange(this.value)"/>
+              <span id="volLabel" style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;color:#00ffff;min-width:40px;text-align:right">50%</span>
+            </div>
+          </div>
+          <div class="trow">
+            <div><div class="tlbl">Autoplay on load</div><div class="tsub">Try to start music automatically</div></div>
+            <label class="tgl"><input type="checkbox" id="tog-autoplay" onchange="savePref('autoplay',this.checked)"/><div class="ttrack"></div><div class="tthumb"></div></label>
+          </div>
+        </div>
+
+        <!-- ── PRIVACY ────────────────────────── -->
+        <div class="sc" style="animation-delay:0.3s">
+          <div class="chdr">
+            <div class="cico">&#128274;</div>
+            <div><div class="cttl">Privacy &amp; Data</div><div class="csub">Manage your data and session</div></div>
+          </div>
+          <div class="trow">
+            <div><div class="tlbl">Save login session</div><div class="tsub">Stay logged in between visits</div></div>
+            <label class="tgl"><input type="checkbox" id="tog-session" checked onchange="savePref('session',this.checked)"/><div class="ttrack"></div><div class="tthumb"></div></label>
+          </div>
+          <div class="trow">
+            <div><div class="tlbl">Score tracking</div><div class="tsub">Earn points when visiting games</div></div>
+            <label class="tgl"><input type="checkbox" id="tog-scores" checked onchange="savePref('scores',this.checked)"/><div class="ttrack"></div><div class="tthumb"></div></label>
+          </div>
+          <div class="brow" style="margin-top:16px">
+            <button class="sb2 danger" onclick="clearScores()">&#128465; Reset My Score</button>
+            <button class="sb2 grey" onclick="exportData()">&#128229; Export Data</button>
+          </div>
+        </div>
+
+        <!-- ── SAVE + ABOUT ───────────────────── -->
+        <div class="sc fw" style="animation-delay:0.35s">
+          <div class="chdr">
+            <div class="cico">&#8505;&#65039;</div>
+            <div><div class="cttl">Save &amp; About</div><div class="csub">Save all settings and site information</div></div>
+          </div>
+          <div class="arow"><span>Version</span><span class="aval">MR02 Build 2025</span></div>
+          <div class="arow"><span>Site</span><span class="aval">ihackforfree02.github.io</span></div>
+          <div class="arow"><span>Partner</span><span class="aval">Sigmi &mdash; ezunblocktheopps.github.io</span></div>
+          <div class="arow"><span>MR GAMES+ Beta</span><span class="aval"><a href="https://ihackforfree02.github.io/mrgames-/" style="color:#00ffff">Open &#8599;</a></span></div>
+          <div class="brow" style="margin-top:16px">
+            <button class="sb2" onclick="saveAll()">&#128190; Save All Settings</button>
+            <button class="sb2 grey" onclick="resetAll()">&#8635; Reset to Defaults</button>
+          </div>
+        </div>
+
+      </div><!-- /sgrid -->
+    </div><!-- /pb -->
+
+    <!-- BOTTOM BAR -->
+    <div class="bb">
+      <div class="mc">
+        <button class="mpb" id="mpb" onclick="toggleMusic()">&#9654;</button>
+        <div class="mlbl"><strong>Playground Rizz</strong>Background Music</div>
+        <input type="range" class="vsl" id="volbar" min="0" max="1" step="0.05" value="0.5" oninput="setVol(this.value)" title="Volume"/>
+      </div>
+      <a href="https://ezunblocktheopps.github.io/" class="pl" target="_blank">&#129309; Partnered with Sigmi</a>
+    </div>
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<div id="save-banner">
+  &#128190; Settings saved!
+  <button class="sb2 grey" style="padding:5px 13px;font-size:0.8rem" onclick="hideBanner()">OK</button>
 </div>
+<div id="toast"></div>
+<button class="cfab" onclick="toggleChat()">&#128172;</button>
+<audio id="bgm" loop>
+  <source src="https://github.com/davidrobertwriter/davidrobertwriter.github.io/raw/refs/heads/main/Playground%20Rizz.mp3" type="audio/mpeg"/>
+</audio>
 
+<script src="cloak_panic.js"></script>
 <script>
-  function toggleChat() {
-    if (window.chatWindow && !window.chatWindow.closed) {
-      window.chatWindow.focus();
-    } else {
-      window.chatWindow = window.open(
-        'https://forum.whatthesigma.site/home',
-        'ChatWindow',
-        'width=400,height=600'
-      );
-      if (!window.chatWindow) {
-        alert("Popup blocked! Please allow popups to use chat.");
-      }
-    }
+// ============================================================
+//  STORAGE KEYS  (same as index.html and cloak_panic.js)
+// ============================================================
+var LS = {
+  CLOAK: 'settings_cloak_choice',
+  PK:    'settings_panic_key',
+  PU:    'settings_panic_url',
+  PREFS: 'mrgames_prefs',
+  SC:    'mrgames_scores',
+  SESS:  'mrgames_session'
+};
+
+var CLOAKS = {
+  classroom: { title:'Google Classroom', icon:'https://ssl.gstatic.com/classroom/favicon.ico' },
+  gmail:     { title:'Gmail',            icon:'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico' },
+  docs:      { title:'Google Docs',      icon:'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png' },
+  slides:    { title:'Google Slides',    icon:'https://ssl.gstatic.com/docs/presentations/images/favicon5.ico' },
+  canvas:    { title:'Canvas | LMS',     icon:'https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico' },
+  teams:     { title:'Microsoft Teams',  icon:'https://statics.teams.cdn.office.net/evergreen-assets/apps/teams_32x32.ico' },
+  outlook:   { title:'Outlook',          icon:'https://res.cdn.office.net/assets/mail/pwa/v2/en-us/favorite.ico' }
+};
+
+var THEMES = {
+  cyan:   { a:'#00ffff', b:'#0077aa' },
+  yellow: { a:'#f0db4f', b:'#b8860b' },
+  red:    { a:'#ef4444', b:'#7f1d1d' },
+  green:  { a:'#4ade80', b:'#14532d' },
+  purple: { a:'#a78bfa', b:'#4c1d95' },
+  pink:   { a:'#f472b6', b:'#831843' }
+};
+
+var RAIN_COUNTS = { off:0, light:60, medium:120, heavy:220 };
+var listeningKey = false;
+var panicKey     = null;
+var rainMode     = 'light';
+
+// ── Prefs ────────────────────────────────────
+function gPrefs() { try { return JSON.parse(localStorage.getItem(LS.PREFS)||'{}'); } catch(e) { return {}; } }
+function sPrefs(p) { localStorage.setItem(LS.PREFS, JSON.stringify(p)); }
+function savePref(k,v) { var p=gPrefs(); p[k]=v; sPrefs(p); showToast('Saved'); }
+
+// ── Favicon ──────────────────────────────────
+function setFav(href) {
+  var stamp = href ? (href+'?v='+Date.now()) : '';
+  ['icon','shortcut icon'].forEach(function(r) {
+    var l = document.querySelector("link[rel='"+r+"']");
+    if (!l) { l=document.createElement('link'); l.rel=r; document.head.appendChild(l); }
+    l.href = stamp;
+  });
+}
+
+// ── Cloak ────────────────────────────────────
+function applyCloak(c) {
+  var prev=document.getElementById('cpreview'), none=document.getElementById('cnone');
+  if (!c || !CLOAKS[c]) {
+    document.title = 'Settings | MR GAMES';
+    setFav('favicon.ico');
+    if (prev) prev.style.display='none';
+    if (none) none.style.display='flex';
+    return;
   }
+  var info = CLOAKS[c];
+  document.title = info.title;
+  setFav(info.icon);
+  if (prev) {
+    prev.style.display='flex';
+    var img=document.getElementById('cfavimg'), ttl=document.getElementById('ctabtitle');
+    if (img) img.src=info.icon;
+    if (ttl) ttl.textContent=info.title;
+  }
+  if (none) none.style.display='none';
+}
+
+document.getElementById('cloakSelect').addEventListener('change', function() {
+  var v = this.value;
+  applyCloak(v);
+  if (v) localStorage.setItem(LS.CLOAK, v);
+  else localStorage.removeItem(LS.CLOAK);
+});
+
+// ── Panic ────────────────────────────────────
+function doPanic() {
+  var url = localStorage.getItem(LS.PU) || document.getElementById('panicUrl').value.trim();
+  window.location.href = (url && url.length) ? url : 'https://www.google.com';
+}
+
+function updatePanicStatus() {
+  var b=document.getElementById('panicStatus');
+  if (!b) return;
+  var hk=!!localStorage.getItem(LS.PK), hu=!!localStorage.getItem(LS.PU);
+  if (hk && hu) { b.className='sbadge ok'; b.innerHTML='<span class="sdot"></span>Ready'; }
+  else { b.className='sbadge off'; b.innerHTML='<span class="sdot"></span>'+(!hk&&!hu?'Not configured':!hk?'No key':'No URL'); }
+}
+
+// ── Rain ─────────────────────────────────────
+function buildRain(count, speedMult, opacityVal) {
+  var wrapper=document.getElementById('rainWrapper');
+  wrapper.innerHTML='';
+  for (var i=0; i<count; i++) {
+    var d=document.createElement('div');
+    d.className='raindrop';
+    d.style.left=Math.random()*100+'vw';
+    d.style.height=(8+Math.random()*18)+'px';
+    var dur = ((3+Math.random()*3)/speedMult).toFixed(2);
+    d.style.animationDuration=dur+'s';
+    d.style.animationDelay=(Math.random()*5)+'s';
+    d.style.opacity=opacityVal;
+    wrapper.appendChild(d);
+  }
+}
+
+function rebuildRain() {
+  var speedEl=document.getElementById('rainSpeed'), opEl=document.getElementById('rainOpacity');
+  var speed=speedEl?parseFloat(speedEl.value):3;
+  var opacity=opEl?parseFloat(opEl.value):0.5;
+  var count=RAIN_COUNTS[rainMode]||0;
+  buildRain(count, speed, opacity);
+  var p=gPrefs(); p.rainSpeed=speed; p.rainOpacity=opacity; sPrefs(p);
+}
+
+function setRainMode(mode, btn) {
+  rainMode=mode;
+  document.querySelectorAll('.rc-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  rebuildRain();
+  savePref('rainMode', mode);
+}
+
+// ── Theme ────────────────────────────────────
+function setTheme(name, el) {
+  document.querySelectorAll('.sw').forEach(function(s){s.classList.remove('active');});
+  el.classList.add('active');
+  var c=THEMES[name]||THEMES.cyan;
+  document.documentElement.style.setProperty('--cyan2', c.a);
+  document.documentElement.style.setProperty('--teal', c.b);
+  savePref('theme', name);
+  showToast('Theme: '+name);
+}
+function applyTheme(name) {
+  if (!name||!THEMES[name]) return;
+  var c=THEMES[name];
+  document.documentElement.style.setProperty('--cyan2', c.a);
+  document.documentElement.style.setProperty('--teal', c.b);
+  document.querySelectorAll('.sw').forEach(function(s){s.classList.toggle('active',s.dataset.theme===name);});
+}
+
+// ── Volume ───────────────────────────────────
+function onVolChange(v) {
+  var l=document.getElementById('volLabel');
+  if(l) l.textContent=v+'%';
+  var bgm=document.getElementById('bgm');
+  if(bgm) bgm.volume=parseInt(v)/100;
+  savePref('volume',v);
+}
+function setVol(v) { var bgm=document.getElementById('bgm'); if(bgm) bgm.volume=parseFloat(v); }
+
+// ── Data ─────────────────────────────────────
+function clearScores() {
+  if (!confirm('Reset your score to 0? Cannot be undone.')) return;
+  var sess=localStorage.getItem(LS.SESS);
+  if (!sess) { showToast('Not logged in.'); return; }
+  var sc={};
+  try { sc=JSON.parse(localStorage.getItem(LS.SC)||'{}'); } catch(e){}
+  delete sc[sess];
+  localStorage.setItem(LS.SC, JSON.stringify(sc));
+  showToast('Score reset.');
+}
+function exportData() {
+  var data={scores:{},prefs:gPrefs(),cloak:localStorage.getItem(LS.CLOAK),panicUrl:localStorage.getItem(LS.PU),at:new Date().toISOString()};
+  try{data.scores=JSON.parse(localStorage.getItem(LS.SC)||'{}');}catch(e){}
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='mrgames-data.json';a.click();
+  URL.revokeObjectURL(url);showToast('Exported!');
+}
+
+// ── Save all ──────────────────────────────────
+function saveAll() {
+  var c=document.getElementById('cloakSelect').value;
+  if(c)localStorage.setItem(LS.CLOAK,c);else localStorage.removeItem(LS.CLOAK);
+  if(panicKey)localStorage.setItem(LS.PK,panicKey);else localStorage.removeItem(LS.PK);
+  var u=document.getElementById('panicUrl').value.trim();
+  if(u)localStorage.setItem(LS.PU,u);else localStorage.removeItem(LS.PU);
+  savePref('volume',document.getElementById('volSetting').value);
+  savePref('rainMode',rainMode);
+  updatePanicStatus();
+  showBanner();
+}
+function resetAll() {
+  if(!confirm('Reset all settings to defaults?'))return;
+  [LS.CLOAK,LS.PK,LS.PU,LS.PREFS].forEach(function(k){localStorage.removeItem(k);});
+  loadUI();applyCloak('');showToast('Reset done.');
+}
+
+// ── Banner / Toast ───────────────────────────
+function showBanner(){var b=document.getElementById('save-banner');b.classList.add('show');setTimeout(function(){b.classList.remove('show');},4500);}
+function hideBanner(){document.getElementById('save-banner').classList.remove('show');}
+var _tt=null;
+function showToast(msg,ms) {
+  ms=ms||2500;var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  if(_tt)clearTimeout(_tt);
+  _tt=setTimeout(function(){t.classList.remove('show');},ms);
+}
+window.addEventListener('online',  function(){showToast('\u2705 Back online');});
+window.addEventListener('offline', function(){showToast('\u26A0\uFE0F Connection lost');});
+
+// ── Load UI ───────────────────────────────────
+function loadUI() {
+  var c=localStorage.getItem(LS.CLOAK), k=localStorage.getItem(LS.PK),
+      u=localStorage.getItem(LS.PU),   p=gPrefs();
+  var sel=document.getElementById('cloakSelect');if(sel)sel.value=c||'';
+  applyCloak(c||'');
+  panicKey=k||null;
+  var kd=document.getElementById('keyDisplay');if(kd)kd.textContent=k||'Not set';
+  var pu=document.getElementById('panicUrl');if(pu)pu.value=u||'';
+  function setT(id,v){var el=document.getElementById(id);if(el)el.checked=(v!==false&&v!=='false');}
+  setT('tog-anim',    p.anim!==false);
+  setT('tog-autoplay',p.autoplay===true);
+  setT('tog-session', p.session!==false);
+  setT('tog-scores',  p.scores!==false);
+  var vol=p.volume||50;
+  var vs=document.getElementById('volSetting'),vl=document.getElementById('volLabel');
+  if(vs)vs.value=vol;if(vl)vl.textContent=vol+'%';
+  var bgm=document.getElementById('bgm');if(bgm)bgm.volume=parseInt(vol)/100;
+  if(p.theme)applyTheme(p.theme);
+  // Rain
+  var rm=p.rainMode||'light'; rainMode=rm;
+  var rbtn=document.getElementById('rain-'+rm);
+  document.querySelectorAll('.rc-btn').forEach(function(b){b.classList.remove('active');});
+  if(rbtn)rbtn.classList.add('active');
+  var spEl=document.getElementById('rainSpeed'),opEl=document.getElementById('rainOpacity');
+  if(spEl&&p.rainSpeed)spEl.value=p.rainSpeed;
+  if(opEl&&p.rainOpacity)opEl.value=p.rainOpacity;
+  rebuildRain();
+  updatePanicStatus();
+}
+
+// ── Player info ───────────────────────────────
+function loadPlayer() {
+  var sess=localStorage.getItem(LS.SESS);if(!sess)return;
+  var d=sess.charAt(0).toUpperCase()+sess.slice(1);
+  var pn=document.getElementById('pname');if(pn)pn.textContent=d;
+  var pa=document.getElementById('pav');if(pa)pa.textContent=d.charAt(0).toUpperCase();
+  var sc={};try{sc=JSON.parse(localStorage.getItem(LS.SC)||'{}');}catch(e){}
+  var b=document.getElementById('pbadge');if(b)b.textContent=sess==='cameron'?'\u221e pts':((sc[sess]||0).toLocaleString()+' pts');
+}
+function doLogout(){localStorage.removeItem(LS.SESS);window.location.href='index.html';}
+
+// ── Key capture ───────────────────────────────
+document.getElementById('setKeyBtn').addEventListener('click',function(){
+  listeningKey=true;var kd=document.getElementById('keyDisplay');
+  if(kd){kd.textContent='Press a key...';kd.classList.add('listening');}window.focus();
+});
+document.getElementById('clearKeyBtn').addEventListener('click',function(){
+  listeningKey=false;panicKey=null;
+  var kd=document.getElementById('keyDisplay');if(kd){kd.textContent='Not set';kd.classList.remove('listening');}
+  localStorage.removeItem(LS.PK);updatePanicStatus();
+});
+document.getElementById('testPanicBtn').addEventListener('click',function(){
+  if(panicKey)localStorage.setItem(LS.PK,panicKey);
+  var u=document.getElementById('panicUrl').value.trim();if(u)localStorage.setItem(LS.PU,u);
+  doPanic();
+});
+
+window.addEventListener('keydown',function(e){
+  if(listeningKey){
+    var skip=['Shift','Control','Alt','Meta'];if(skip.includes(e.key))return;
+    panicKey=e.key;var kd=document.getElementById('keyDisplay');
+    if(kd){kd.textContent=panicKey;kd.classList.remove('listening');}
+    listeningKey=false;localStorage.setItem(LS.PK,panicKey);
+    updatePanicStatus();showToast('Panic key set to "'+panicKey+'"');
+    e.preventDefault();e.stopPropagation();return;
+  }
+  var sk=localStorage.getItem(LS.PK),su=localStorage.getItem(LS.PU);if(!sk||!su)return;
+  var act=document.activeElement,typing=act&&(act.tagName==='INPUT'||act.tagName==='TEXTAREA'||act.isContentEditable);if(typing)return;
+  if(e.key&&e.key.toLowerCase()===sk.toLowerCase())doPanic();
+},true);
+
+// ── Music ─────────────────────────────────────
+var bgm=document.getElementById('bgm'),mpb=document.getElementById('mpb'),playing=false;
+bgm.volume=0.5;
+function toggleMusic(){if(playing){bgm.pause();mpb.innerHTML='&#9654;';playing=false;}else{bgm.play().catch(function(){showToast('Audio blocked.');});mpb.innerHTML='&#9646;&#9646;';playing=true;}}
+
+// ── Chat ──────────────────────────────────────
+function toggleChat(){
+  if(window._cw&&!window._cw.closed){window._cw.focus();return;}
+  window._cw=window.open('https://forum.whatthesigma.site/home','CW','width=400,height=600');
+  if(!window._cw)showToast('Allow popups for chat.');
+}
+
+// ── Boot ──────────────────────────────────────
+window.addEventListener('load',function(){loadUI();loadPlayer();});
 </script>
-
-  <div class="rain-wrapper"></div>
-
-  <script>
-    (function(){
-      // canonical localStorage keys (used across settings + site-wide script)
-      const LS = {
-        CLOAK: 'settings_cloak_choice',
-        PANIC_KEY: 'settings_panic_key',
-        PANIC_URL: 'settings_panic_url'
-      };
-
-      const CLOAK_INFO = {
-        classroom: { title: 'Google Classroom', icon: 'https://ssl.gstatic.com/classroom/favicon.ico' },
-        gmail:     { title: 'Gmail',           icon: 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico' },
-        docs:      { title: 'Google Docs',     icon: 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png' },
-        slides:    { title: 'Google Slides',   icon: 'https://ssl.gstatic.com/docs/presentations/images/favicon5.ico' }
-      };
-
-      // keep original page title & favicon so "None" restores them
-      const originalTitle = document.title || 'Settings';
-      const originalFavicon = (function(){
-        const link = document.querySelector("link[rel~='icon']");
-        return link ? link.href : 'favicon.ico';
-      })();
-
-      // DOM refs
-      const cloakSelect = document.getElementById('cloakSelect');
-      const panicUrlInput = document.getElementById('panicUrl');
-      const setKeyBtn = document.getElementById('setKeyBtn');
-      const clearKeyBtn = document.getElementById('clearKeyBtn');
-      const saveBtn = document.getElementById('saveBtn');
-      const testPanicBtn = document.getElementById('testPanicBtn');
-      const keyDisplay = document.getElementById('keyDisplay');
-
-      let listeningForKey = false;
-      let panicKey = null;
-
-      // Change favicon helper (adds/updates both rel types)
-      function setFavicon(href) {
-        // add cache-buster so browsers update
-        const hrefWithStamp = href ? (href + '?v=' + Date.now()) : '';
-        let link = document.querySelector("link[rel~='icon']");
-        if (!link) {
-          link = document.createElement('link');
-          link.rel = 'icon';
-          document.head.appendChild(link);
-        }
-        link.href = hrefWithStamp;
-
-        let shortcut = document.querySelector("link[rel='shortcut icon']");
-        if (!shortcut) {
-          shortcut = document.createElement('link');
-          shortcut.rel = 'shortcut icon';
-          document.head.appendChild(shortcut);
-        }
-        shortcut.href = hrefWithStamp;
-      }
-
-      // Apply cloak (or restore original if empty/invalid)
-      function applyCloak(choice) {
-        if (!choice || !CLOAK_INFO[choice]) {
-          document.title = originalTitle;
-          setFavicon(originalFavicon);
-          return;
-        }
-        const info = CLOAK_INFO[choice];
-        document.title = info.title;
-        setFavicon(info.icon);
-      }
-
-      // Panic action
-      function doPanic() {
-        const url = localStorage.getItem(LS.PANIC_URL) || panicUrlInput.value.trim();
-        const target = (url && url.length) ? url : 'https://www.google.com';
-        // same-tab redirect
-        window.location.href = target;
-      }
-
-      // Load saved values into UI
-      function loadSettingsUI() {
-        const storedCloak = localStorage.getItem(LS.CLOAK);
-        const storedKey = localStorage.getItem(LS.PANIC_KEY);
-        const storedUrl = localStorage.getItem(LS.PANIC_URL);
-
-        if (storedCloak) cloakSelect.value = storedCloak;
-        else cloakSelect.value = '';
-
-        if (storedKey) {
-          panicKey = storedKey;
-          keyDisplay.textContent = storedKey;
-        } else {
-          keyDisplay.textContent = 'Not set';
-        }
-
-        panicUrlInput.value = storedUrl || '';
-        // apply cloak preview immediately
-        applyCloak(storedCloak);
-      }
-
-      // Save settings to localStorage
-      function saveSettings() {
-        if (cloakSelect.value) localStorage.setItem(LS.CLOAK, cloakSelect.value);
-        else localStorage.removeItem(LS.CLOAK);
-
-        if (panicKey) localStorage.setItem(LS.PANIC_KEY, panicKey);
-        else localStorage.removeItem(LS.PANIC_KEY);
-
-        const url = panicUrlInput.value.trim();
-        if (url) localStorage.setItem(LS.PANIC_URL, url);
-        else localStorage.removeItem(LS.PANIC_URL);
-
-        // small ui feedback
-        keyDisplay.textContent = panicKey || 'Not set';
-        alert('Settings saved!');
-      }
-
-      // Keydown handler - used both for capturing new key and for global panic trigger
-      window.addEventListener('keydown', function(e) {
-        // If we're currently setting the panic key, capture and stop
-        if (listeningForKey) {
-          // ignore pure modifier keys
-          const forbidden = ['Shift', 'Control', 'Alt', 'Meta'];
-          if (forbidden.includes(e.key)) return; // keep listening
-
-          panicKey = e.key;
-          keyDisplay.textContent = panicKey;
-          listeningForKey = false;
-          // save immediately so the key works on other pages
-          if (panicKey) localStorage.setItem(LS.PANIC_KEY, panicKey);
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-
-        // otherwise this may be a panic trigger: check saved key and url
-        const storedKey = localStorage.getItem(LS.PANIC_KEY);
-        const storedUrl = localStorage.getItem(LS.PANIC_URL);
-        if (!storedKey || !storedUrl) return;
-
-        // avoid triggering while typing in inputs/textarea/contenteditable
-        const active = document.activeElement;
-        const typing = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
-        if (typing) return;
-
-        // compare case-insensitive
-        if (e.key && e.key.toLowerCase() === storedKey.toLowerCase()) {
-          doPanic();
-        }
-      }, true);
-
-      // UI events
-      setKeyBtn.addEventListener('click', () => {
-        listeningForKey = true;
-        keyDisplay.textContent = 'Press any key...';
-        // focus window so keydown triggers
-        window.focus();
-      });
-
-      clearKeyBtn.addEventListener('click', () => {
-        listeningForKey = false;
-        panicKey = null;
-        keyDisplay.textContent = 'Not set';
-        localStorage.removeItem(LS.PANIC_KEY);
-      });
-
-      // When cloak selection changes, preview and save right away
-      cloakSelect.addEventListener('change', () => {
-        applyCloak(cloakSelect.value);
-        if (cloakSelect.value) localStorage.setItem(LS.CLOAK, cloakSelect.value);
-        else localStorage.removeItem(LS.CLOAK);
-      });
-
-      saveBtn.addEventListener('click', saveSettings);
-
-      testPanicBtn.addEventListener('click', () => {
-        // save before testing so other pages will read it too
-        if (panicKey) localStorage.setItem(LS.PANIC_KEY, panicKey);
-        const url = panicUrlInput.value.trim();
-        if (url) localStorage.setItem(LS.PANIC_URL, url);
-        doPanic();
-      });
-
-      // rain animation generation
-      (function generateRain(){
-        const rainWrapper = document.querySelector('.rain-wrapper');
-        const numRaindrops = 100;
-        for (let i = 0; i < numRaindrops; i++) {
-          const drop = document.createElement('div');
-          drop.className = 'raindrop';
-          drop.style.left = Math.random() * 100 + 'vw';
-          drop.style.height = (10 + Math.random() * 20) + 'px';
-          drop.style.animationDuration = (2 + Math.random() * 3) + 's';
-          drop.style.animationDelay = (Math.random() * 5) + 's';
-          rainWrapper.appendChild(drop);
-        }
-      })();
-
-      // initialize UI on load
-      loadSettingsUI();
-    })();
-  </script>
 </body>
 </html>
